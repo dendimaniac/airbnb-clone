@@ -67,6 +67,25 @@ const ListItem = (props) => {
           </Button>
         </>
         }
+        {props.mode === 'saved' &&
+        <>
+          <Button
+            full
+            danger
+            onPress={async () => {
+              const token = await AsyncStorage.getItem('userToken');
+              const del = await fetchDELETE('favourites/file', props.singleMedia.file_id,
+                  token);
+              console.log('delete', del);
+              if (del.message) {
+                props.getMedia(props.mode);
+              }
+            }}
+          >
+            <Icon name='trash'/>
+          </Button>
+        </>
+        }
       </Right>
     </BaseListItem>
   );
