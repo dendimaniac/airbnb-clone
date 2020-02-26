@@ -111,6 +111,15 @@ const getUserMedia = async (token) => {
   return result;
 };
 
+const getFavoriteMedia = async (token) => {
+  
+      const json = await fetchGET('favourites','', token);
+      const result = await Promise.all(json.map(async (item) => {
+          return await fetchGET('media', item.file_id);
+      }));
+      return result;
+}
+
 // eslint-disable-next-line max-len
 export {
   getAllMedia,
@@ -120,4 +129,5 @@ export {
   fetchPUT,
   fetchFormData,
   getUserMedia,
+  getFavoriteMedia,
 };

@@ -13,7 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import {mediaURL} from '../constants/urlConst';
 import {fetchDELETE} from '../hooks/APIHooks';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, StyleSheet} from 'react-native';
 
 
 const ListItem = (props) => {
@@ -29,7 +29,7 @@ const ListItem = (props) => {
         <H3 numberOfLines={1}>{props.singleMedia.title}</H3>
         <Text numberOfLines={1}>{props.singleMedia.description}</Text>
       </Body>
-      <Right>
+      <Right >
         <Button full onPress={
           () => {
             props.navigation.push('Single', {file: props.singleMedia});
@@ -71,6 +71,8 @@ const ListItem = (props) => {
     </BaseListItem>
   );
 };
+
+
 
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
