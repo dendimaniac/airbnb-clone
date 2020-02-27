@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Body, Button, Card, CardItem, Container, Content, H1, H3, Icon, Left, Right, Text, View } from 'native-base';
 import PropTypes from 'prop-types';
 import AsyncImage from '../components/AsyncImage';
 import { AsyncStorage, Dimensions, StyleSheet } from 'react-native';
 import { mediaURL } from '../constants/urlConst';
 import { Video } from 'expo-av';
-import { fetchDELETE, fetchGET, fetchPOST } from '../hooks/APIHooks';
+import { fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia } from '../hooks/APIHooks';
+import { MediaContext } from "../contexts/MediaContext";
 
 const deviceHeight = Dimensions.get('window').height;
 
 const Single = (props) => {
+  const [media, setMedia] = useContext(MediaContext);
   const [user, setUser] = useState({});
   const [userAvatar, setUserAvatar] = useState('');
   const [saved, setSaved] = useState(undefined);
@@ -55,9 +57,9 @@ const Single = (props) => {
   };
 
   const saveOrUnsave = async () => {
+    const token = await AsyncStorage.getItem('userToken');
     if (!saved) {
       try {
-        const token = await AsyncStorage.getItem('userToken');
         const json = await fetchPOST('favourites', {file_id: file.file_id}, token);
         console.log('Save', json);
         if (json.favourite_id) {
@@ -68,7 +70,6 @@ const Single = (props) => {
       }
     } else if (saved) {
       try {
-        const token = await AsyncStorage.getItem('userToken');
         const json = await fetchDELETE('favourites/file', file.file_id, token);
         console.log('Unsave', json);
         if (json.message.includes('deleted')) {
@@ -78,6 +79,11 @@ const Single = (props) => {
         console.log('unsaving error', e);
       }
     }
+    const favouriteMedia = await getFavoriteMedia(token);
+    setMedia((media) => ({
+      ...media,
+      favouriteMedia: favouriteMedia,
+    }))
   };
 
   useEffect(() => {
