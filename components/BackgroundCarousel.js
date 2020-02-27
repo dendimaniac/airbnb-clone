@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width
   },
   circleDiv: {
-    zIndex: 1,
     bottom: 10,
     flexDirection: "row",
     alignItems: "center",

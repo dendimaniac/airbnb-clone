@@ -15,7 +15,6 @@ const SearchBox = props => {
         <TextInput
           style={styles.textInput}
           placeholder={placeholder}
-          onSubmitEditing={props.navigation.push("Upload")}
         />
       </View>
     </View>
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     alignContent: "center",
     alignItems: "center",
-    zIndex: 300
+    zIndex: 3
   },
   icon: {
     paddingHorizontal: 10,

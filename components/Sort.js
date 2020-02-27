@@ -1,20 +1,50 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { Text, View, StyleSheet, Picker, TouchableOpacity } from "react-native";
 
 const Sort = () => {
+  const [option, setOption] = useState("Price Ascending");
+  const [openOptions, setOpenOptions] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.item}>
-        <Text>Sort: </Text>
+        <Text
+          style={{
+            height: "100%",
+            textAlign: "center",
+            paddingVertical: 8,
+            fontWeight: "bold"
+          }}
+        >
+          Sort:{" "}
+        </Text>
       </View>
       <View style={styles.item}>
-        <Text>Rating</Text>
-      </View>
-      <View style={styles.item}>
-        <Text>Price U</Text>
-      </View>
-      <View style={styles.item}>
-        <Text>Price D</Text>
+        <TouchableOpacity onPress={() => setOpenOptions(!openOptions)}>
+          <Text
+            style={{
+              height: "100%",
+              textAlign: "center",
+              paddingVertical: 8,
+              fontWeight: "bold"
+            }}
+          >
+            {option}
+          </Text>
+        </TouchableOpacity>
+        <View style={{ display: openOptions ? "" : "none" }}>
+          <Picker
+            style={styles.pickerStyle}
+            selectedValue={option}
+            onValueChange={itemValue => {
+              setOption(itemValue);
+              setOpenOptions(!openOptions);
+            }}
+          >
+            <Picker.Item label="Top Rating" value="Top Rating" />
+            <Picker.Item label="Price Ascending" value="Price Ascending" />
+            <Picker.Item label="Price Decending" value="Price Decending" />
+          </Picker>
+        </View>
       </View>
     </View>
   );
@@ -23,13 +53,19 @@ const Sort = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    borderWidth:0.5,
-    height:"5%"
+    borderWidth: 0.5,
+    height: "5%"
   },
   item: {
-    width:"25%",
-    borderRightWidth:0.4,
-    paddingLeft:0,
+    width: "50%",
+    borderRightWidth: 0.4,
+    paddingLeft: 0
+  },
+  pickerStyle: {
+    zIndex: 3,
+    position: "relative",
+    width: "100%",
+    top: 0
   }
 });
 
