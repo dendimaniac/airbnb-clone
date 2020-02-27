@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Body, Button, Card, CardItem, Container, Content, H1, H3, Icon, Left, Right, Text, View, } from 'native-base';
+import { Body, Button, Card, CardItem, Container, Content, H1, H3, Icon, Left, Right, Text, View } from 'native-base';
 import PropTypes from 'prop-types';
 import AsyncImage from '../components/AsyncImage';
 import { AsyncStorage, Dimensions, StyleSheet } from 'react-native';
 import { mediaURL } from '../constants/urlConst';
 import { Video } from 'expo-av';
-import { fetchGET } from '../hooks/APIHooks';
+import { fetchDELETE, fetchGET, fetchPOST } from '../hooks/APIHooks';
 
 const deviceHeight = Dimensions.get('window').height;
 
 const Single = (props) => {
   const [user, setUser] = useState({});
   const [userAvatar, setUserAvatar] = useState('');
+  const [saved, setSaved] = useState(undefined);
   const {navigation} = props;
   const file = navigation.state.params.file;
 
@@ -38,9 +39,51 @@ const Single = (props) => {
     }
   };
 
+  const checkSaved = async () => {
+    try {
+      const savedLists = await fetchGET('favourites/file', file.file_id);
+      savedLists.filter(item => item.user_id === file.user_id);
+      console.log('saved', savedLists);
+      if (savedLists.length !== 0) {
+        setSaved(true);
+      } else {
+        setSaved(false);
+      }
+    } catch (e) {
+      console.log('checkSaved error', e);
+    }
+  };
+
+  const saveOrUnsave = async () => {
+    if (!saved) {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        const json = await fetchPOST('favourites', {file_id: file.file_id}, token);
+        console.log('Save', json);
+        if (json.favourite_id) {
+          setSaved(true);
+        }
+      } catch (e) {
+        console.log('saving error', e);
+      }
+    } else if (saved) {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        const json = await fetchDELETE('favourites/file', file.file_id, token);
+        console.log('Unsave', json);
+        if (json.message.includes('deleted')) {
+          setSaved(false);
+        }
+      } catch (e) {
+        console.log('unsaving error', e);
+      }
+    }
+  };
+
   useEffect(() => {
     getUser();
     getUserAvatar();
+    checkSaved();
   }, []);
   console.log(userAvatar);
 
@@ -48,7 +91,7 @@ const Single = (props) => {
     <>
       <Container>
         <Content>
-          <Card>
+          <Card style={styles.card}>
             <CardItem bordered>
               {file.media_type === 'image' ? (
                   <AsyncImage
@@ -70,6 +113,12 @@ const Single = (props) => {
                   />
                 )
               }
+              {saved !== undefined &&
+              <View style={styles.saveArea}>
+                <Button rounded light onPress={saveOrUnsave}>
+                  <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'}/>
+                </Button>
+              </View>}
             </CardItem>
             <CardItem>
               <Body>
@@ -109,7 +158,7 @@ const Single = (props) => {
         <Left>
           <View>
             <Text>
-              50$/night
+              50$ / night
             </Text>
           </View>
           <View style={styles.ratingAndPriceInfoSection}>
@@ -133,10 +182,24 @@ const Single = (props) => {
 };
 
 const styles = StyleSheet.create({
+  card: {
+    marginBottom: 80
+  },
   mainImageOrVideo: {
     width: '100%',
     height: deviceHeight / 3,
     resizeMode: 'contain',
+  },
+  saveArea: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  defaultSaveIcon: {
+    color: 'black'
+  },
+  savedIcon: {
+    color: 'red',
   },
   ownerAndBasicInfoSection: {
     flex: 1,
@@ -144,7 +207,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     height: 75,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   imageAvatar: {
     width: 70,
@@ -162,8 +225,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     height: 80,
-    zIndex: 3,
     padding: 20,
+    backgroundColor: 'white',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   ratingAndPriceInfoSection: {
     flexDirection: 'row',
