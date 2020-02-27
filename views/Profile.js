@@ -1,20 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Container,
-  Content,
-  Card,
-  CardItem,
-  Text,
-  Body,
-  Button,
-  Icon,
-} from 'native-base';
-import {AsyncStorage} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Body, Button, Card, CardItem, Container, Content, Icon, Text, } from 'native-base';
+import { AsyncStorage, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-import {fetchGET} from '../hooks/APIHooks';
+import { fetchGET } from '../hooks/APIHooks';
 import AsyncImage from '../components/AsyncImage';
-import {Dimensions} from 'react-native';
-import {mediaURL} from '../constants/urlConst';
+import { mediaURL } from '../constants/urlConst';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -31,7 +21,7 @@ const Profile = (props) => {
       const avatarPic = await fetchGET('tags', 'avatar_' + uData.user_id);
       console.log('avpic', avatarPic);
       let avPic = '';
-      if (avatarPic.length === 0) { // if avatar is not set
+      if (avatarPic && avatarPic.length === 0) { // if avatar is not set
         avPic = 'https://placekitten.com/1024/1024';
       } else {
         avPic = mediaURL + avatarPic[0].filename;
