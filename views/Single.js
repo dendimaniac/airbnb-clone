@@ -76,13 +76,12 @@ const Single = (props) => {
                 <H1>{file.title}</H1>
               </Body>
             </CardItem>
-            <CardItem>
-              <Body>
+            <CardItem style={styles.ownerAndBasicInfoSection}>
+              <View>
                 <Text>Helsinki, Finland</Text>
                 <Text>Hosted by {user.username}</Text>
-              </Body>
-
-              <Right>
+              </View>
+              <View>
                 {userAvatar === '' ?
                   <Icon name={'person'} style={styles.imageIcon}/> :
                   <AsyncImage
@@ -90,7 +89,7 @@ const Single = (props) => {
                     spinnerColor='#777'
                     source={{uri: userAvatar}}/>
                 }
-              </Right>
+              </View>
             </CardItem>
             <CardItem>
               <Text>
@@ -137,14 +136,23 @@ const styles = StyleSheet.create({
   mainImageOrVideo: {
     width: '100%',
     height: deviceHeight / 3,
+    resizeMode: 'contain',
+  },
+  ownerAndBasicInfoSection: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    height: 75,
+    flexDirection: 'row'
   },
   imageAvatar: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
     borderRadius: 500,
   },
   imageIcon: {
-    fontSize: 50,
+    fontSize: 70,
     color: 'black',
   },
   bottomBookingSection: {

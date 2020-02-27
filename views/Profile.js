@@ -60,6 +60,7 @@ const Profile = (props) => {
                 style={{
                   width: '100%',
                   height: deviceHeight / 2,
+                  resizeMode: 'contain'
                 }}
                 spinnerColor='#777'
                 source={{uri: user.avatar}}

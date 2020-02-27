@@ -17,12 +17,9 @@ const AsyncImage = (props) => {
   console.log('loaded', loaded);
   return (
     <View style={[
-      style, {
-        flex: 1,
-      }]}>
+      style]}>
       <Image
         source={source}
-        resizeMode={'contain'}
         style={props.style}
         onLoad={onLoad}/>
       {!loaded &&
