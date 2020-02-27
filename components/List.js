@@ -5,7 +5,7 @@ import {
 } from 'native-base';
 import ListItem from './ListItem';
 import {MediaContext} from '../contexts/MediaContext';
-import {getAllMedia, getUserMedia} from '../hooks/APIHooks';
+import {getAllMedia, getUserMedia, getFavoriteMedia} from '../hooks/APIHooks';
 import PropTypes from 'prop-types';
 import {AsyncStorage} from 'react-native';
 
@@ -18,9 +18,11 @@ const List = (props) => {
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem('userToken');
       const myData = await getUserMedia(token);
+      const favouriteMedia = await getFavoriteMedia(token);
       setMedia({
         allFiles: allData.reverse(),
         myFiles: myData,
+        favouriteMedia: favouriteMedia,
       });
       setLoading(false);
     } catch (e) {
@@ -53,6 +55,18 @@ const List = (props) => {
           {props.mode === 'myfiles' &&
           <BaseList
             dataArray={media.myFiles}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item}) => <ListItem
+              navigation={props.navigation}
+              singleMedia={item}
+              mode={props.mode}
+              getMedia={getMedia}
+            />}
+          />
+          }
+          {props.mode === 'saved' &&
+          <BaseList
+            dataArray={media.favouriteMedia}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item}) => <ListItem
               navigation={props.navigation}

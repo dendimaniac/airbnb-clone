@@ -52,7 +52,7 @@ const useUploadForm = () => {
 
       const result = await fetchPOST('tags', tagData, token);
 
-      if (resp.message) {
+      if (result.message) {
         const data = await getAllMedia();
         setMedia((media) =>
           ({
