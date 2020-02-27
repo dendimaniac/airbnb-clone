@@ -59,7 +59,7 @@ const Profile = (props) => {
               <AsyncImage
                 style={{
                   width: '100%',
-                  height: deviceHeight / 2,
+                  height: deviceHeight / 3,
                   resizeMode: 'contain'
                 }}
                 spinnerColor='#777'
@@ -73,12 +73,24 @@ const Profile = (props) => {
               <Text numberOfLines={1}>email: {user.userdata.email}</Text>
             </Body>
           </CardItem>
+        {/* host*/}
+        <CardItem footer bordered>
+          <Body>
+            <Button full onPress={() => {
+              props.navigation.push('Upload');
+            }}>
+              <Text>Upload place for renting</Text>
+            </Button>
+          
+          </Body>
+        </CardItem>
+        {/* ------- */}
           <CardItem footer bordered>
             <Body>
               <Button full onPress={() => {
                 props.navigation.push('MyFiles');
               }}>
-                <Text>My Files</Text>
+                <Text>My places</Text>
               </Button>
               <Button full dark onPress={signOutAsync}>
                 <Text>Logout</Text>

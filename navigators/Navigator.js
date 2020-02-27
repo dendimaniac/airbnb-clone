@@ -12,25 +12,27 @@ import Upload from '../views/Upload';
 import { Icon } from 'native-base';
 import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
+import Saved from '../views/Saved';
+
 
 const TabNavigator = createBottomTabNavigator(
-  {
-    Home,
-    Profile,
-    Upload,
-  },
-  {
-    defaultNavigationOptions: ({navigation}) => ({
-      tabBarIcon: () => {
-        const {routeName} = navigation.state;
-        let iconName;
-        if (routeName === 'Home') {
-          iconName = 'home';
-        } else if (routeName === 'Profile') {
-          iconName = 'person';
-        } else if (routeName === 'Upload') {
-          iconName = 'add';
-        }
+    {
+      Home,
+      Saved,
+      Profile
+    },
+    {
+      defaultNavigationOptions: ({navigation}) => ({
+        tabBarIcon: () => {
+          const {routeName} = navigation.state;
+          let iconName;
+          if (routeName === 'Home') {
+            iconName = 'home';
+          } else if (routeName === 'Profile') {
+            iconName = 'person';
+          } else if (routeName === 'Saved') {
+            iconName = 'bookmark';
+          }
 
         // You can return any component that you like here!
         return <Icon
@@ -71,6 +73,9 @@ const StackNavigator = createStackNavigator(
       screen: Single,
       navigationOptions: {
         headerMode: 'none', // this will hide the header
+      },
+      Upload: {
+        screen: Upload,
       },
     },
     MyFiles: {
