@@ -1,15 +1,15 @@
 /* eslint-disable react/display-name */
 import React from 'react';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
 import Home from '../views/Home';
 import Profile from '../views/Profile';
 import Single from '../views/Single';
 import AuthLoading from '../views/AuthLoading';
 import Login from '../views/Login';
 import Upload from '../views/Upload';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
 import Saved from '../views/Saved';
@@ -34,17 +34,17 @@ const TabNavigator = createBottomTabNavigator(
             iconName = 'bookmark';
           }
 
-          // You can return any component that you like here!
-          return <Icon
-            name={iconName}
-            size={25}
-          />;
-        },
-      }),
-      tabBarOptions: {
-        activeTintColor: '#000',
+        // You can return any component that you like here!
+        return <Icon
+          name={iconName}
+          size={25}
+        />;
       },
+    }),
+    tabBarOptions: {
+      activeTintColor: '#000',
     },
+  },
 );
 
 TabNavigator.navigationOptions = ({navigation}) => {
@@ -59,42 +59,46 @@ TabNavigator.navigationOptions = ({navigation}) => {
 };
 
 const StackNavigator = createStackNavigator(
-    // RouteConfigs
-    {
-      Home: {
-        screen: TabNavigator,
-        navigationOptions: {
-          headerMode: 'none', // this will hide the header
-          headerLeft: ()=>{}, // this will hide back button
-        },
+  // RouteConfigs
+  {
+    Home: {
+      screen: TabNavigator,
+      navigationOptions: {
+        headerMode: 'none', // this will hide the header
+        headerLeft: () => {
+        }, // this will hide back button
       },
-      Single: {
-        screen: Single,
-      },
-      MyFiles: {
-        screen: MyFiles,
-      },
-      Modify: {
-        screen: Modify,
-      },
-      Logout: {
-        screen: Login,
+    },
+    Single: {
+      screen: Single,
+      navigationOptions: {
+        headerMode: 'none', // this will hide the header
       },
       Upload: {
         screen: Upload,
       },
     },
+    MyFiles: {
+      screen: MyFiles,
+    },
+    Modify: {
+      screen: Modify,
+    },
+    Logout: {
+      screen: Login,
+    },
+  },
 );
 
 const Navigator = createSwitchNavigator(
-    {
-      AuthLoading: AuthLoading,
-      App: StackNavigator,
-      Auth: Login,
-    },
-    {
-      initialRouteName: 'AuthLoading',
-    },
+  {
+    AuthLoading: AuthLoading,
+    App: StackNavigator,
+    Auth: Login,
+  },
+  {
+    initialRouteName: 'AuthLoading',
+  },
 );
 
 export default createAppContainer(Navigator);

@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": "https://t4-ga6.anonymous.airbnb-clone.exp.direct",
-  "packagerNgrokUrl": "https://packager.t4-ga6.anonymous.airbnb-clone.exp.direct",
-  "ngrokPid": 32033
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 12276,
+  "expoServerNgrokUrl": "https://me-khq.anonymous.cloudhome.exp.direct",
+  "packagerNgrokUrl": "https://packager.me-khq.anonymous.cloudhome.exp.direct",
+  "ngrokPid": 8072
 }
