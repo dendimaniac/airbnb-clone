@@ -34,7 +34,7 @@ const useUploadForm = () => {
 
     const fd = new FormData();
     fd.append('title', inputs.title);
-    fd.append('description', inputs.description ? inputs.description : '');
+    fd.append('description', inputs.description ? inputs.description : 'No description provided.');
     fd.append('file', {uri: file.uri, name: filename, type});
 
     console.log('FD:', fd);
