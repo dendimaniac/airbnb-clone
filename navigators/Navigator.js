@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+
 import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
@@ -22,26 +23,29 @@ const TabNavigator = createBottomTabNavigator(
     Profile
   },
   {
-    defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: () => {
-        const { routeName } = navigation.state;
+
+    defaultNavigationOptions: ({navigation}) => ({
+      tabBarIcon: ({focused, color, size}) => {
+        const {routeName} = navigation.state;
         let iconName;
-        if (routeName === "Home") {
-          iconName = "home";
-        } else if (routeName === "Profile") {
-          iconName = "person";
-        } else if (routeName === "Saved") {
-          iconName = "bookmark";
+        if (routeName === 'Home') {
+          iconName = 'home';
+        } else if (routeName === 'Profile') {
+          iconName = 'person';
+        } else if (routeName === 'Saved') {
+          iconName = 'bookmark';
         }
 
         // You can return any component that you like here!
-        return <Icon name={iconName} size={25} />;
-      }
+        return <Icon name={iconName} size={size} style={{color: focused ? 'red' : 'gray'}} color={color}/>;
+      },
     }),
     tabBarOptions: {
-      activeTintColor: "#000"
-    }
-  }
+      activeTintColor: 'black',
+      inactiveTintColor: 'gray',
+    },
+  },
+
 );
 
 TabNavigator.navigationOptions = ({ navigation }) => {
@@ -61,6 +65,7 @@ const StackNavigator = createStackNavigator(
     Home: {
       screen: TabNavigator,
       navigationOptions: {
+
         headerMode: "none", // this will hide the header
         headerLeft: () => {} // this will hide back button
       }
@@ -91,17 +96,22 @@ const StackNavigator = createStackNavigator(
       }
     }
   }
+
+
 );
 
 const Navigator = createSwitchNavigator(
   {
     AuthLoading: AuthLoading,
     App: StackNavigator,
+
     Auth: Login
   },
   {
     initialRouteName: "AuthLoading"
   }
+
+
 );
 
 export default createAppContainer(Navigator);

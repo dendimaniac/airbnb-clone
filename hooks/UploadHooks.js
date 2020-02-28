@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import {AsyncStorage} from 'react-native';
+import { useState } from 'react';
+import { AsyncStorage } from 'react-native';
 import { fetchFormData, fetchPOST, fetchPUT, getAllMedia, getUserMedia } from './APIHooks';
 
 const useUploadForm = () => {
@@ -35,7 +35,7 @@ const useUploadForm = () => {
 
     const fd = new FormData();
     fd.append('title', inputs.title);
-    fd.append('description', inputs.description);
+    fd.append('description', inputs.description ? inputs.description : '');
     fd.append('file', {uri: file.uri, name: filename, type});
 
     console.log('FD:', fd);

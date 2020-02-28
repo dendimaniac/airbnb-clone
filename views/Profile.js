@@ -1,20 +1,11 @@
-import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Content,
-  Card,
-  CardItem,
-  Text,
-  Body,
-  Button,
-  Icon
-} from "native-base";
-import { AsyncStorage } from "react-native";
-import PropTypes from "prop-types";
-import { fetchGET } from "../hooks/APIHooks";
-import AsyncImage from "../components/AsyncImage";
-import { Dimensions } from "react-native";
-import { mediaURL } from "../constants/urlConst";
+
+import React, { useEffect, useState } from 'react';
+import { Body, Button, Card, CardItem, Container, Content, Icon, Text, } from 'native-base';
+import { AsyncStorage, Dimensions } from 'react-native';
+import PropTypes from 'prop-types';
+import { fetchGET } from '../hooks/APIHooks';
+import AsyncImage from '../components/AsyncImage';
+import { mediaURL } from '../constants/urlConst';
 
 const deviceHeight = Dimensions.get("window").height;
 
@@ -28,11 +19,13 @@ const Profile = props => {
     try {
       const userFromStorage = await AsyncStorage.getItem("user");
       const uData = JSON.parse(userFromStorage);
-      const avatarPic = await fetchGET("tags", "avatar_" + uData.user_id);
-      let avPic = "";
-      if (avatarPic.length === 0) {
-        // if avatar is not set
-        avPic = "https://placekitten.com/1024/1024";
+
+      const avatarPic = await fetchGET('tags', 'avatar_' + uData.user_id);
+      console.log('avpic', avatarPic);
+      let avPic = '';
+      if (avatarPic && avatarPic.length === 0) { // if avatar is not set
+        avPic = 'https://placekitten.com/1024/1024';
+
       } else {
         avPic = mediaURL + avatarPic[0].filename;
       }
@@ -66,8 +59,11 @@ const Profile = props => {
             <Body>
               <AsyncImage
                 style={{
-                  width: "100%",
-                  height: deviceHeight / 3
+
+                  width: '100%',
+                  height: deviceHeight / 3,
+                  resizeMode: 'contain'
+
                 }}
                 spinnerColor="#777"
                 source={{ uri: user.avatar }}
