@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Body, Button, Card, CardItem, Container, Content, H1, H3, Icon, Left, Right, Text, View } from 'native-base';
+import { Body, Button, Card, CardItem, Container, Content, H1, Icon, Text, View } from 'native-base';
 import PropTypes from 'prop-types';
 import AsyncImage from '../components/AsyncImage';
 import { AsyncStorage, Dimensions, StyleSheet } from 'react-native';
@@ -7,13 +7,15 @@ import { mediaURL } from '../constants/urlConst';
 import { Video } from 'expo-av';
 import { fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia } from '../hooks/APIHooks';
 import { MediaContext } from "../contexts/MediaContext";
+import Reviews from "../components/Reviews";
+import UserAvatar from "../components/UserAvatar";
+import BookingSection from "./BookingSection";
 
 const deviceHeight = Dimensions.get('window').height;
 
 const Single = (props) => {
   const [media, setMedia] = useContext(MediaContext);
   const [user, setUser] = useState({});
-  const [userAvatar, setUserAvatar] = useState('');
   const [saved, setSaved] = useState(undefined);
   const {navigation} = props;
   const file = navigation.state.params.file;
@@ -25,19 +27,6 @@ const Single = (props) => {
       setUser(json);
     } catch (e) {
       console.log('getUser error', e);
-    }
-  };
-
-  const getUserAvatar = async () => {
-    try {
-      const avatarPic = await fetchGET('tags', 'avatar_' + file.user_id);
-      console.log('avpic', avatarPic);
-      if (avatarPic && avatarPic.length !== 0) {
-        let avPic = mediaURL + avatarPic[0].filename;
-        setUserAvatar(avPic);
-      }
-    } catch (e) {
-      console.log('getUserAvatar error', e);
     }
   };
 
@@ -88,10 +77,8 @@ const Single = (props) => {
 
   useEffect(() => {
     getUser();
-    getUserAvatar();
     checkSaved();
   }, []);
-  console.log(userAvatar);
 
   return (
     <>
@@ -137,13 +124,7 @@ const Single = (props) => {
                 <Text>Hosted by {user.username}</Text>
               </View>
               <View>
-                {userAvatar === '' ?
-                  <Icon name={'person'} style={styles.imageIcon}/> :
-                  <AsyncImage
-                    style={styles.imageAvatar}
-                    spinnerColor='#777'
-                    source={{uri: userAvatar}}/>
-                }
+                <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon}/>
               </View>
             </CardItem>
             <CardItem>
@@ -152,37 +133,12 @@ const Single = (props) => {
               </Text>
             </CardItem>
             <CardItem>
-              <H3>
-                Reviews
-              </H3>
+              <Reviews file={file}/>
             </CardItem>
           </Card>
         </Content>
       </Container>
-      <View
-        style={styles.bottomBookingSection}>
-        <Left>
-          <View>
-            <Text>
-              50$ / night
-            </Text>
-          </View>
-          <View style={styles.ratingAndPriceInfoSection}>
-            <Icon name={'star'} style={styles.ratingText}/>
-            <Text style={styles.ratingText}>
-              4.9
-            </Text>
-            <Text>
-              (304)
-            </Text>
-          </View>
-        </Left>
-        <Right>
-          <Button danger full style={styles.chooseButton}>
-            <Text>Choose</Text>
-          </Button>
-        </Right>
-      </View>
+      <BookingSection/>
     </>
   );
 };
@@ -224,35 +180,6 @@ const styles = StyleSheet.create({
     fontSize: 70,
     color: 'black',
   },
-  bottomBookingSection: {
-    position: 'absolute',
-    bottom: 0,
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    height: 80,
-    padding: 20,
-    backgroundColor: 'white',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-  },
-  ratingAndPriceInfoSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  ratingText: {
-    color: 'green',
-    marginRight: 5
-  },
-  chooseButton: {
-    borderRadius: 5,
-  }
 });
 
 Single.propTypes = {
