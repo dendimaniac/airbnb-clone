@@ -1,19 +1,20 @@
 /* eslint-disable react/display-name */
-import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createStackNavigator } from 'react-navigation-stack';
-import Home from '../views/Home';
-import Profile from '../views/Profile';
-import Single from '../views/Single';
-import AuthLoading from '../views/AuthLoading';
-import Login from '../views/Login';
-import Upload from '../views/Upload';
-import { Icon } from 'native-base';
-import MyFiles from '../views/MyFiles';
-import Modify from '../views/Modify';
-import Saved from '../views/Saved';
 
+import React from "react";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from "react-navigation-stack";
+import Home from "../views/Home";
+import Profile from "../views/Profile";
+import Single from "../views/Single";
+import AuthLoading from "../views/AuthLoading";
+import Login from "../views/Login";
+import Upload from "../views/Upload";
+import { Icon } from "native-base";
+import MyFiles from "../views/MyFiles";
+import Modify from "../views/Modify";
+import Saved from "../views/Saved";
+import ModifyUserInfo from "../views/ModifyUserInfo";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -22,6 +23,7 @@ const TabNavigator = createBottomTabNavigator(
     Profile
   },
   {
+
     defaultNavigationOptions: ({navigation}) => ({
       tabBarIcon: ({focused, color, size}) => {
         const {routeName} = navigation.state;
@@ -43,16 +45,17 @@ const TabNavigator = createBottomTabNavigator(
       inactiveTintColor: 'gray',
     },
   },
+
 );
 
-TabNavigator.navigationOptions = ({navigation}) => {
-  const {routeName} = navigation.state.routes[navigation.state.index];
+TabNavigator.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
 
   // You can do whatever you like here to pick the title based on the route name
   const headerTitle = routeName;
 
   return {
-    headerTitle,
+    headerTitle
   };
 };
 
@@ -62,41 +65,53 @@ const StackNavigator = createStackNavigator(
     Home: {
       screen: TabNavigator,
       navigationOptions: {
-        headerMode: 'none', // this will hide the header
-        headerLeft: () => {
-        }, // this will hide back button
-      },
+
+        headerMode: "none", // this will hide the header
+        headerLeft: () => {} // this will hide back button
+      }
     },
     Single: {
-      screen: Single,
-      navigationOptions: {
-        headerMode: 'none', // this will hide the header
-      },
-      Upload: {
-        screen: Upload,
-      },
+      screen: Single
     },
     MyFiles: {
-      screen: MyFiles,
+      screen: MyFiles
     },
     Modify: {
-      screen: Modify,
+      screen: Modify
     },
     Logout: {
-      screen: Login,
+      screen: Login
     },
-  },
+    Upload: {
+      screen: Upload
+    },
+    ModifyUserInfo: {
+      screen: ModifyUserInfo
+    },
+    Profile: {
+      screen: TabNavigator,
+      navigationOptions: {
+        headerMode: "none", // this will hide the header
+        headerLeft: () => {} // this will hide back button
+      }
+    }
+  }
+
+
 );
 
 const Navigator = createSwitchNavigator(
   {
     AuthLoading: AuthLoading,
     App: StackNavigator,
-    Auth: Login,
+
+    Auth: Login
   },
   {
-    initialRouteName: 'AuthLoading',
-  },
+    initialRouteName: "AuthLoading"
+  }
+
+
 );
 
 export default createAppContainer(Navigator);

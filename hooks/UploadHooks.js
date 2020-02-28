@@ -23,6 +23,7 @@ const useUploadForm = () => {
       }));
   };
 
+
   const handleUpload = async (file, navigation, setMedia) => {
     const filename = file.uri.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
@@ -86,6 +87,8 @@ const useUploadForm = () => {
       console.log(e.message);
     }
   };
+
+  
 
   return {
     handleTitleChange,
