@@ -16,6 +16,7 @@ import Saved from '../views/Saved';
 import ModifyUserInfo from '../views/ModifyUserInfo';
 
 
+
 const TabNavigator = createBottomTabNavigator(
     {
       Home,
@@ -88,6 +89,13 @@ const StackNavigator = createStackNavigator(
       },
       ModifyUserInfo: {
         screen: ModifyUserInfo,
+      },
+      Profile: {
+        screen: Profile,
+        navigationOptions: {
+          headerMode: 'none', // this will hide the header
+          headerLeft: ()=>{}, // this will hide back button
+        },
       },
     },
 );

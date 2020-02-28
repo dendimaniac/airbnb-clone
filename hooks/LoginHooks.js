@@ -126,15 +126,16 @@ const useSignUpForm = () => {
         const newuser = JSON.parse(newUserfromstorage);
         console.log('newuser',newuser);
       
-        console.log('asdfdsf',data);
-        setUser(user =>
+        
+        setUser((user) =>
           ({
             ...user,
-            userdata: data,
+            userdata: newuser,
            }));
         
         setLoading(false);
-        navigation.pop();
+        // navigation.pop();
+        navigation.push('Profile');
       }
     } catch (e) {
       console.log(e.message);

@@ -42,11 +42,11 @@ const Profile = (props) => {
           userdata: uData,
           avatar: avPic,
         }));
+        
     } catch (e) {
       console.log('Profile error: ', e.message);
     }
   };
-
   useEffect(() => {
     userToState();
   }, []);
@@ -132,3 +132,4 @@ Profile.propTypes = {
 };
 
 export default Profile;
+
