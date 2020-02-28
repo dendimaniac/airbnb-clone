@@ -1,26 +1,16 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {
-  Content,
-  Form,
-  Button,
-  Text,
-  Item,
-  Spinner,
-} from 'native-base';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Content, Form, Item, Spinner, Text, } from 'native-base';
 
-import {
-  Dimensions,
-  Image,
-} from 'react-native';
+import { Dimensions, Image, } from 'react-native';
 import PropTypes from 'prop-types';
 import FormTextInput from '../components/FormTextInput';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import useUploadForm from '../hooks/UploadHooks';
-import {MediaContext} from '../contexts/MediaContext';
-import {validateField} from '../utils/validation';
-import {uploadConstraints} from '../constants/validationConst';
+import { MediaContext } from '../contexts/MediaContext';
+import { validateField } from '../utils/validation';
+import { uploadConstraints } from '../constants/validationConst';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -79,7 +69,7 @@ const Upload = (props) => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      // aspect: [4, 3],
       quality: 0.3,
       exif: true,
     });

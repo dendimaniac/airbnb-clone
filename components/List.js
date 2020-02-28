@@ -20,9 +20,11 @@ const List = props => {
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem("userToken");
       const myData = await getUserMedia(token);
+      const favouriteMedia = await getFavoriteMedia(token);
       setMedia({
         allFiles: allData.reverse(),
-        myFiles: myData
+        myFiles: myData,
+        favouriteMedia: favouriteMedia,
       });
       setLoading(false);
     } catch (e) {
@@ -74,6 +76,18 @@ const List = props => {
               )}
             />
           )}
+          {props.mode === 'saved' &&
+          <BaseList
+            dataArray={media.favouriteMedia}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item}) => <ListItem
+              navigation={props.navigation}
+              singleMedia={item}
+              mode={props.mode}
+              getMedia={getMedia}
+            />}
+          />
+          }
         </>
       )}
     </View>

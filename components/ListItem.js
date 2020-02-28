@@ -73,58 +73,6 @@ const styles = StyleSheet.create({
   }
 });
 
-/*
-<BaseListItem>
-      <Left>
-        <Thumbnail
-          square
-          large
-          source={{ uri: mediaURL + props.singleMedia.thumbnails.w160 }}
-        />
-      </Left>
-      <Body>
-        <H3 numberOfLines={1}>{title}</H3>
-        <Text numberOfLines={1}>{description}</Text>
-      </Body>
-      <Right>
-        <Button
-          full
-          onPress={() => {
-            props.navigation.push("Single", { file: singleMedia });
-          }}
-        >
-          <Icon name="eye" />
-        </Button>
-        {props.mode === "myfiles" && (
-          <>
-            <Button
-              full
-              warning
-              onPress={() => {
-                props.navigation.push("Modify", { file: singleMedia });
-              }}
-            >
-              <Icon name="create" />
-            </Button>
-            <Button
-              full
-              danger
-              onPress={async () => {
-                const token = await AsyncStorage.getItem("userToken");
-                const del = await fetchDELETE("media", file_id, token);
-                console.log("delete", del);
-                if (del.message) {
-                  getMedia(mode);
-                }
-              }}
-            >
-              <Icon name="trash" />
-            </Button>
-          </>
-        )}
-      </Right>
-    </BaseListItem>*/
-
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
   navigation: PropTypes.object,
