@@ -13,6 +13,7 @@ import {Icon} from 'native-base';
 import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
 import Saved from '../views/Saved';
+import ModifyUserInfo from '../views/ModifyUserInfo';
 
 
 const TabNavigator = createBottomTabNavigator(
@@ -40,9 +41,11 @@ const TabNavigator = createBottomTabNavigator(
             size={25}
           />;
         },
+        
       }),
       tabBarOptions: {
         activeTintColor: '#000',
+        
       },
     },
 );
@@ -82,6 +85,9 @@ const StackNavigator = createStackNavigator(
       },
       Upload: {
         screen: Upload,
+      },
+      ModifyUserInfo: {
+        screen: ModifyUserInfo,
       },
     },
 );

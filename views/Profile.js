@@ -27,6 +27,7 @@ const Profile = (props) => {
   const userToState = async () => {
     try {
       const userFromStorage = await AsyncStorage.getItem('user');
+      console.log("Hello",userFromStorage);
       const uData = JSON.parse(userFromStorage);
       const avatarPic = await fetchGET('tags', 'avatar_' + uData.user_id);
       console.log('avpic', avatarPic);
@@ -78,7 +79,7 @@ const Profile = (props) => {
           </CardItem>
           <CardItem>
             <Body>
-              <Text>Fullname: {user.userdata.full_name}</Text>
+              <Text>Fullname: {user.userdata.full_name}</Text>  
               <Text numberOfLines={1}>email: {user.userdata.email}</Text>
             </Body>
           </CardItem>
@@ -89,20 +90,34 @@ const Profile = (props) => {
               props.navigation.push('Upload');
             }}>
               <Text>Upload place for renting</Text>
+              <Icon name='add-circle'/>
             </Button>
-          
+            <Button full warning onPress={() => {
+              props.navigation.push('MyFiles');
+            }}>
+              <Text>My places</Text>
+              <Icon name='business'/>
+            </Button>
           </Body>
         </CardItem>
         {/* ------- */}
           <CardItem footer bordered>
             <Body>
-              <Button full onPress={() => {
-                props.navigation.push('MyFiles');
-              }}>
-                <Text>My places</Text>
-              </Button>
-              <Button full dark onPress={signOutAsync}>
+            <Button full info 
+              onPress={
+                () => {
+                  props.navigation.push('ModifyUserInfo', {user: user});
+                }
+              }
+            >
+          
+          <Text>Update user info</Text>  
+          <Icon name='create'/>
+          </Button>
+              <Button full danger onPress={signOutAsync}>
+              
                 <Text>Logout</Text>
+                <Icon name='log-out'/>
               </Button>
             </Body>
           </CardItem>

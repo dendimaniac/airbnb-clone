@@ -4,7 +4,6 @@ import {Spinner} from 'native-base';
 import PropTypes from 'prop-types';
 
 const AsyncImage = (props) => {
-  // console.log('Asimage props', props);
   const [loaded, setLoaded] = useState(false);
   const onLoad = () => {
     setLoaded(true);
