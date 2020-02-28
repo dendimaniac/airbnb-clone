@@ -2,8 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 12276,
+  "packagerPid": 11136,
   "expoServerNgrokUrl": "https://me-khq.anonymous.cloudhome.exp.direct",
-  "packagerNgrokUrl": "https://packager.me-khq.anonymous.cloudhome.exp.direct",
-  "ngrokPid": 8072
+  "packagerNgrokUrl": "https://packager.bw-tit.anonymous.cloudhome.exp.direct",
+  "ngrokPid": 12276,
+  "webpackServerPort": null
 }

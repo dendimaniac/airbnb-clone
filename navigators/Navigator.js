@@ -16,33 +16,31 @@ import Saved from '../views/Saved';
 
 
 const TabNavigator = createBottomTabNavigator(
-    {
-      Home,
-      Saved,
-      Profile
-    },
-    {
-      defaultNavigationOptions: ({navigation}) => ({
-        tabBarIcon: () => {
-          const {routeName} = navigation.state;
-          let iconName;
-          if (routeName === 'Home') {
-            iconName = 'home';
-          } else if (routeName === 'Profile') {
-            iconName = 'person';
-          } else if (routeName === 'Saved') {
-            iconName = 'bookmark';
-          }
+  {
+    Home,
+    Saved,
+    Profile
+  },
+  {
+    defaultNavigationOptions: ({navigation}) => ({
+      tabBarIcon: ({focused, color, size}) => {
+        const {routeName} = navigation.state;
+        let iconName;
+        if (routeName === 'Home') {
+          iconName = 'home';
+        } else if (routeName === 'Profile') {
+          iconName = 'person';
+        } else if (routeName === 'Saved') {
+          iconName = 'bookmark';
+        }
 
         // You can return any component that you like here!
-        return <Icon
-          name={iconName}
-          size={25}
-        />;
+        return <Icon name={iconName} size={size} style={{color: focused ? 'red' : 'gray'}} color={color}/>;
       },
     }),
     tabBarOptions: {
-      activeTintColor: '#000',
+      activeTintColor: 'black',
+      inactiveTintColor: 'gray',
     },
   },
 );
