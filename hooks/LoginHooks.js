@@ -102,7 +102,7 @@ const useSignUpForm = () => {
 
       if (resp.message) {
         const userFromStorage = await AsyncStorage.getItem("user");
-        // const uData = JSON.parse(userFromStorage);
+        
         const data = await fetchGET("users/user", "", token);
         let tempUser = { ...JSON.parse(userFromStorage) };
 
@@ -115,20 +115,6 @@ const useSignUpForm = () => {
           tempUser.email = data.email;
         }
         AsyncStorage.setItem("user", JSON.stringify(tempUser));
-        /**
-         * data:{
-         *  key: value
-         * }
-         * Async.getItem('User'):{
-         *  "key": "value"
-         * }
-         *
-         */
-        // await AsyncStorage.setItem('user', JSON.stringify(data));
-        // const newUserfromstorage = await AsyncStorage.getItem('user');
-        // const newuser = JSON.parse(newUserfromstorage);
-        // console.log('newuser',newuser);
-
         setUser(user => ({
           ...user,
           userdata: data
