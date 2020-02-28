@@ -1,12 +1,8 @@
 import React from "react";
-import {  
-  Icon
-} from "native-base";
+import { Icon } from "native-base";
 import PropTypes from "prop-types";
 import { mediaURL } from "../constants/urlConst";
-import { fetchDELETE } from "../hooks/APIHooks";
-import { AsyncStorage, StyleSheet } from "react-native";
-import { View, Image, Text, TouchableOpacity, Dimensions } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const width= Dimensions.get("window").width;
 const ListItem = props => {
@@ -50,9 +46,8 @@ const ListItem = props => {
 
 const styles = StyleSheet.create({
   container: {
-    width: (width-40)*0.48,
-    height:"25%",
-    marginVertical: 5
+    width: (width - 40) * 0.48,
+    marginVertical: 5,
   },
   textContainer: {},
   title: {

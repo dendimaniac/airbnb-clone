@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
 import React, { useContext, useEffect, useState } from "react";
-import { List as BaseList, Spinner, View, Text } from "native-base";
+import { Spinner, View } from "native-base";
 import ListItem from "./ListItem";
 import { MediaContext } from "../contexts/MediaContext";
-import { getAllMedia, getUserMedia } from "../hooks/APIHooks";
+import { getAllMedia, getFavoriteMedia, getUserMedia } from "../hooks/APIHooks";
 import PropTypes from "prop-types";
-import { AsyncStorage, StyleSheet,  } from "react-native";
+import { AsyncStorage, StyleSheet, } from "react-native";
 import ImageCover from "./ImageCover";
 import { ScrollView } from "react-native-gesture-handler";
 import Tags from "../components/Tags";
@@ -41,14 +41,14 @@ const List = props => {
   return (
     <View>
       {loading ? (
-        <Spinner />
+        <Spinner/>
       ) : (
         <>
           {props.mode === "all" && (
             <ScrollView>
-              <Tags />
-              <ImageCover />
-              <Title />
+              <Tags/>
+              <ImageCover/>
+              <Title/>
               <View style={styles.container}>
                 {media.allFiles.map((item, index) => (
                   <ListItem
@@ -63,30 +63,30 @@ const List = props => {
             </ScrollView>
           )}
           {props.mode === "myfiles" && (
-            <BaseList
-              dataArray={media.myFiles}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
+            <View style={styles.container}>
+              {media.myFiles.map((item, index) => (
                 <ListItem
+                  key={index}
                   navigation={props.navigation}
                   singleMedia={item}
                   mode={props.mode}
                   getMedia={getMedia}
                 />
-              )}
-            />
+              ))}
+            </View>
           )}
           {props.mode === 'saved' &&
-          <BaseList
-            dataArray={media.favouriteMedia}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => <ListItem
-              navigation={props.navigation}
-              singleMedia={item}
-              mode={props.mode}
-              getMedia={getMedia}
-            />}
-          />
+          <View style={styles.container}>
+            {media.favouriteMedia.map((item, index) => (
+              <ListItem
+                key={index}
+                navigation={props.navigation}
+                singleMedia={item}
+                mode={props.mode}
+                getMedia={getMedia}
+              />
+            ))}
+          </View>
           }
         </>
       )}
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     marginHorizontal: 20,
+    marginBottom: 75,
     justifyContent: "space-between",
   }
 });
