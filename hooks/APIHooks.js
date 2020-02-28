@@ -1,4 +1,4 @@
-import {apiUrl} from '../constants/urlConst';
+import { apiUrl } from '../constants/urlConst';
 
 
 const fetchGET = async (endpoint = '', params = '', token = '') => {
@@ -112,13 +112,11 @@ const getUserMedia = async (token) => {
 };
 
 const getFavoriteMedia = async (token) => {
-  
-      const json = await fetchGET('favourites','', token);
-      const result = await Promise.all(json.map(async (item) => {
-          return await fetchGET('media', item.file_id);
-      }));
-      return result;
-}
+  const json = await fetchGET('favourites', '', token);
+  return await Promise.all(json.map(async (item) => {
+    return await fetchGET('media', item.file_id);
+  }));
+};
 
 // eslint-disable-next-line max-len
 export {
