@@ -119,18 +119,19 @@ const Profile = (props) => {
             onRequestClose={() => {
               Alert.alert('Modal has been closed.');
             }}>
-            <View style={{marginTop: 40, marginLeft: 25}}>
+            <View style={{marginTop: deviceHeight/10, alignItems: 'center'}}>
               <View>
-                <Image
-                  style={{width: deviceWidth/1.2, height: deviceWidth/1.2, resizeMode: 'stretch', marginTop: deviceHeight/10}}
-                  source={{uri: user.avatar}}
-                />
-                <TouchableOpacity
+              <TouchableOpacity
                   onPress={() => {
                     setModalVisible(!modalVisible);
                   }}>
-                  <Text style ={{color: 'red', fontSize: 20,}}>Hide Modal</Text>
+                  <Icon name='close' style={{color: 'red', fontSize: 50}}></Icon>
+                  
                 </TouchableOpacity>
+                <Image
+                  style={{width: deviceWidth/1.2, height: deviceWidth/1.2, resizeMode: 'stretch'}}
+                  source={{uri: user.avatar}}
+                />
               </View>
             </View>
           </Modal>
