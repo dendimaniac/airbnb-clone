@@ -1,18 +1,20 @@
 
 import React, { useEffect, useState } from 'react';
 import { Body, Button, Card, CardItem, Container, Content, Icon, Text,Right, View } from 'native-base';
-import { AsyncStorage, Dimensions, StyleSheet, ImageBackground, Image} from 'react-native';
+import { AsyncStorage, Dimensions, StyleSheet, ImageBackground, Image, Modal} from 'react-native';
 import PropTypes from 'prop-types';
 import { fetchGET } from '../hooks/APIHooks';
 import AsyncImage from '../components/AsyncImage';
 import { mediaURL } from '../constants/urlConst';
 import {AuthSession} from 'expo';
 import List from '../components/List';
+import {TouchableHighlight, TouchableOpacity} from 'react-native-gesture-handler';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const Profile = (props) => {
   const {navigation} = props;
+  const [modalVisible, setModalVisible] = useState(false);
   const [user, setUser] = useState({
     userdata: {},
     avatar: "https://",
@@ -55,18 +57,26 @@ const Profile = (props) => {
           <CardItem style={styles.avaBackground}>
            
             <Body style={styles.center}>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              >
                 <Image
                   style={styles.roundImage}
                   source={{ uri: user.avatar }}
                 />
+                </TouchableOpacity>
             </Body>
           </CardItem>
+
           <CardItem style={[styles.center, styles.info]}>
-          <Text style={[styles.username]}>{user.userdata.username}</Text>
-          <Button style={styles.logout_btn} onPress={signOutAsync}>
-              <Icon style={styles.logout_icon} name='log-out'></Icon>
+            <Text style={[styles.username]}>{user.userdata.username}</Text>
+            <Button style={styles.logout_btn} onPress={signOutAsync}>
+                <Icon style={styles.logout_icon} name='log-out'></Icon>
             </Button>
           </CardItem>
+
           <CardItem >
             <Body style={styles.center}>
               <Text>Fullname: {user.userdata.full_name}</Text>
@@ -75,32 +85,55 @@ const Profile = (props) => {
           </CardItem>
           {/* host*/}
           <CardItem footer bordered>
-          <View style={styles.flex}>
-            
-            <Button
-              full
-              style= { {flex:1, backgroundColor: '#F25F5C'}}
-              onPress={() => {
-                props.navigation.push("Upload");
-              }}
-            >
-              <Icon name="add-circle" />
-              <Text>Add new place</Text>
-            </Button>
-            <Button 
-              full
-              style= {[styles.editBtn]}
-              onPress={() => {
-                props.navigation.push("ModifyUserInfo", { user: user });
-              }}
+            <View style={styles.flex}>
+              
+              <Button
+                full
+                style= { {flex:1, backgroundColor: '#F25F5C'}}
+                onPress={() => {
+                  props.navigation.push("Upload");
+                }}
               >
-              <Icon style={styles.editIcon} name="cog" />
-            </Button>
-          </View>
+                <Icon name="add-circle" />
+                <Text>Add new place</Text>
+              </Button>
+              <Button 
+                full
+                style= {[styles.editBtn]}
+                onPress={() => {
+                  props.navigation.push("ModifyUserInfo", { user: user });
+                }}
+                >
+                <Icon style={styles.editIcon} name="cog" />
+              </Button>
+            </View>
           </CardItem>
-          
+          {/* List all of the current user's files */}
           <List navigation={navigation} mode={'myfiles'}></List>
-          {/* ------- */} 
+
+          {/* Modal */}
+          <Modal
+            animationType="fade"
+            transparent={false}
+            visible= {modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}>
+            <View style={{marginTop: 40, marginLeft: 25}}>
+              <View>
+                <Image
+                  style={{width: deviceWidth/1.2, height: deviceWidth/1.2, resizeMode: 'stretch', marginTop: deviceHeight/10}}
+                  source={{uri: user.avatar}}
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <Text style ={{color: 'red', fontSize: 20,}}>Hide Modal</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
               
       </Content>
     </Container>
@@ -124,7 +157,7 @@ const styles = StyleSheet.create({
     height: deviceHeight / 4,
     width: '100%',
     zIndex:1,
-    backgroundColor: '#FFE066',
+    backgroundColor: 'white',
   },
   username: {
     fontSize: 28,
