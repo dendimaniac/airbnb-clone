@@ -25,6 +25,7 @@ const List = props => {
         allFiles: allData.reverse(),
         myFiles: myData,
         favouriteMedia: favouriteMedia,
+        profile: myData,
       });
       setLoading(false);
     } catch (e) {
@@ -62,7 +63,7 @@ const List = props => {
           )}
           {props.mode === "myfiles" && (
             <View style={styles.container}>
-              {media.myFiles.map((item, index) => (
+              {media.profile.map((item, index) => (
                 <ListItem
                   key={index}
                   navigation={props.navigation}

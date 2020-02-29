@@ -1,25 +1,27 @@
 
 import React, { useEffect, useState } from 'react';
-import { Body, Button, Card, CardItem, Container, Content, Icon, Text, } from 'native-base';
-import { AsyncStorage, Dimensions } from 'react-native';
+import { Body, Button, Card, CardItem, Container, Content, Icon, Text,Right, View } from 'native-base';
+import { AsyncStorage, Dimensions, StyleSheet, ImageBackground, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import { fetchGET } from '../hooks/APIHooks';
 import AsyncImage from '../components/AsyncImage';
 import { mediaURL } from '../constants/urlConst';
+import {AuthSession} from 'expo';
+import List from '../components/List';
 
 const deviceHeight = Dimensions.get("window").height;
-
-const Profile = props => {
+const deviceWidth = Dimensions.get("window").width;
+const Profile = (props) => {
+  const {navigation} = props;
   const [user, setUser] = useState({
     userdata: {},
-    avatar: "https://"
+    avatar: "https://",
   });
 
   const userToState = async () => {
     try {
       const userFromStorage = await AsyncStorage.getItem("user");
       const uData = JSON.parse(userFromStorage);
-
       const avatarPic = await fetchGET('tags', 'avatar_' + uData.user_id);
       console.log('avpic', avatarPic);
       let avPic = '';
@@ -50,81 +52,102 @@ const Profile = props => {
   return (
     <Container>
       <Content>
-        <Card>
-          <CardItem header bordered>
-            <Icon name="person" />
-            <Text>Username: {user.userdata.username}</Text>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <AsyncImage
-                style={{
-
-                  width: '100%',
-                  height: deviceHeight / 3,
-                  resizeMode: 'contain'
-
-                }}
-                spinnerColor="#777"
-                source={{ uri: user.avatar }}
-              />
+          <CardItem style={styles.avaBackground}>
+           
+            <Body style={styles.center}>
+                <Image
+                  style={styles.roundImage}
+                  source={{ uri: user.avatar }}
+                />
             </Body>
           </CardItem>
-          <CardItem>
-            <Body>
+          <CardItem style={[styles.center, styles.info]}>
+          <Text style={[styles.username]}>{user.userdata.username}</Text>
+          <Button style={styles.logout_btn} onPress={signOutAsync}>
+              <Icon style={styles.logout_icon} name='log-out'></Icon>
+            </Button>
+          </CardItem>
+          <CardItem >
+            <Body style={styles.center}>
               <Text>Fullname: {user.userdata.full_name}</Text>
               <Text numberOfLines={1}>email: {user.userdata.email}</Text>
             </Body>
           </CardItem>
           {/* host*/}
           <CardItem footer bordered>
-            <Body>
-              <Button
-                full
-                onPress={() => {
-                  props.navigation.push("Upload");
-                }}
+          <View style={styles.flex}>
+            
+            <Button
+              full
+              style= { {flex:1, backgroundColor: '#F25F5C'}}
+              onPress={() => {
+                props.navigation.push("Upload");
+              }}
+            >
+              <Icon name="add-circle" />
+              <Text>Add new place</Text>
+            </Button>
+            <Button 
+              full
+              style= {[styles.editBtn]}
+              onPress={() => {
+                props.navigation.push("ModifyUserInfo", { user: user });
+              }}
               >
-                <Text>Upload place for renting</Text>
-                <Icon name="add-circle" />
-              </Button>
-              <Button
-                full
-                warning
-                onPress={() => {
-                  props.navigation.push("MyFiles");
-                }}
-              >
-                <Text>My places</Text>
-                <Icon name="business" />
-              </Button>
-            </Body>
+              <Icon style={styles.editIcon} name="cog" />
+            </Button>
+          </View>
           </CardItem>
-          {/* ------- */}
-          <CardItem footer bordered>
-            <Body>
-              <Button
-                full
-                info
-                onPress={() => {
-                  props.navigation.push("ModifyUserInfo", { user: user });
-                }}
-              >
-                <Text>Update user info</Text>
-                <Icon name="create" />
-              </Button>
-              <Button full danger onPress={signOutAsync}>
-                <Text>Logout</Text>
-                <Icon name="log-out" />
-              </Button>
-            </Body>
-          </CardItem>
-        </Card>
+          
+          <List navigation={navigation} mode={'myfiles'}></List>
+          {/* ------- */} 
+              
       </Content>
     </Container>
   );
 };
 
+const styles = StyleSheet.create({
+  roundImage: {
+    marginTop: 130,
+    borderRadius: deviceHeight / 8,
+    width: deviceHeight / 4,
+    height: deviceHeight / 4,
+    resizeMode: 'contain',
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  editBtn: {
+    backgroundColor:'#50514F',
+  },
+  avaBackground : {
+    height: deviceHeight / 4,
+    width: '100%',
+    zIndex:1,
+    backgroundColor: '#FFE066',
+  },
+  username: {
+    fontSize: 28,
+    fontWeight: "700",
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent:'center',
+  },
+  info: {
+    marginTop: deviceHeight/16,
+  },
+  logout_btn: {
+    backgroundColor: 'white'
+  },
+  logout_icon: {
+    color: '#CC2936', 
+    marginRight: 2,
+  },
+  flex: {
+    flexDirection: 'row',
+  }
+});
 Profile.propTypes = {
   navigation: PropTypes.object
 };

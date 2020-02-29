@@ -2,8 +2,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://qh-cg8.anonymous.airbnb-clone.exp.direct",
   "packagerNgrokUrl": "https://packager.qh-cg8.anonymous.airbnb-clone.exp.direct",
-  "ngrokPid": 53015,
+  "ngrokPid": 69242,
   "devToolsPort": 19002,
   "packagerPort": 19004,
-  "packagerPid": 53004
+  "packagerPid": 69231
 }
