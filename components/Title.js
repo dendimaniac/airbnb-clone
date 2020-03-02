@@ -4,20 +4,34 @@ import {View, Text, StyleSheet} from "react-native";
 const Title = (props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{props.title}</Text>
+      {/* Title */}
+      {props.title &&
+        <Text style={styles.title}>{props.title}</Text>
+      }
+      {/* End title */}
 
-      {props.subtitle !== undefined &&
+      {/* Subtitle */}
+      {props.subtitle &&
         <Text style={styles.subtitile}>
           {props.subtitle}
         </Text>
       }
+      {/* End subtitle */}
+
+      {/* This only for search page */}
+      {props.count  &&
+        <Text style={styles.count}>
+          {props.count} places to stay
+        </Text>
+      }
+      {/* Ending  */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    marginHorizontal: 20,
     marginVertical: 10
   },
   title: {
@@ -26,6 +40,12 @@ const styles = StyleSheet.create({
   },
   subtitile: {
     marginVertical: 5
+  },
+  count: {
+    marginVertical: 5,
+    fontSize: 18,
+    fontWeight: "600",
+    paddingTop:5
   }
 });
 

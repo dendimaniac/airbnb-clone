@@ -11,7 +11,7 @@ const ListItem = props => {
   console.log(thumbnails.w320);
   return (
     <TouchableOpacity
-      style={mode === "myfiles" ? styles.columContainer : styles.wrapContainer}
+      style={(mode === "myfiles" || mode === "search") ? styles.columContainer : styles.wrapContainer}
       onPress={() => {
         navigation.push("Single", {file: singleMedia});
       }}
@@ -19,17 +19,17 @@ const ListItem = props => {
       <Image
         source={{uri: mediaURL + thumbnails.w320}}
         style={{
-          height: mode === "myfiles" ? 250 : 150,
+          height: (mode === "myfiles" || mode === "search") ? 250 : 150,
           width: "100%",
           borderRadius: 5
         }}
       />
-      <View style={mode === "myfiles" ? {flexDirection: "row", justifyContent: "space-between"} : {}}>
+      <View style={(mode === "myfiles" || mode === "search")? {flexDirection: "row", justifyContent: "space-between"} : {}}>
         <View style={{marginVertical: 3}}>
-          <Text numberOfLines={1} style={mode === "myfiles" ? {...styles.title2} : {...styles.title1, color: "#9E6969"}} numberOfLines={1}>
+          <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.title2} : {...styles.title1, color: "#9E6969"}} numberOfLines={1}>
             Japan
           </Text>
-          <Text numberOfLines={1} style={mode === "myfiles" ? {...styles.subtitle2} : {...styles.subtitle1}} numberOfLines={1}>
+          <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.subtitle2} : {...styles.subtitle1}} numberOfLines={1}>
             Feeling samurai soul
           </Text>
           {mode !== "myfiles" &&
@@ -38,7 +38,7 @@ const ListItem = props => {
         </View>
         <View style={styles.bottom}>
           <View style={styles.bottomLeft}>
-            <Icon style={{fontSize: 13, color: mode==="myfiles"?"red":""}} name="star" />
+            <Icon style={{fontSize: 13, color: (mode === "myfiles" || mode === "search") ? "red" : ""}} name="star" />
             <Text numberOfLines={1}> 4.99 </Text>
           </View>
           <Text>(1088)</Text>

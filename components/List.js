@@ -66,7 +66,6 @@ const List = props => {
 
               <ScrollView>
                 <Title title={"List of your appartments "} />
-
                 <Sort />
                 <View style={styles.columnContainer}>
                   {media.myFiles.map((item, index) => (
@@ -102,6 +101,23 @@ const List = props => {
                 </View>
               </ScrollView>
             }
+            {props.mode === "search" && (
+              <ScrollView>
+                <Title count={media.myFiles.length}/>
+                <Sort />
+                <View style={styles.columnContainer}>
+                  {media.myFiles.map((item, index) => (
+                    <ListItem
+                      key={index}
+                      navigation={props.navigation}
+                      singleMedia={item}
+                      mode={props.mode}
+                      getMedia={getMedia}
+                    />
+                  ))}
+                </View>
+              </ScrollView>
+            )}
           </>
         )}
     </View>
