@@ -36,8 +36,6 @@ const List = props => {
     getMedia(props.mode);
   }, []);
 
-  console.log("hello", media.allFiles[0]);
-
   return (
     <View>
       {loading ? (
