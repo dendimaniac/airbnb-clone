@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { H3, Spinner, Text, View, } from 'native-base';
+import { Spinner, Text, View, } from 'native-base';
 import { fetchGET } from "../hooks/APIHooks";
 import ReviewItem from "./ReviewItem";
 
@@ -22,7 +22,7 @@ const Reviews = props => {
 
   return (
     <View style={styles.container}>
-      <H3>Reviews</H3>
+      <Text style={styles.titleText}>Reviews</Text>
       {loading ?
         <Spinner/> :
         (reviewsArray && reviewsArray.length !== 0) ?
@@ -43,6 +43,10 @@ const styles = StyleSheet.create({
   noReviewText: {
     marginTop: 15,
   },
+  titleText: {
+    marginBottom: 15,
+    fontSize: 25
+  }
 });
 
 export default Reviews;

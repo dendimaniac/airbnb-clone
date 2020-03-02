@@ -45,7 +45,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0,0,0,0.09)',
     width: '100%',
-    paddingVertical: 20,
+    paddingBottom: 20,
+    marginBottom: 20,
+    // backgroundColor: 'blue',
   },
   userInfoSection: {
     flexDirection: 'row',

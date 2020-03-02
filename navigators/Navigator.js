@@ -70,7 +70,9 @@ const StackNavigator = createStackNavigator(
     Single: {
       screen: Single,
       navigationOptions: {
-        headerMode: 'none', // this will hide the header
+        headerShown: false, // this will hide the header
+        headerLeft: () => {
+        }, // this will hide back button
       },
       Upload: {
         screen: Upload,
