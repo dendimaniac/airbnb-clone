@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Body, Button, Card, CardItem, Container, Content, H1, Icon, Text, View } from 'native-base';
+import { Button, Icon, Text, View } from 'native-base';
 import PropTypes from 'prop-types';
 import AsyncImage from '../components/AsyncImage';
-import { AsyncStorage, Dimensions, StyleSheet } from 'react-native';
+import { AsyncStorage, Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { mediaURL } from '../constants/urlConst';
 import { Video } from 'expo-av';
 import { fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia } from '../hooks/APIHooks';
@@ -82,86 +82,101 @@ const Single = (props) => {
 
   return (
     <>
-      <Container>
-        <Content>
-          <Card style={styles.card}>
-            <CardItem bordered>
-              {file.media_type === 'image' ? (
-                  <AsyncImage
-                    style={styles.mainImageOrVideo}
-                    spinnerColor='#777'
-                    source={{uri: mediaURL + file.filename}}
-                  />) :
-                (<Video
-                    source={{uri: mediaURL + file.filename}}
-                    resizeMode={'cover'}
-                    useNativeControls
-                    style={styles.mainImageOrVideo}
-                    onError={(e) => {
-                      console.log('video error', e);
-                    }}
-                    onLoad={(evt) => {
-                      console.log('onload', evt);
-                    }}
-                  />
-                )
-              }
-              {saved !== undefined &&
-              <View style={styles.saveArea}>
-                <Button rounded light onPress={saveOrUnsave}>
-                  <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'}/>
-                </Button>
-              </View>}
-            </CardItem>
-            <CardItem>
-              <Body>
-                <H1>{file.title}</H1>
-              </Body>
-            </CardItem>
-            <CardItem style={styles.ownerAndBasicInfoSection}>
-              <View>
-                <Text>Helsinki, Finland</Text>
-                <Text>Hosted by {user.username}</Text>
-              </View>
-              <View>
-                <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon}/>
-              </View>
-            </CardItem>
-            <CardItem>
-              <Text>
-                {file.description}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Reviews file={file}/>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
+      <ScrollView style={styles.card}>
+        <View>
+          {file.media_type === 'image' ? (
+              <AsyncImage
+                style={styles.mainImageOrVideo}
+                spinnerColor='#777'
+                source={{uri: mediaURL + file.filename}}
+              />) :
+            (<Video
+                source={{uri: mediaURL + file.filename}}
+                resizeMode={'cover'}
+                useNativeControls
+                style={styles.mainImageOrVideo}
+                onError={(e) => {
+                  console.log('video error', e);
+                }}
+                onLoad={(evt) => {
+                  console.log('onload', evt);
+                }}
+              />
+            )
+          }
+          {saved !== undefined &&
+          <View style={styles.saveArea}>
+            <Button rounded light onPress={saveOrUnsave}>
+              <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'}/>
+            </Button>
+          </View>}
+        </View>
+        <View style={styles.infoSection}>
+          <View>
+            <Text style={styles.titleText}>{file.title}</Text>
+          </View>
+          <View style={styles.ownerAndBasicInfoSection}>
+            <View>
+              <Text>Helsinki, Finland</Text>
+              <Text>Hosted by {user.username}</Text>
+            </View>
+            <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon}/>
+          </View>
+          <View style={styles.descriptionArea}>
+            <Text>
+              {file.description}
+            </Text>
+          </View>
+          <Reviews file={file}/>
+        </View>
+      </ScrollView>
       <BookingSection/>
+      <View style={styles.backArea}>
+        <Button transparent onPress={() => navigation.pop()}>
+          <Icon style={styles.backIcon} name={'arrow-back'}/>
+        </Button>
+      </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 80
+    marginBottom: 80,
+    width: '100%',
+    height: '100%',
   },
   mainImageOrVideo: {
     width: '100%',
-    height: deviceHeight / 3,
-    resizeMode: 'contain',
+    height: 2 * deviceHeight / 5,
+    backgroundColor: 'blue',
+    resizeMode: 'cover',
+  },
+  backArea: {
+    position: 'absolute',
+    top: 30,
+    left: 5,
+  },
+  backIcon: {
+    color: 'white',
   },
   saveArea: {
     position: 'absolute',
-    top: 10,
-    right: 10,
+    top: 30,
+    right: 15,
   },
   defaultSaveIcon: {
     color: 'black'
   },
   savedIcon: {
     color: 'red',
+  },
+  infoSection: {
+    width: '100%',
+    paddingHorizontal: 15,
+  },
+  titleText: {
+    fontSize: 40,
   },
   ownerAndBasicInfoSection: {
     flex: 1,
@@ -180,6 +195,9 @@ const styles = StyleSheet.create({
     fontSize: 70,
     color: 'black',
   },
+  descriptionArea: {
+    marginBottom: 20,
+  }
 });
 
 Single.propTypes = {
