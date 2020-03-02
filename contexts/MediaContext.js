@@ -11,8 +11,12 @@ const mediaObject = {
 
 const MediaProvider = (props) => {
   const [media, setMedia] = useState(mediaObject);
+  const [user, setUser] = useState({
+    userdata: {},
+    avatar: 'https://',
+  });
   return (
-    <MediaContext.Provider value={[media, setMedia]}>
+    <MediaContext.Provider value={[media, setMedia],[user, setUser]}>
       {props.children}
     </MediaContext.Provider>
   );
