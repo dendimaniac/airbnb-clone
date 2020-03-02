@@ -1,15 +1,17 @@
 /* eslint-disable max-len */
-import React, { useContext, useEffect, useState } from "react";
-import { Spinner, View } from "native-base";
+import React, {useContext, useEffect, useState} from "react";
+import {Spinner} from "native-base";
 import ListItem from "./ListItem";
-import { MediaContext } from "../contexts/MediaContext";
-import { getAllMedia, getFavoriteMedia, getUserMedia } from "../hooks/APIHooks";
+import {MediaContext} from "../contexts/MediaContext";
+import {getAllMedia, getFavoriteMedia, getUserMedia} from "../hooks/APIHooks";
 import PropTypes from "prop-types";
-import { AsyncStorage, StyleSheet, } from "react-native";
+import {AsyncStorage, StyleSheet, } from "react-native";
 import ImageCover from "./ImageCover";
-import { ScrollView } from "react-native-gesture-handler";
+import {ScrollView} from "react-native-gesture-handler";
 import Tags from "../components/Tags";
 import Title from "./Title";
+import {View, Text} from 'react-native';
+import Sort from './Sort';
 
 const List = props => {
   const [media, setMedia] = useContext(MediaContext);
@@ -39,66 +41,84 @@ const List = props => {
   return (
     <View>
       {loading ? (
-        <Spinner/>
+        <Spinner />
       ) : (
-        <>
-          {props.mode === "all" && (
-            <ScrollView>
-              <Tags/>
-              <ImageCover/>
-              <Title/>
-              <View style={styles.container}>
-                {media.allFiles.map((item, index) => (
-                  <ListItem
-                    key={index}
-                    navigation={props.navigation}
-                    singleMedia={item}
-                    mode={props.mode}
-                    getMedia={getMedia}
-                  />
-                ))}
-              </View>
-            </ScrollView>
-          )}
-          {props.mode === "myfiles" && (
-            <View style={styles.container}>
-              {media.myFiles.map((item, index) => (
-                <ListItem
-                  key={index}
-                  navigation={props.navigation}
-                  singleMedia={item}
-                  mode={props.mode}
-                  getMedia={getMedia}
-                />
-              ))}
-            </View>
-          )}
-          {props.mode === 'saved' &&
-          <View style={styles.container}>
-            {media.favouriteMedia.map((item, index) => (
-              <ListItem
-                key={index}
-                navigation={props.navigation}
-                singleMedia={item}
-                mode={props.mode}
-                getMedia={getMedia}
-              />
-            ))}
-          </View>
-          }
-        </>
-      )}
+          <>
+            {props.mode === "all" && (
+              <ScrollView>
+                <Tags />
+                <ImageCover />
+                <Title title={"Welcome to CloudHome, Nhan!"} subtitle={"A selection of places to stay verified for quality and design."} />
+                <View style={styles.wrapContainer}>
+                  {media.allFiles.map((item, index) => (
+                    <ListItem
+                      key={index}
+                      navigation={props.navigation}
+                      singleMedia={item}
+                      mode={props.mode}
+                      getMedia={getMedia}
+                    />
+                  ))}
+                </View>
+              </ScrollView>
+            )}
+            {props.mode === "myfiles" && (
+
+              <ScrollView>
+                <Title title={"List of your appartments "} />
+
+                <Sort />
+                <View style={styles.columnContainer}>
+                  {media.myFiles.map((item, index) => (
+                    <ListItem
+                      key={index}
+                      navigation={props.navigation}
+                      singleMedia={item}
+                      mode={props.mode}
+                      getMedia={getMedia}
+                    />
+                  ))}
+                </View>
+              </ScrollView>
+            )}
+            {props.mode === 'saved' &&
+              <ScrollView >
+                <Title title={"List of saved appartments "} />
+                <View style={styles.wrapContainer}>
+                  {media.favouriteMedia.length === 0 && <View>
+                    <Text>
+                      There is nothing saved
+                  </Text>
+                  </View>}
+                  {media.favouriteMedia.map((item, index) => (
+                    <ListItem
+                      key={index}
+                      navigation={props.navigation}
+                      singleMedia={item}
+                      mode={props.mode}
+                      getMedia={getMedia}
+                    />
+                  ))}
+                </View>
+              </ScrollView>
+            }
+          </>
+        )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  wrapContainer: {
     flexWrap: "wrap",
     flexDirection: "row",
     marginHorizontal: 20,
     marginBottom: 75,
     justifyContent: "space-between",
+  },
+  columnContainer: {
+    marginHorizontal: 20,
+    marginBottom: 75,
   }
 });
 

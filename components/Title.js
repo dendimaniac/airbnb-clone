@@ -1,13 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {View, Text, StyleSheet} from "react-native";
 
-const Title = () => {
+const Title = (props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to CloudHome, Nhan!</Text>
-      <Text style={styles.subtitile}>
-        A selection of places to stay verified for quality and design.
-      </Text>
+      <Text style={styles.title}>{props.title}</Text>
+
+      {props.subtitle !== undefined &&
+        <Text style={styles.subtitile}>
+          {props.subtitle}
+        </Text>
+      }
     </View>
   );
 };
