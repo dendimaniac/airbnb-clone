@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingBottom: 20,
     marginBottom: 20,
-    // backgroundColor: 'blue',
   },
   userInfoSection: {
     flexDirection: 'row',

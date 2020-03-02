@@ -110,11 +110,6 @@ const Single = (props) => {
               <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'}/>
             </Button>
           </View>}
-          <View style={styles.backArea}>
-            <Button transparent onPress={() => navigation.pop()}>
-              <Icon style={styles.backIcon} name={'arrow-back'}/>
-            </Button>
-          </View>
         </View>
         <View style={styles.infoSection}>
           <View>
@@ -136,6 +131,11 @@ const Single = (props) => {
         </View>
       </ScrollView>
       <BookingSection/>
+      <View style={styles.backArea}>
+        <Button transparent onPress={() => navigation.pop()}>
+          <Icon style={styles.backIcon} name={'arrow-back'}/>
+        </Button>
+      </View>
     </>
   );
 };
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   backArea: {
     position: 'absolute',
     top: 30,
-    left: 15,
+    left: 5,
   },
   backIcon: {
     color: 'white',

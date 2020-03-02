@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { AsyncStorage, StyleSheet } from 'react-native';
 import { Spinner, Text, View, } from 'native-base';
 import { fetchGET } from "../hooks/APIHooks";
 import ReviewItem from "./ReviewItem";
+import AddingReview from "./AddingReview";
 
 const Reviews = props => {
   const [loading, setLoading] = useState(true);
+  const [postedByCurrentUser, setPostedByCurrentUser] = useState(true);
   const [reviewsArray, setReviewsArray] = useState(undefined);
   const file = props.file;
+  console.log(file);
 
   const getReview = async () => {
     const json = await fetchGET('comments/file', file.file_id);
@@ -16,8 +19,15 @@ const Reviews = props => {
     setLoading(false);
   };
 
+  const checkPostedByCurrentUser = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    const info = await fetchGET('users/user', '', token);
+    setPostedByCurrentUser(info.user_id === file.user_id);
+  };
+
   useEffect(() => {
     getReview();
+    checkPostedByCurrentUser();
   }, []);
 
   return (
@@ -32,6 +42,7 @@ const Reviews = props => {
               item={item}/>
           ))) :
           <Text style={styles.noReviewText}>No reviews yet. Be the first to review it!</Text>}
+      {postedByCurrentUser ? <></> : <AddingReview id={file.file_id} setReviewsArray={setReviewsArray}/>}
     </View>
   );
 };
@@ -41,7 +52,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   noReviewText: {
-    marginTop: 15,
+    marginBottom: 15,
   },
   titleText: {
     marginBottom: 15,
