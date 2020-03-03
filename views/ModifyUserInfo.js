@@ -89,6 +89,8 @@ const ModifyUserInfo = props => {
     if (errors) {
       console.log("registter field errors from ModifyUserInfo Page: ", errors);
     }
+    const user = inputs;
+    delete user.confirmPassword;
     console.log(props.navigation);
     handleUserInforModify(props.navigation, setUser);
   };
@@ -140,19 +142,19 @@ const ModifyUserInfo = props => {
               error={errors.password}
             />
           </Item>
-          {/*<Item>
+          <Item>
             <FormTextInput
               autoCapitalize='none'
               value={inputs.confirmPassword}
               placeholder='confirm password'
               secureTextEntry={true}
-              onChangeText={handleConfirmPasswordChange}
+              onChangeText={handleConfirmPassword}
               onEndEditing={() => {
                 validateField(validationProperties.confirmPassword);
               }}
               error={errors.confirmPassword}
             />
-            </Item>*/}
+            </Item>
           <Item>
             <FormTextInput
               autoCapitalize="none"
@@ -162,7 +164,6 @@ const ModifyUserInfo = props => {
               error={errors.email}
             />
           </Item>
-
           <AsyncImage
             style={{
               width: "100%",
