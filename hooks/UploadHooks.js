@@ -81,8 +81,10 @@ const useUploadForm = () => {
     const json = JSON.stringify(inputs.description)
     const fd = new FormData();
     fd.append('title', inputs.title);
+
     // fd.append('description', inputs.description ? inputs.description : '');
     fd.append('description', json ? json : '');
+
     fd.append('file', {uri: file.uri, name: filename, type});
 
     console.log('FD:', fd);

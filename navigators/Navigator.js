@@ -71,7 +71,15 @@ const StackNavigator = createStackNavigator(
       }
     },
     Single: {
-      screen: Single
+      screen: Single,
+      navigationOptions: {
+        headerShown: false, // this will hide the header
+        headerLeft: () => {
+        }, // this will hide back button
+      },
+      Upload: {
+        screen: Upload,
+      },
     },
     MyFiles: {
       screen: MyFiles
