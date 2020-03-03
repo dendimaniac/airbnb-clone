@@ -97,7 +97,6 @@ const useSignUpForm = () => {
   const handleUserInforModify = async (navigation, setUser) => {
     try {
       const token = await AsyncStorage.getItem("userToken");
-
       const resp = await fetchPUT("users", "", inputs, token);
 
       if (resp.message) {

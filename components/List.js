@@ -27,6 +27,7 @@ const List = props => {
         allFiles: allData.reverse(),
         myFiles: myData,
         favouriteMedia: favouriteMedia,
+        profile: myData,
       });
       setLoading(false);
     } catch (e) {
