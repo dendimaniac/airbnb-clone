@@ -8,7 +8,7 @@ import AsyncImage from '../components/AsyncImage';
 import { mediaURL } from '../constants/urlConst';
 import {AuthSession} from 'expo';
 import List from '../components/List';
-import {TouchableHighlight, TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -79,7 +79,7 @@ const Profile = (props) => {
 
           <CardItem >
             <Body style={styles.center}>
-              <Text>Fullname: {user.userdata.full_name}</Text>
+              {user.userdata.full_name !==null && <Text>Fullname: {user.userdata.full_name}</Text>}
               <Text numberOfLines={1}>email: {user.userdata.email}</Text>
             </Body>
           </CardItem>

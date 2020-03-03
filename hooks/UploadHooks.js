@@ -3,6 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { fetchFormData, fetchPOST, fetchPUT, getAllMedia, getUserMedia } from './APIHooks';
 
 const useUploadForm = () => {
+  const [description, setDescription] = useState({});
   const [inputs, setInputs] = useState({});
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -16,12 +17,56 @@ const useUploadForm = () => {
   };
 
   const handleDescriptionChange = (text) => {
+    setDescription((description)=> 
+      ({
+        ...description,
+        description: text,
+      }))
     setInputs((inputs) =>
       ({
         ...inputs,
-        description: text,
+        description : description
+      }));
+    
+  };
+  const handleLocationChange = (text) => {
+    setDescription((description)=> 
+      ({
+        ...description,
+        location: text,
+      }))
+    setInputs((inputs) =>
+      ({
+        ...inputs,
+        description : description
+      }));
+    
+  };
+  const handleCapacityChange = (text) => {
+    setDescription((description)=> 
+      ({
+        ...description,
+        capacity: text,
+      }))
+    setInputs((inputs) =>
+      ({
+        ...inputs,
+        description : description
       }));
   };
+  const handlePriceChange = (text) => {
+    setDescription((description)=> 
+      ({
+        ...description,
+        price: text,
+      }))
+    setInputs((inputs) =>
+      ({
+        ...inputs,
+        description : description
+      }));
+  };
+
 
 
   const handleUpload = async (file, navigation, setMedia) => {
@@ -33,9 +78,11 @@ const useUploadForm = () => {
       type = 'image/jpeg';
     }
 
+    const json = JSON.stringify(inputs.description)
     const fd = new FormData();
     fd.append('title', inputs.title);
-    fd.append('description', inputs.description ? inputs.description : '');
+    // fd.append('description', inputs.description ? inputs.description : '');
+    fd.append('description', json ? json : '');
     fd.append('file', {uri: file.uri, name: filename, type});
 
     console.log('FD:', fd);
@@ -68,6 +115,52 @@ const useUploadForm = () => {
     }
   };
 
+  const handleUserAvaUpload = async (file, navigation, setMedia) => {
+    const filename = file.uri.split('/').pop();
+    const match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+    // fix jpg mimetype
+    if (type === 'image/jpg') {
+      type = 'image/jpeg';
+    }
+
+    const fd = new FormData();
+    fd.append('title', inputs.title);
+    fd.append('description', inputs.description ? inputs.description : '');
+    fd.append('file', {uri: file.uri, name: filename, type});
+
+    console.log('FD:', fd);
+
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const userFromStorage = await AsyncStorage.getItem("user");
+      const uData = JSON.parse(userFromStorage);
+
+      const resp = await fetchFormData('media', fd, token);
+      console.log('upl resp', resp);
+
+      const tagData = {
+        file_id: resp.file_id,
+        tag: 'avatar_' + uData.user_id,                                           
+      };
+
+      const result = await fetchPOST('tags', tagData, token);
+
+      if (result.message) {
+        const data = await getAllMedia();
+        setMedia((media) =>
+          ({
+            ...media,
+            allFiles: data,
+          }));
+        setLoading(false);
+        navigation.push('Profile');
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
   const handleModify = async (id, navigation, setMedia) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -93,8 +186,13 @@ const useUploadForm = () => {
   return {
     handleTitleChange,
     handleDescriptionChange,
+    handleLocationChange,
+    handleCapacityChange,
+    handlePriceChange,
     handleUpload,
     handleModify,
+    handleUserAvaUpload,
+    description,
     inputs,
     errors,
     loading,

@@ -22,7 +22,11 @@ const Upload = (props) => {
   const {
     handleTitleChange,
     handleDescriptionChange,
+    handleLocationChange,
+    handleCapacityChange,
+    handlePriceChange,
     handleUpload,
+    description,
     inputs,
     errors,
     setErrors,
@@ -53,6 +57,7 @@ const Upload = (props) => {
   };
 
   const getPermissionAsync = async () => {
+
     if (Constants.platform.ios) {
       const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== 'granted') {
@@ -73,9 +78,6 @@ const Upload = (props) => {
       quality: 0.3,
       exif: true,
     });
-
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result);
     }
@@ -88,7 +90,19 @@ const Upload = (props) => {
 
   const handleDescription = (text) => {
     handleDescriptionChange(text);
-    validate('description', text);
+    // validate('description', text);
+  };
+  const handleLocation = (text) => {
+    handleLocationChange(text);
+    // validate('description', text);
+  };
+  const handleCapacity = (text) => {
+    handleCapacityChange(text);
+    // validate('description', text);
+  };
+  const handlePrice = (text) => {
+    handlePriceChange(text);
+    // validate('description', text);
   };
 
   const upload = () => {
@@ -110,7 +124,6 @@ const Upload = (props) => {
   useEffect(() => {
     checkErrors();
   }, [errors]);
-
   console.log('send', send);
 
   return (
@@ -127,13 +140,38 @@ const Upload = (props) => {
               error={errors.title}
             />
           </Item>
+          
+          <Item>
+            <FormTextInput
+              placeholder='Location'
+              onChangeText={handleLocation}
+              value={description.location}
+              error={errors.description}
+            />
+          </Item>
+          <Item>
+            <FormTextInput
+              placeholder='Capacity'
+              onChangeText={handleCapacity}
+              value={description.capacity}
+              error={errors.description}
+            />
+          </Item>
+          <Item>
+            <FormTextInput
+              placeholder='Price'
+              onChangeText={handlePrice}
+              value={description.price}
+              error={errors.description}
+            />
+          </Item>
           <Item>
             <FormTextInput
               placeholder='Description'
               onChangeText={handleDescription}
-              value={inputs.description}
+              value={description.description}
               error={errors.description}
-            />
+            /> 
           </Item>
           {image &&
           <Image source={{uri: image.uri}}

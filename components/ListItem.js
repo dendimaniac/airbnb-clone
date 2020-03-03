@@ -8,7 +8,6 @@ const width= Dimensions.get("window").width;
 const ListItem = props => {
   const { singleMedia, mode, getMedia, navigation } = props;
   const { title, description, file_id, thumbnails } = singleMedia;
-  console.log(thumbnails.w320);
   return (
     <TouchableOpacity
       style={styles.container}
