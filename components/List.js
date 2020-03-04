@@ -16,6 +16,11 @@ import Sort from './Sort';
 const List = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [loading, setLoading] = useState(true);
+
+  const keySearch = props.keySearch;
+
+  //Get keySearch from Search page
+
   const getMedia = async mode => {
     try {
       console.log("mode", mode);
@@ -38,6 +43,11 @@ const List = props => {
   useEffect(() => {
     getMedia(props.mode);
   }, []);
+
+  let searchList;
+  if (props.mode === "search") {
+    searchList = media.myFiles.filter(item => JSON.parse(item.description).location === keySearch);
+  }
 
   return (
     <View>
@@ -104,19 +114,26 @@ const List = props => {
             }
             {props.mode === "search" && (
               <ScrollView>
-                <Title count={media.myFiles.length}/>
-                <Sort />
-                <View style={styles.columnContainer}>
-                  {media.myFiles.map((item, index) => (
-                    <ListItem
-                      key={index}
-                      navigation={props.navigation}
-                      singleMedia={item}
-                      mode={props.mode}
-                      getMedia={getMedia}
-                    />
-                  ))}
-                </View>
+                {searchList.length !== 0 &&
+                  <>
+                    <Title count={searchList.length} />
+                    <Sort />
+                    <View style={styles.columnContainer}>
+                      {searchList.map((item, index) => (
+                        <ListItem
+                          key={index}
+                          navigation={props.navigation}
+                          singleMedia={item}
+                          mode={props.mode}
+                          getMedia={getMedia}
+                        />
+                      ))}
+                    </View>
+                  </>
+                }
+                {searchList.length === 0 &&
+                  <Title subtitle={"There nothing match your search!"}/>
+                }
               </ScrollView>
             )}
           </>
