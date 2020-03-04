@@ -122,7 +122,7 @@ const useSignUpForm = () => {
 
         setLoading(false);
         console.log(navigation);
-        navigation.dispatch(SwitchActions.jumpTo({routeName: 'Profile'}));
+        navigation.push("Profile");
       }
     } catch (e) {
       console.log(e.message);

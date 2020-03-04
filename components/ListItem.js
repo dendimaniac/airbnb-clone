@@ -16,6 +16,34 @@ const ListItem = props => {
         navigation.push("Single", {file: singleMedia});
       }}
     >
+      {mode === 'myfiles' &&
+        <>
+          <Button
+            title={"modify"}
+            onPress={
+              () => {
+                props.navigation.push('Modify', {file: props.singleMedia});
+              }
+            }
+          >
+            <Icon name='create' />
+          </Button>
+          <Button
+            title={"delete"}
+            onPress={async () => {
+              const token = await AsyncStorage.getItem('userToken');
+              const del = await fetchDELETE('media', props.singleMedia.file_id,
+                token);
+              console.log('delete', del);
+              if (del.message) {
+                props.getMedia(props.mode);
+              }
+            }}
+          >
+            <Icon name='trash' />
+          </Button>
+        </>
+      }
       <Image
         source={{uri: mediaURL + thumbnails.w320}}
         style={{
@@ -24,7 +52,7 @@ const ListItem = props => {
           borderRadius: 5
         }}
       />
-      <View style={(mode === "myfiles" || mode === "search")? {flexDirection: "row", justifyContent: "space-between"} : {}}>
+      <View style={(mode === "myfiles" || mode === "search") ? {flexDirection: "row", justifyContent: "space-between"} : {}}>
         <View style={{marginVertical: 3}}>
           <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.title2} : {...styles.title1, color: "#9E6969"}} numberOfLines={1}>
             Japan
