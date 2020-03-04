@@ -30,10 +30,6 @@ const Modify = (props) => {
 
   const {
     handleTitleChange,
-    handleDescriptionChange,
-    handleLocationChange,
-    handleCapacityChange,
-    handlePriceChange,
     handleDescriptionModify,
     handleLocationModify,
     handlePriceModify,
@@ -64,9 +60,7 @@ const Modify = (props) => {
   };
 
   const file = props.navigation.state.params.file;
-  
-  const info = JSON.parse(file.description);
-  console.log('fileeee', file);
+
   useEffect(() => {
     setInputs((inputs) =>
       ({

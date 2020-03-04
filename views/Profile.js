@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Body, Button, Card, CardItem, Container, Content, Icon, Text,Right, View } from 'native-base';
 import { AsyncStorage, Dimensions, StyleSheet, ImageBackground, Image, Modal} from 'react-native';
@@ -28,7 +27,7 @@ const Profile = (props) => {
       console.log('avpic', avatarPic);
       let avPic = '';
       if (avatarPic && avatarPic.length === 0) { // if avatar is not set
-        avPic = 'https://placekitten.com/1024/1024';
+        avPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
 
       } else {
         avPic = mediaURL + avatarPic[0].filename;
@@ -187,4 +186,3 @@ Profile.propTypes = {
 };
 
 export default Profile;
-

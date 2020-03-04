@@ -130,7 +130,7 @@ const Single = (props) => {
               Location: {info.location}
             </Text>
             <Text>
-              Capacity: {info.price}
+              Capacity: {info.capacity}
             </Text>
 
             <Text>
