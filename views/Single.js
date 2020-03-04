@@ -142,7 +142,7 @@ const Single = (props) => {
           <Reviews file={file} />
         </View>
       </ScrollView>
-      <BookingSection />
+      <BookingSection id={file.file_id}/>
       <View style={styles.backArea}>
         <Button transparent onPress={() => navigation.pop()}>
           <Icon style={styles.backIcon} name={'arrow-back'} />

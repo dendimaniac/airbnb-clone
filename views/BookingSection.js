@@ -1,6 +1,7 @@
 import React from "react";
-import { Button, Icon, Left, Right, Text, View } from "native-base";
+import { Button, Left, Right, Text, View } from "native-base";
 import { StyleSheet } from 'react-native';
+import Rating from "../components/Rating";
 
 const BookingSection = props => {
   return (
@@ -11,15 +12,7 @@ const BookingSection = props => {
             50$ / night
           </Text>
         </View>
-        <View style={styles.ratingAndPriceInfoSection}>
-          <Icon name={'star'} style={styles.ratingText}/>
-          <Text style={styles.ratingText}>
-            4.9
-          </Text>
-          <Text>
-            (304)
-          </Text>
-        </View>
+        <Rating fontSize={17} id={props.id}/>
       </Left>
       <Right>
         <Button danger full style={styles.chooseButton}>
