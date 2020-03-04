@@ -1,6 +1,5 @@
 import React from 'react'
 import {ScrollView, Text} from 'react-native'
-import SearchBox from '../components/SearchBox';
 import Title from '../components/Title';
 import Sort from '../components/Sort';
 import List from '../components/List';

@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {Container, Header, Content, Icon, Picker, Form, Text, View} from "native-base";
 import {Dimensions} from 'react-native'
 
-
 const width = Dimensions.get("window").width;
 export default class Sort extends Component {
   constructor(props) {
@@ -14,7 +13,8 @@ export default class Sort extends Component {
   onValueChange(value) {
     this.setState({
       selected: value
-    });
+    }, this.props.setOption(value));
+
   }
   render() {
     return (
