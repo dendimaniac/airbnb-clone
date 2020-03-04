@@ -22,7 +22,6 @@ const Single = (props) => {
   // get the description object of media file
   const description = JSON.parse(file.description);
 
-
   const getUser = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -136,7 +135,6 @@ const Single = (props) => {
             <Text>
               Price:  {description.price}
             </Text>
-
             <Text>
               Description: {description.description}
             </Text>

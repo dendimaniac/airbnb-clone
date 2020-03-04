@@ -6,6 +6,7 @@ import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View, Button} fro
 import {fetchDELETE} from '../hooks/APIHooks';
 import {AsyncStorage} from 'react-native';
 
+
 const width = Dimensions.get("window").width;
 const ListItem = props => {
   const {singleMedia, mode, getMedia, navigation} = props;
@@ -16,6 +17,9 @@ const ListItem = props => {
       style={(mode === "myfiles" || mode === "search") ? styles.columContainer : styles.wrapContainer}
       onPress={() => {
         navigation.push("Single", {file: singleMedia});
+      }}
+      onLongPress={() => {
+
       }}
     >
       {mode === 'myfiles' &&
