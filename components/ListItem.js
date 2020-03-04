@@ -2,7 +2,8 @@ import React from "react";
 import {Icon} from "native-base";
 import PropTypes from "prop-types";
 import {mediaURL} from "../constants/urlConst";
-import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View, Button, AsyncStorage} from "react-native";
+import {fetchDELETE} from '../hooks/APIHooks';
 
 const width = Dimensions.get("window").width;
 const ListItem = props => {
@@ -14,6 +15,9 @@ const ListItem = props => {
       style={(mode === "myfiles" || mode === "search") ? styles.columContainer : styles.wrapContainer}
       onPress={() => {
         navigation.push("Single", {file: singleMedia});
+      }}
+      onLongPress={() => {
+
       }}
     >
       {mode === 'myfiles' &&
