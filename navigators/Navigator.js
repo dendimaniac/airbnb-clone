@@ -16,6 +16,8 @@ import Modify from "../views/Modify";
 import Saved from "../views/Saved";
 import SearchPage from "../views/SearchPage";
 import ModifyUserInfo from "../views/ModifyUserInfo";
+import Booked from "../views/Booked"; 
+
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -35,7 +37,7 @@ const TabNavigator = createBottomTabNavigator(
           iconName = 'person';
         } else if (routeName === 'Saved') {
           iconName = 'bookmark';
-        }
+        } 
 
         // You can return any component that you like here!
         return <Icon name={iconName} size={size} style={{color: focused ? 'red' : 'gray'}} color={color} />;
@@ -104,7 +106,10 @@ const StackNavigator = createStackNavigator(
     },
     SearchPage: {
       screen: SearchPage
-    }
+    },
+    Booked: {
+      screen: Booked
+    },
   }
 
 

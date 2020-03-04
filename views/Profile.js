@@ -107,6 +107,20 @@ const Profile = (props) => {
               </Button>
             </View>
           </CardItem>
+          <CardItem footer bordered>
+          <View style={styles.flex}>
+            <Button 
+              full
+              style= { {flex:1, backgroundColor: '#247BA0'}}
+              onPress={() => {
+                props.navigation.push("Booked");
+              }}
+              >
+              <Text> Your bookings</Text>
+              <Icon style={{fontSize: 30}} name="checkmark" />
+            </Button>
+            </View>
+          </CardItem>
           {/* List all of the current user's files */}
           <List navigation={navigation} mode={'myfiles'}></List>
 

@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {Spinner} from "native-base";
 import ListItem from "./ListItem";
 import {MediaContext} from "../contexts/MediaContext";
-import {getAllMedia, getFavoriteMedia, getUserMedia} from "../hooks/APIHooks";
+import {getAllMedia, getFavoriteMedia, getUserMedia, getBookingMedia} from "../hooks/APIHooks";
 import PropTypes from "prop-types";
 import {AsyncStorage, StyleSheet, } from "react-native";
 import ImageCover from "./ImageCover";
@@ -23,11 +23,13 @@ const List = props => {
       const token = await AsyncStorage.getItem("userToken");
       const myData = await getUserMedia(token);
       const favouriteMedia = await getFavoriteMedia(token);
+      const bookingMedia = await getBookingMedia();
       setMedia({
         allFiles: allData.reverse(),
         myFiles: myData,
         favouriteMedia: favouriteMedia,
         profile: myData,
+        booked: bookingMedia
       });
       setLoading(false);
     } catch (e) {
@@ -108,6 +110,22 @@ const List = props => {
                 <Sort />
                 <View style={styles.columnContainer}>
                   {media.myFiles.map((item, index) => (
+                    <ListItem
+                      key={index}
+                      navigation={props.navigation}
+                      singleMedia={item}
+                      mode={props.mode}
+                      getMedia={getMedia}
+                    />
+                  ))}
+                </View>
+              </ScrollView>
+            )}
+            {props.mode === "booked" && (
+              <ScrollView>
+                
+                <View style={styles.wrapContainer}>
+                  {media.allFiles.map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
