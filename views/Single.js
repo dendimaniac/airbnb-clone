@@ -19,8 +19,9 @@ const Single = (props) => {
   const [saved, setSaved] = useState(undefined);
   const {navigation} = props;
   const file = navigation.state.params.file;
-  // get the description object of media file
-  const description = JSON.parse(file.description);
+   // get the description object of media file
+    const info = JSON.parse(file.description);
+     console.log('file', file)
 
   const getUser = async () => {
     try {
@@ -126,18 +127,20 @@ const Single = (props) => {
           </View>
           <View style={styles.descriptionArea}>
             <Text>
-              Location: {description.location}
+              Location: {info.location}
             </Text>
             <Text>
-              Capacity: {description.price}
+              Capacity: {info.price}
             </Text>
 
             <Text>
-              Price:  {description.price}
+              Price:  {info.price}
             </Text>
+           
             <Text>
-              Description: {description.description}
-            </Text>
+             Description: {info.description}
+           </Text>
+
           </View>
           <Reviews file={file} />
         </View>
