@@ -1,72 +1,40 @@
-import React, { useState } from "react";
-import { Text, View, StyleSheet, Picker, TouchableOpacity } from "react-native";
+import React, {Component} from "react";
+import {Container, Header, Content, Icon, Picker, Form, Text, View} from "native-base";
+import {Dimensions} from 'react-native'
 
-const Sort = () => {
-  const [option, setOption] = useState("Price Ascending");
-  const [openOptions, setOpenOptions] = useState(false);
-  return (
-    <View style={styles.container}>
-      <View style={styles.item}>
-        <Text
-          style={{
-            height: "100%",
-            textAlign: "center",
-            paddingVertical: 8,
-            fontWeight: "bold"
-          }}
-        >
-          Sort:{" "}
-        </Text>
-      </View>
-      <View style={styles.item}>
-        <TouchableOpacity onPress={() => setOpenOptions(!openOptions)}>
-          <Text
-            style={{
-              height: "100%",
-              textAlign: "center",
-              paddingVertical: 8,
-              fontWeight: "bold"
-            }}
-          >
-            {option}
-          </Text>
-        </TouchableOpacity>
-        <View style={{ display: openOptions ? "" : "none" }}>
+
+const width = Dimensions.get("window").width;
+export default class Sort extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: "Sort by"
+    };
+  }
+  onValueChange(value) {
+    this.setState({
+      selected: value
+    });
+  }
+  render() {
+    return (
+      <View>
+        <Form>
           <Picker
-            style={styles.pickerStyle}
-            selectedValue={option}
-            onValueChange={itemValue => {
-              setOption(itemValue);
-              setOpenOptions(!openOptions);
-            }}
+            mode="dropdown"
+            iosHeader="Select option"
+            iosIcon={<Icon name="arrow-dropdown-circle" style={this.state.selected !== "Sort by" ? {color: "#007aff", fontSize: 25} : {}} />}
+            placeholder={this.state.selected}
+            style={{marginHorizontal: 20, paddingHorizontal: 0, borderWidth: 1}}
+            selectedValue={this.state.selected}
+            onValueChange={this.onValueChange.bind(this)}
           >
-            <Picker.Item label="Top Rating" value="Top Rating" />
+            <Picker.Item label="Alphabetical Order" value="Alphabetical Order" />
             <Picker.Item label="Price Ascending" value="Price Ascending" />
             <Picker.Item label="Price Decending" value="Price Decending" />
           </Picker>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    borderWidth: 0.5,
-    height: "5%"
-  },
-  item: {
-    width: "50%",
-    borderRightWidth: 0.4,
-    paddingLeft: 0
-  },
-  pickerStyle: {
-    zIndex: 3,
-    position: "relative",
-    width: "100%",
-    top: 0
+        </Form>
+      </View >
+    );
   }
-});
-
-export default Sort;
+}
