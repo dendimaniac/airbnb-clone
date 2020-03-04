@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Icon, Text, View } from 'native-base';
+import React, {useContext, useEffect, useState} from 'react';
+import {Button, Icon, Text, View} from 'native-base';
 import PropTypes from 'prop-types';
 import AsyncImage from '../components/AsyncImage';
-import { AsyncStorage, Dimensions, ScrollView, StyleSheet } from 'react-native';
-import { mediaURL } from '../constants/urlConst';
-import { Video } from 'expo-av';
-import { fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia } from '../hooks/APIHooks';
-import { MediaContext } from "../contexts/MediaContext";
+import {AsyncStorage, Dimensions, ScrollView, StyleSheet} from 'react-native';
+import {mediaURL} from '../constants/urlConst';
+import {Video} from 'expo-av';
+import {fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia} from '../hooks/APIHooks';
+import {MediaContext} from "../contexts/MediaContext";
 import Reviews from "../components/Reviews";
 import UserAvatar from "../components/UserAvatar";
 import BookingSection from "./BookingSection";
@@ -87,31 +87,31 @@ const Single = (props) => {
       <ScrollView style={styles.card}>
         <View>
           {file.media_type === 'image' ? (
-              <AsyncImage
-                style={styles.mainImageOrVideo}
-                spinnerColor='#777'
-                source={{uri: mediaURL + file.filename}}
-              />) :
+            <AsyncImage
+              style={styles.mainImageOrVideo}
+              spinnerColor='#777'
+              source={{uri: mediaURL + file.filename}}
+            />) :
             (<Video
-                source={{uri: mediaURL + file.filename}}
-                resizeMode={'cover'}
-                useNativeControls
-                style={styles.mainImageOrVideo}
-                onError={(e) => {
-                  console.log('video error', e);
-                }}
-                onLoad={(evt) => {
-                  console.log('onload', evt);
-                }}
-              />
+              source={{uri: mediaURL + file.filename}}
+              resizeMode={'cover'}
+              useNativeControls
+              style={styles.mainImageOrVideo}
+              onError={(e) => {
+                console.log('video error', e);
+              }}
+              onLoad={(evt) => {
+                console.log('onload', evt);
+              }}
+            />
             )
           }
           {saved !== undefined &&
-          <View style={styles.saveArea}>
-            <Button rounded light onPress={saveOrUnsave}>
-              <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'}/>
-            </Button>
-          </View>}
+            <View style={styles.saveArea}>
+              <Button rounded light onPress={saveOrUnsave}>
+                <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'} />
+              </Button>
+            </View>}
         </View>
         <View style={styles.infoSection}>
           <View>
@@ -122,13 +122,12 @@ const Single = (props) => {
               <Text>Helsinki, Finland</Text>
               <Text>Hosted by {user.username}</Text>
             </View>
-            <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon}/>
+            <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon} />
           </View>
           <View style={styles.descriptionArea}>
             <Text>
               Location: {description.location}
             </Text>
-
             <Text>
               Capacity: {description.price}
             </Text>
@@ -136,18 +135,17 @@ const Single = (props) => {
             <Text>
               Price:  {description.price}
             </Text>
-        
             <Text>
-             Description: {description.description}
+              Description: {description.description}
             </Text>
           </View>
-          <Reviews file={file}/>
+          <Reviews file={file} />
         </View>
       </ScrollView>
-      <BookingSection/>
+      <BookingSection />
       <View style={styles.backArea}>
         <Button transparent onPress={() => navigation.pop()}>
-          <Icon style={styles.backIcon} name={'arrow-back'}/>
+          <Icon style={styles.backIcon} name={'arrow-back'} />
         </Button>
       </View>
     </>
