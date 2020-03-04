@@ -16,7 +16,7 @@ const MediaProvider = (props) => {
     avatar: 'https://',
   });
   return (
-    <MediaContext.Provider value={[media, setMedia],[user, setUser]}>
+    <MediaContext.Provider value={[media, setMedia]}>
       {props.children}
     </MediaContext.Provider>
   );

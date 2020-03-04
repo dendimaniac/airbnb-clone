@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import validate from "validate.js";
-import { fetchGET } from "./APIHooks";
-import { registerConstraints } from "../constants/validationConst";
-import { AsyncStorage } from "react-native";
-import { fetchPUT } from "./APIHooks";
+import {fetchGET} from "./APIHooks";
+import {registerConstraints} from "../constants/validationConst";
+import {AsyncStorage} from "react-native";
+import {fetchPUT} from "./APIHooks";
+import {SwitchActions} from 'react-navigation';
 
 const useSignUpForm = () => {
   const [inputs, setInputs] = useState({});
@@ -101,9 +102,9 @@ const useSignUpForm = () => {
 
       if (resp.message) {
         const userFromStorage = await AsyncStorage.getItem("user");
-        
+
         const data = await fetchGET("users/user", "", token);
-        let tempUser = { ...JSON.parse(userFromStorage) };
+        let tempUser = {...JSON.parse(userFromStorage)};
 
         if (data.username !== tempUser.username) {
           console.log("difference username");
@@ -120,7 +121,8 @@ const useSignUpForm = () => {
         }));
 
         setLoading(false);
-        navigation.push("Profile");
+        console.log(navigation);
+        navigation.dispatch(SwitchActions.jumpTo({routeName: 'Profile'}));
       }
     } catch (e) {
       console.log(e.message);
