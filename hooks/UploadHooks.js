@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { AsyncStorage } from 'react-native';
-import { fetchFormData, fetchPOST, fetchPUT, getAllMedia, getUserMedia } from './APIHooks';
+import {useState} from 'react';
+import {AsyncStorage} from 'react-native';
+import {fetchFormData, fetchPOST, fetchPUT, getAllMedia, getUserMedia} from './APIHooks';
+
+let description = {};
 
 let description = {};
 
 const useUploadForm = () => {
-  
+
   const [inputs, setInputs] = useState({});
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -59,6 +61,7 @@ const useUploadForm = () => {
       ...description,
       price: text,
     }
+
     setInputs((inputs) =>
       ({
         ...inputs,
@@ -111,10 +114,9 @@ const useUploadForm = () => {
       ({
         ...inputs,
         description: JSON.stringify(description)
+
       }));
   };
-
-
 
   const handleUpload = async (file, navigation, setMedia) => {
     const filename = file.uri.split('/').pop();
@@ -134,7 +136,7 @@ const useUploadForm = () => {
 
     fd.append('file', {uri: file.uri, name: filename, type});
 
-    console.log('FD:', fd);
+    console.log('Form data from UPloadHooks:', fd);
 
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -190,7 +192,7 @@ const useUploadForm = () => {
 
       const tagData = {
         file_id: resp.file_id,
-        tag: 'avatar_' + uData.user_id,                                           
+        tag: 'avatar_' + uData.user_id,
       };
 
       const result = await fetchPOST('tags', tagData, token);
@@ -230,8 +232,6 @@ const useUploadForm = () => {
       console.log(e.message);
     }
   };
-
-  
 
   return {
     handleTitleChange,

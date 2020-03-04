@@ -12,7 +12,6 @@ const mediaObject = {
 const MediaProvider = (props) => {
   const [media, setMedia] = useState(mediaObject);
   return (
-    
     <MediaContext.Provider value={[media, setMedia]}>
       {props.children}
     </MediaContext.Provider>

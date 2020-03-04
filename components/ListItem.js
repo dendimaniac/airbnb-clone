@@ -2,14 +2,14 @@ import React from "react";
 import {Icon} from "native-base";
 import PropTypes from "prop-types";
 import {mediaURL} from "../constants/urlConst";
-import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View, Button, AsyncStorage} from "react-native";
+import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View, Button} from "react-native";
 import {fetchDELETE} from '../hooks/APIHooks';
-
+import {AsyncStorage} from 'react-native';
+import Rating from "./Rating";
 const width = Dimensions.get("window").width;
 const ListItem = props => {
   const {singleMedia, mode, getMedia, navigation} = props;
   const {title, description, file_id, thumbnails} = singleMedia;
-
   return (
     <TouchableOpacity
       style={(mode === "myfiles" || mode === "search") ? styles.columContainer : styles.wrapContainer}
@@ -17,7 +17,6 @@ const ListItem = props => {
         navigation.push("Single", {file: singleMedia});
       }}
       onLongPress={() => {
-
       }}
     >
       {mode === 'myfiles' &&
@@ -62,19 +61,13 @@ const ListItem = props => {
             Japan
           </Text>
           <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.subtitle2} : {...styles.subtitle1}} numberOfLines={1}>
-            Feeling samurai soul
+            {title}
           </Text>
           {mode !== "myfiles" &&
             <Text>82 € per person</Text>
           }
         </View>
-        <View style={styles.bottom}>
-          <View style={styles.bottomLeft}>
-            <Icon style={{fontSize: 13, color: (mode === "myfiles" || mode === "search") ? "red" : ""}} name="star" />
-            <Text numberOfLines={1}> 4.99 </Text>
-          </View>
-          <Text>(1088)</Text>
-        </View>
+        <Rating fontSize={13} id={file_id}/>
       </View>
     </TouchableOpacity>
   );
