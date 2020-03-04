@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { AsyncStorage } from 'react-native';
 import { fetchFormData, fetchPOST, fetchPUT, getAllMedia, getUserMedia } from './APIHooks';
 
+let description = {};
+
 const useUploadForm = () => {
-  const [description, setDescription] = useState({});
+  
   const [inputs, setInputs] = useState({});
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -17,53 +19,98 @@ const useUploadForm = () => {
   };
 
   const handleDescriptionChange = (text) => {
-    setDescription((description)=> 
-      ({
-        ...description,
-        description: text,
-      }))
+    description = {
+      ...description,
+      description: text,
+    }
+
     setInputs((inputs) =>
       ({
         ...inputs,
-        description : description
+        description: description
       }));
-    
+
   };
   const handleLocationChange = (text) => {
-    setDescription((description)=> 
-      ({
-        ...description,
-        location: text,
-      }))
+    description = {
+      ...description,
+      location: text,
+    };
     setInputs((inputs) =>
       ({
         ...inputs,
-        description : description
+        description: description
       }));
-    
+
   };
   const handleCapacityChange = (text) => {
-    setDescription((description)=> 
-      ({
-        ...description,
-        capacity: text,
-      }))
+    description = {
+      ...description,
+      capacity: text,
+    }
     setInputs((inputs) =>
       ({
         ...inputs,
-        description : description
+        description: description
       }));
   };
   const handlePriceChange = (text) => {
-    setDescription((description)=> 
-      ({
-        ...description,
-        price: text,
-      }))
+    description = {
+      ...description,
+      price: text,
+    }
     setInputs((inputs) =>
       ({
         ...inputs,
-        description : description
+        description: description
+      }));
+  };
+  // Handle modify form
+  const handleDescriptionModify = (text) => {
+    description = {
+      ...description,
+      description: text,
+    }
+
+    setInputs((inputs) =>
+      ({
+        ...inputs,
+        description: JSON.stringify(description)
+      }));
+
+  };
+  const handleLocationModify = (text) => {
+    description = {
+      ...description,
+      location: text,
+    };
+    setInputs((inputs) =>
+      ({
+        ...inputs,
+        description: JSON.stringify(description)
+      }));
+
+  };
+  const handleCapacityModify = (text) => {
+    description = {
+      ...description,
+      capacity: text,
+    }
+    setInputs((inputs) =>
+      ({
+        ...inputs,
+        description: JSON.stringify(description)
+      }));
+  };
+  const handlePriceModify = (text) => {
+    description = {
+      ...description,
+      price: text,
+    }
+    setInputs((inputs) =>
+      ({
+        ...inputs,
+        description: JSON.stringify(description)
       }));
   };
 
@@ -78,11 +125,11 @@ const useUploadForm = () => {
       type = 'image/jpeg';
     }
 
-    const json = JSON.stringify(inputs.description)
+    const json = JSON.stringify(description);
     const fd = new FormData();
     fd.append('title', inputs.title);
-
-    // fd.append('description', inputs.description ? inputs.description : '');
+    console.log('description',description)
+    //  fd.append('description', inputs.description ? inputs.description : '');
     fd.append('description', json ? json : '');
 
     fd.append('file', {uri: file.uri, name: filename, type});
@@ -166,6 +213,7 @@ const useUploadForm = () => {
   const handleModify = async (id, navigation, setMedia) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
+      description = JSON.stringify(description);
       const resp = await fetchPUT('media', id, inputs, token);
       console.log('upl resp', resp);
       if (resp.message) {
@@ -191,6 +239,10 @@ const useUploadForm = () => {
     handleLocationChange,
     handleCapacityChange,
     handlePriceChange,
+    handleDescriptionModify,
+    handleLocationModify,
+    handlePriceModify,
+    handleCapacityModify,
     handleUpload,
     handleModify,
     handleUserAvaUpload,

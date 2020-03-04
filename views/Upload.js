@@ -157,6 +157,7 @@ const Upload = (props) => {
               error={errors.description}
             />
           </Item>
+          
           <Item>
             <FormTextInput
               placeholder='Price'
@@ -165,6 +166,7 @@ const Upload = (props) => {
               error={errors.description}
             />
           </Item>
+
           <Item>
             <FormTextInput
               placeholder='Description'
