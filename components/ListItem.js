@@ -10,6 +10,7 @@ const width = Dimensions.get("window").width;
 const ListItem = props => {
   const {singleMedia, mode, getMedia, navigation} = props;
   const {title, description, file_id, thumbnails} = singleMedia;
+  const info = JSON.parse(description);
   const [open, setOpen] = useState(false);
   return (
     <TouchableOpacity
@@ -22,7 +23,7 @@ const ListItem = props => {
       }}
     >
       {mode === 'myfiles' &&
-        <View style={{position: "absolute", zIndex: 4, borderWidth: 0.4, opacity: 1, display: open ? "" : "none", top: 100, width: "100%"}}>
+        <View style={{...styles.buttonContainer, display: open ? "" : "none", top: 100, width: "100%"}}>
           <Button
             title={"modify"}
             onPress={
@@ -43,7 +44,7 @@ const ListItem = props => {
                 token);
               console.log('delete', del);
               if (del.message) {
-                props.getMedia(props.mode);
+                getMedia(props.mode);
               }
             }}
           >
@@ -63,16 +64,16 @@ const ListItem = props => {
       <View style={(mode === "myfiles" || mode === "search") ? {flexDirection: "row", justifyContent: "space-between"} : {}}>
         <View style={{marginVertical: 3}}>
           <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.title2} : {...styles.title1, color: "#9E6969"}} numberOfLines={1}>
-            Japan
+            {info.location}
           </Text>
           <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.subtitle2} : {...styles.subtitle1}} numberOfLines={1}>
             {title}
           </Text>
           {mode !== "myfiles" &&
-            <Text>82 € per person</Text>
+            <Text>{info.price} € per person</Text>
           }
         </View>
-        <Rating fontSize={13} id={file_id}/>
+        <Rating fontSize={13} id={file_id} />
       </View>
     </TouchableOpacity>
   );
@@ -115,6 +116,12 @@ const styles = StyleSheet.create({
   bottomLeft: {
     flexDirection: "row",
     justifyContent: "space-between"
+  },
+  buttonContainer: {
+    position: "absolute",
+    zIndex: 4,
+    borderWidth: 0.4,
+    opacity: 1,
   }
 });
 
