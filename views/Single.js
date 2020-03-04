@@ -129,11 +129,11 @@ const Single = (props) => {
               Location: {description.location}
             </Text>
             <Text>
-              Capacity: {description.price}
+              Capacity: {description.capacity}
             </Text>
 
             <Text>
-              Price:  {description.price}
+              Price:  {description.price} € for person
             </Text>
             <Text>
               Description: {description.description}

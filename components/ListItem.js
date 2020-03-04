@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Icon} from "native-base";
 import PropTypes from "prop-types";
 import {mediaURL} from "../constants/urlConst";
@@ -12,6 +12,7 @@ const ListItem = props => {
   const {singleMedia, mode, getMedia, navigation} = props;
   const {title, description, file_id, thumbnails} = singleMedia;
 
+  const [open, setOpen] = useState(false);
   return (
     <TouchableOpacity
       style={(mode === "myfiles" || mode === "search") ? styles.columContainer : styles.wrapContainer}
@@ -19,15 +20,16 @@ const ListItem = props => {
         navigation.push("Single", {file: singleMedia});
       }}
       onLongPress={() => {
-
+        setOpen(!open);
       }}
     >
       {mode === 'myfiles' &&
-        <>
+        <View style={{position: "absolute", zIndex: 4, borderWidth: 0.4, opacity: 1, display: open ? "" : "none", top: 100, width: "100%"}}>
           <Button
             title={"modify"}
             onPress={
               () => {
+                setOpen(!open);
                 props.navigation.push('Modify', {file: props.singleMedia});
               }
             }
@@ -37,6 +39,7 @@ const ListItem = props => {
           <Button
             title={"delete"}
             onPress={async () => {
+              setOpen(!open);
               const token = await AsyncStorage.getItem('userToken');
               const del = await fetchDELETE('media', props.singleMedia.file_id,
                 token);
@@ -48,14 +51,15 @@ const ListItem = props => {
           >
             <Icon name='trash' />
           </Button>
-        </>
+        </View>
       }
       <Image
         source={{uri: mediaURL + thumbnails.w320}}
         style={{
           height: (mode === "myfiles" || mode === "search") ? 250 : 150,
           width: "100%",
-          borderRadius: 5
+          borderRadius: 5,
+          opacity: open ? 0.4 : 1
         }}
       />
       <View style={(mode === "myfiles" || mode === "search") ? {flexDirection: "row", justifyContent: "space-between"} : {}}>
