@@ -1,3 +1,4 @@
+
 import React, {useState} from "react";
 import {Icon} from "native-base";
 import PropTypes from "prop-types";
@@ -14,9 +15,10 @@ const ListItem = props => {
   const {title, description, file_id, thumbnails} = singleMedia;
   const info = JSON.parse(description);
   const [open, setOpen] = useState(false);
+  
   return (
     <TouchableOpacity
-      style={(mode === "myfiles" || mode === "search") ? styles.columContainer : styles.wrapContainer}
+      style={(mode === "myfiles" || mode === "search") ? styles.columnContainer : styles.wrapContainer}
       onPress={() => {
         setOpen(!open);
         navigation.push("Single", {file: singleMedia});
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     width: (width - 40) * 0.48,
     marginVertical: 5,
   },
-  columContainer: {
+  columnContainer: {
     marginVertical: 15,
   },
   title1: {

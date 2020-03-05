@@ -1,10 +1,8 @@
-import {useState, useEffect} from "react";
+import { useState } from "react";
 import validate from "validate.js";
-import {fetchGET} from "./APIHooks";
-import {registerConstraints} from "../constants/validationConst";
-import {AsyncStorage} from "react-native";
-import {fetchPUT} from "./APIHooks";
-import {SwitchActions} from 'react-navigation';
+import { fetchGET, fetchPUT } from "./APIHooks";
+import { registerConstraints } from "../constants/validationConst";
+import { AsyncStorage } from "react-native";
 
 const useSignUpForm = () => {
   const [inputs, setInputs] = useState({});
@@ -95,7 +93,7 @@ const useSignUpForm = () => {
       errors.confirmPassword === undefined
     );
   };
-  const handleUserInforModify = async (navigation, setUser) => {
+  const handleUserInfoModify = async (navigation, setUser) => {
     try {
       const token = await AsyncStorage.getItem("userToken");
       const resp = await fetchPUT("users", "", inputs, token);
@@ -135,7 +133,7 @@ const useSignUpForm = () => {
     handleConfirmPasswordChange,
     handleEmailChange,
     handleFullnameChange,
-    handleUserInforModify,
+    handleUserInfoModify,
     checkAvail,
     validateField,
     validateOnSend,
