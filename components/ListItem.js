@@ -13,18 +13,25 @@ const width = Dimensions.get("window").width;
 const ListItem = props => {
   const {singleMedia, mode, getMedia, navigation} = props;
   const {title, description, file_id, thumbnails} = singleMedia;
-  const info = JSON.parse(description);
+  let info;
+  if(description){
+    info = JSON.parse(description);
+  }
   const [open, setOpen] = useState(false);
-  
+
   return (
     <TouchableOpacity
       style={(mode === "myfiles" || mode === "search") ? styles.columnContainer : styles.wrapContainer}
       onPress={() => {
-        setOpen(!open);
+        if (open) {
+          setOpen(!open);
+        }
         navigation.push("Single", {file: singleMedia});
       }}
       onLongPress={() => {
-        setOpen(!open);
+        if (mode === "myfiles") {
+          setOpen(!open);
+        }
       }}
     >
       {mode === 'myfiles' &&
@@ -48,8 +55,7 @@ const ListItem = props => {
             onPress={async () => {
               setOpen(!open);
               const token = await AsyncStorage.getItem('userToken');
-              const del = await fetchDELETE('media', props.singleMedia.file_id,
-                token);
+              const del = await fetchDELETE('media', props.singleMedia.file_id, token);
               console.log('delete', del);
               if (del.message) {
                 getMedia(props.mode);

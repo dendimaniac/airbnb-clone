@@ -1,5 +1,4 @@
-import { apiUrl } from '../constants/urlConst';
-
+import {apiUrl} from '../constants/urlConst';
 
 const fetchGET = async (endpoint = '', params = '', token = '') => {
   const fetchOptions = {
@@ -119,7 +118,7 @@ const getFavoriteMedia = async (token) => {
 const getBookingMedia = async () => {
   const json = await fetchGET('tags/booked');
   return await Promise.all(json.map(async (item) => {
-    return await fetchGET('media', item.file_id);
+    return  await fetchGET('media', item.file_id);
   }));
 };
 

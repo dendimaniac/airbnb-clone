@@ -18,6 +18,7 @@ const List = props => {
   const [loading, setLoading] = useState(true);
   const [option, setOption] = useState(undefined);
 
+
   //Get keySearch from Search page
   const keySearch = props.keySearch;
 
@@ -39,11 +40,21 @@ const List = props => {
   const getMedia = async mode => {
     try {
       console.log("mode", mode);
+      //Get userID
+      const userFromStorage = await AsyncStorage.getItem("user");
+      const userID = JSON.parse(userFromStorage).user_id;
+      //Get data
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem("userToken");
       const myData = await getUserMedia(token);
       const favouriteMedia = await getFavoriteMedia(token);
-      const bookingMedia = await getBookingMedia();
+      let bookingMedia = await getBookingMedia();
+      if (bookingMedia.length > 1) {
+        bookingMedia = bookingMedia.filter(item => item.user_id === userID);
+      } else {
+        bookingMedia = bookingMedia[0].user_id === userID ? bookingMedia : [];
+      }
+
       setMedia({
         allFiles: allData.reverse(),
         myFiles: myData,
@@ -63,10 +74,8 @@ const List = props => {
 
   let searchList;
   if (props.mode === "search") {
-    searchList = media.myFiles.filter(item => JSON.parse(item.description).location === keySearch);
+    searchList = media.myFiles.filter(item => JSON.parse(item.description).location.toUpperCase === keySearch.toUpperCase);
   }
-
-  console.log("Option here", option)
 
   return (
     <View>
@@ -112,13 +121,32 @@ const List = props => {
             {props.mode === 'saved' &&
               <ScrollView >
                 <Title title={"List of saved appartments "} />
+                {media.favouriteMedia.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.wrapContainer}>
                   {media.favouriteMedia.length === 0 && <View>
                     <Text>
                       There is nothing saved
                   </Text>
                   </View>}
-                  {media.favouriteMedia.map((item, index) => (
+                  {/* {media.favouriteMedia.map((item, index) => (
+                    <ListItem
+                      key={index}
+                      navigation={props.navigation}
+                      singleMedia={item}
+                      mode={props.mode}
+                      getMedia={getMedia}
+                    />
+                  ))} */}
+
+                </View>
+              </ScrollView>
+            }
+            {props.mode === "search" && (
+              <ScrollView>
+                <Title title={`Top search relate to "${keySearch}" :`} subtitle={searchList.length > 0 ? null : "There nothing match your search!"} count={searchList.length > 0 ? searchList.length : null} />
+                {searchList.length > 1 && <Sort setOption={setOption} />}
+                <View style={styles.columnContainer}>
+                  {handleOption(searchList, option).map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
@@ -129,34 +157,10 @@ const List = props => {
                   ))}
                 </View>
               </ScrollView>
-            }
-            {props.mode === "search" && (
-              <ScrollView>
-                {searchList.length !== 0 &&
-                  <>
-                    <Title count={searchList.length} />
-                    {searchList.length > 1 && <Sort setOption={setOption} />}
-                    <View style={styles.columnContainer}>
-                      {searchList.map((item, index) => (
-                        <ListItem
-                          key={index}
-                          navigation={props.navigation}
-                          singleMedia={item}
-                          mode={props.mode}
-                          getMedia={getMedia}
-                        />
-                      ))}
-                    </View>
-                  </>
-                }
-                {searchList.length === 0 &&
-                  <Title subtitle={"There nothing match your search!"} />
-                }
-              </ScrollView>
             )}
             {props.mode === "booked" && (
               <ScrollView>
-                <Title title={"List of your booking: "} subtitle={media.booked.length>0?null:"There is nothing booked."} count={media.booked.length}/>
+                <Title title={"List of your booking: "} subtitle={media.booked.length > 0 ? null : "There is nothing booked."} count={media.booked.length > 0 ? media.booked.length : null} />
                 {media.booked.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.wrapContainer}>
                   {handleOption(media.booked, option).map((item, index) => (
