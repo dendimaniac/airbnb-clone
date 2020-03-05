@@ -22,6 +22,7 @@ const Single = (props) => {
   // get the description object of media file
   const info = JSON.parse(file.description);
 
+
   const getUser = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -128,6 +129,7 @@ const Single = (props) => {
           <View style={styles.descriptionArea}>
             <Text style={styles.descriptionTitleText}>About</Text>
             {info.description === '' ? <Text>No descriptions provided.</Text> : <Text>{info.description}</Text>}
+
           </View>
           <Reviews file={file}/>
         </View>

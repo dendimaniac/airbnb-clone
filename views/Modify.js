@@ -30,13 +30,17 @@ const Modify = (props) => {
 
   const {
     handleTitleChange,
-    handleDescriptionChange,
+    handleDescriptionModify,
+    handleLocationModify,
+    handlePriceModify,
+    handleCapacityModify,
     handleModify,
+    description,
     inputs,
     errors,
+    loading,
     setErrors,
     setInputs,
-    loading,
   } = useUploadForm();
 
   const validationProperties = {
@@ -62,7 +66,6 @@ const Modify = (props) => {
       ({
         ...inputs,
         title: file.title,
-        description: file.description,
       }));
   }, []);
 
@@ -72,8 +75,21 @@ const Modify = (props) => {
   };
 
   const handleDescription = (text) => {
-    handleDescriptionChange(text);
-    validate('description', text);
+    handleDescriptionModify(text);
+    // validate('description', text);
+  };
+
+  const handleLocation = (text) => {
+    handleLocationModify(text);
+    // validate('description', text);
+  };
+  const handleCapacity = (text) => {
+    handleCapacityModify(text);
+    // validate('description', text);
+  };
+  const handlePrice = (text) => {
+    handlePriceModify(text);
+    // validate('description', text);
   };
 
   const modify = () => {
@@ -113,12 +129,36 @@ const Modify = (props) => {
           </Item>
           <Item>
             <FormTextInput
-              placeholder='Description'
-              onChangeText={handleDescription}
-              value={inputs.description}
+              placeholder='Location'
+              onChangeText={handleLocation}
+              value={description.location}
               error={errors.description}
             />
           </Item>
+          <Item>
+            <FormTextInput
+              placeholder='Capacity'
+              onChangeText={handleCapacity}
+              value={description.capacity}
+              error={errors.description}
+            />
+          </Item>
+          <Item>
+            <FormTextInput
+              placeholder='Price'
+              onChangeText={handlePrice}
+              value={description.price}
+              error={errors.description}
+            />
+      </Item>
+          <Item>
+            <FormTextInput
+              placeholder='Description'
+              onChangeText={handleDescription}
+              value={description.description}
+              error={errors.description}
+            /> 
+         </Item>
           {file.media_type === 'image' ? (
               <AsyncImage
                 style={{
