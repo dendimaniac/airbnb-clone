@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Body, Button, Card, CardItem, Container, Content, Icon, Text,Right, View } from 'native-base';
 import { AsyncStorage, Dimensions, StyleSheet, ImageBackground, Image, Modal} from 'react-native';
@@ -28,7 +27,7 @@ const Profile = (props) => {
       console.log('avpic', avatarPic);
       let avPic = '';
       if (avatarPic && avatarPic.length === 0) { // if avatar is not set
-        avPic = 'https://placekitten.com/1024/1024';
+        avPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
 
       } else {
         avPic = mediaURL + avatarPic[0].filename;
@@ -83,19 +82,18 @@ const Profile = (props) => {
               <Text numberOfLines={1}>email: {user.userdata.email}</Text>
             </Body>
           </CardItem>
-          {/* host*/}
-          <CardItem footer bordered>
+
+          <CardItem footer bordered>          
             <View style={styles.flex}>
-              
-              <Button
+              <Button 
                 full
-                style= { {flex:1, backgroundColor: '#F25F5C'}}
+                style= { {flex:1, backgroundColor: '#247BA0'}}
                 onPress={() => {
-                  props.navigation.push("Upload");
+                  props.navigation.push("Booked");
                 }}
-              >
-                <Icon name="add-circle" />
-                <Text>Add new place</Text>
+                >
+                <Text> Your bookings</Text>
+                <Icon style={{fontSize: 30}} name="checkmark" />
               </Button>
               <Button 
                 full
@@ -106,8 +104,27 @@ const Profile = (props) => {
                 >
                 <Icon style={styles.editIcon} name="cog" />
               </Button>
+              </View>
+          </CardItem>
+          {/* Add new place button */}
+          <CardItem footer bordered>
+            <View style={styles.flex}>
+              
+              <Button
+                full
+                style= { {flex:1, backgroundColor: '#F25F5C'}}
+                onPress={() => {
+                  props.navigation.push("Upload");
+                }}
+              >
+                <Text>Add new place</Text>
+                <Icon name="add-circle" />
+              </Button>
+              
             </View>
           </CardItem>
+          
+          
           {/* List all of the current user's files */}
           <List navigation={navigation} mode={'myfiles'}></List>
 
@@ -187,4 +204,3 @@ Profile.propTypes = {
 };
 
 export default Profile;
-

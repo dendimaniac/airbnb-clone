@@ -213,7 +213,6 @@ const useUploadForm = () => {
   const handleModify = async (id, navigation, setMedia) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      description = JSON.stringify(description);
       const resp = await fetchPUT('media', id, inputs, token);
       console.log('upl resp', resp);
       if (resp.message) {
@@ -224,7 +223,7 @@ const useUploadForm = () => {
             myFiles: data,
           }));
         setLoading(false);
-        navigation.pop();
+        navigation.push('Home');
       }
     } catch (e) {
       console.log(e.message);
