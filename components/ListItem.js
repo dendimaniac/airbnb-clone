@@ -28,6 +28,7 @@ const ListItem = props => {
       {mode === 'myfiles' &&
         <View style={{...styles.buttonContainer, display: open ? "" : "none", top: 100, width: "100%"}}>
           <Button
+            full
             info
             onPress={
               () => {
@@ -40,7 +41,8 @@ const ListItem = props => {
             <Text>Modify</Text>
           </Button>
           <Button
-            warning
+            full
+            danger
             onPress={async () => {
               setOpen(!open);
               const token = await AsyncStorage.getItem('userToken');

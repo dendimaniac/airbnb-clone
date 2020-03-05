@@ -156,9 +156,10 @@ const List = props => {
             )}
             {props.mode === "booked" && (
               <ScrollView>
-                
+                <Title title={"List of your booking: "} subtitle={media.booked.length>0?"":"There is nothing booked."}/>
+                {media.booked.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.wrapContainer}>
-                  {media.allFiles.map((item, index) => (
+                  {handleOption(media.booked, option).map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
