@@ -1,18 +1,20 @@
 import React from "react";
-import {Icon} from "native-base";
+import { Icon } from "native-base";
 import PropTypes from "prop-types";
-import {mediaURL} from "../constants/urlConst";
-import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View, Button} from "react-native";
-import {fetchDELETE} from '../hooks/APIHooks';
-import {AsyncStorage} from 'react-native';
+import { mediaURL } from "../constants/urlConst";
+import { AsyncStorage, Button, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { fetchDELETE } from '../hooks/APIHooks';
 import Rating from "./Rating";
+
 const width = Dimensions.get("window").width;
 const ListItem = props => {
   const {singleMedia, mode, getMedia, navigation} = props;
   const {title, description, file_id, thumbnails} = singleMedia;
+  const info = JSON.parse(description);
+
   return (
     <TouchableOpacity
-      style={(mode === "myfiles" || mode === "search") ? styles.columContainer : styles.wrapContainer}
+      style={(mode === "myfiles" || mode === "search") ? styles.columnContainer : styles.wrapContainer}
       onPress={() => {
         navigation.push("Single", {file: singleMedia});
       }}
@@ -58,13 +60,14 @@ const ListItem = props => {
       <View style={(mode === "myfiles" || mode === "search") ? {flexDirection: "row", justifyContent: "space-between"} : {}}>
         <View style={{marginVertical: 3}}>
           <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.title2} : {...styles.title1, color: "#9E6969"}} numberOfLines={1}>
-            Japan
+            {info.location}
           </Text>
           <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.subtitle2} : {...styles.subtitle1}} numberOfLines={1}>
             {title}
           </Text>
           {mode !== "myfiles" &&
-            <Text>82 € per person</Text>
+          <Text>{info.price}€ per night</Text
+          >
           }
         </View>
         <Rating fontSize={13} id={file_id}/>
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
     width: (width - 40) * 0.48,
     marginVertical: 5,
   },
-  columContainer: {
+  columnContainer: {
     marginVertical: 15,
   },
   title1: {

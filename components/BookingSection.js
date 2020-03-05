@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Left, Right, Text, View } from "native-base";
 import { StyleSheet } from 'react-native';
-import Rating from "../components/Rating";
+import Rating from "./Rating";
 
 const BookingSection = props => {
   return (
@@ -9,13 +9,15 @@ const BookingSection = props => {
       <Left>
         <View>
           <Text>
-            50$ / night
+            {props.price}€ per night
           </Text>
         </View>
-        <Rating fontSize={17} id={props.id}/>
+        <Rating fontSize={17} id={props.file.file_id}/>
       </Left>
       <Right>
-        <Button danger full style={styles.chooseButton}>
+        <Button danger full style={styles.chooseButton} onPress={() => {
+          props.navigation.push("BookingInfo", {file: props.file});
+        }}>
           <Text>Book</Text>
         </Button>
       </Right>

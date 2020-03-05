@@ -1,15 +1,15 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Button, Icon, Text, View} from 'native-base';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Icon, Text, View } from 'native-base';
 import PropTypes from 'prop-types';
 import AsyncImage from '../components/AsyncImage';
-import {AsyncStorage, Dimensions, ScrollView, StyleSheet} from 'react-native';
-import {mediaURL} from '../constants/urlConst';
-import {Video} from 'expo-av';
-import {fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia} from '../hooks/APIHooks';
-import {MediaContext} from "../contexts/MediaContext";
+import { AsyncStorage, Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { mediaURL } from '../constants/urlConst';
+import { Video } from 'expo-av';
+import { fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia } from '../hooks/APIHooks';
+import { MediaContext } from "../contexts/MediaContext";
 import Reviews from "../components/Reviews";
 import UserAvatar from "../components/UserAvatar";
-import BookingSection from "./BookingSection";
+import BookingSection from "../components/BookingSection";
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -20,7 +20,7 @@ const Single = (props) => {
   const {navigation} = props;
   const file = navigation.state.params.file;
   // get the description object of media file
-  const description = JSON.parse(file.description);
+  const info = JSON.parse(file.description);
 
   const getUser = async () => {
     try {
@@ -119,33 +119,23 @@ const Single = (props) => {
           </View>
           <View style={styles.ownerAndBasicInfoSection}>
             <View>
-              <Text>Helsinki, Finland</Text>
+              <Text>{info.location}</Text>
               <Text>Hosted by {user.username}</Text>
             </View>
-            <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon} />
+            <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon}/>
           </View>
+          <Text>Capacity: {info.capacity}</Text>
           <View style={styles.descriptionArea}>
-            <Text>
-              Location: {description.location}
-            </Text>
-            <Text>
-              Capacity: {description.price}
-            </Text>
-
-            <Text>
-              Price:  {description.price}
-            </Text>
-            <Text>
-              Description: {description.description}
-            </Text>
+            <Text style={styles.descriptionTitleText}>About</Text>
+            {info.description === '' ? <Text>No descriptions provided.</Text> : <Text>{info.description}</Text>}
           </View>
-          <Reviews file={file} />
+          <Reviews file={file}/>
         </View>
       </ScrollView>
-      <BookingSection id={file.file_id}/>
+      <BookingSection file={file} price={info.price} navigation={navigation}/>
       <View style={styles.backArea}>
         <Button transparent onPress={() => navigation.pop()}>
-          <Icon style={styles.backIcon} name={'arrow-back'} />
+          <Icon style={styles.backIcon} name={'arrow-back'}/>
         </Button>
       </View>
     </>
@@ -161,7 +151,6 @@ const styles = StyleSheet.create({
   mainImageOrVideo: {
     width: '100%',
     height: 2 * deviceHeight / 5,
-    backgroundColor: 'blue',
     resizeMode: 'cover',
   },
   backArea: {
@@ -187,8 +176,14 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 15,
   },
+  descriptionTitleText: {
+    marginBottom: 15,
+    fontSize: 25,
+  },
   titleText: {
-    fontSize: 40,
+    marginTop: 10,
+    fontSize: 30,
+    fontWeight: 'bold',
   },
   ownerAndBasicInfoSection: {
     flex: 1,

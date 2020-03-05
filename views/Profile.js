@@ -1,14 +1,11 @@
-
 import React, { useEffect, useState } from 'react';
-import { Body, Button, Card, CardItem, Container, Content, Icon, Text,Right, View } from 'native-base';
-import { AsyncStorage, Dimensions, StyleSheet, ImageBackground, Image, Modal} from 'react-native';
+import { Body, Button, CardItem, Container, Content, Icon, Text, View } from 'native-base';
+import { AsyncStorage, Dimensions, Image, Modal, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { fetchGET } from '../hooks/APIHooks';
-import AsyncImage from '../components/AsyncImage';
 import { mediaURL } from '../constants/urlConst';
-import {AuthSession} from 'expo';
 import List from '../components/List';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -55,7 +52,7 @@ const Profile = (props) => {
     <Container>
       <Content>
           <CardItem style={styles.avaBackground}>
-           
+
             <Body style={styles.center}>
               <TouchableOpacity
                 onPress={() => {
@@ -86,25 +83,25 @@ const Profile = (props) => {
           {/* host*/}
           <CardItem footer bordered>
             <View style={styles.flex}>
-              
+
               <Button
                 full
-                style= { {flex:1, backgroundColor: '#F25F5C'}}
+                style={{flex: 1, backgroundColor: '#F25F5C'}}
                 onPress={() => {
                   props.navigation.push("Upload");
                 }}
               >
-                <Icon name="add-circle" />
+                <Icon name="add-circle"/>
                 <Text>Add new place</Text>
               </Button>
-              <Button 
+              <Button
                 full
-                style= {[styles.editBtn]}
+                style={[styles.editBtn]}
                 onPress={() => {
-                  props.navigation.push("ModifyUserInfo", { user: user });
+                  props.navigation.push("ModifyUserInfo", {user: user});
                 }}
-                >
-                <Icon style={styles.editIcon} name="cog" />
+              >
+                <Icon style={styles.editIcon} name="cog"/>
               </Button>
             </View>
           </CardItem>
@@ -126,8 +123,8 @@ const Profile = (props) => {
                     setModalVisible(!modalVisible);
                   }}>
                   <Icon name='close' style={{color: 'red', fontSize: 50}}></Icon>
-                  
-                </TouchableOpacity>
+
+              </TouchableOpacity>
                 <Image
                   style={{width: deviceWidth/1.2, height: deviceWidth/1.2, resizeMode: 'stretch'}}
                   source={{uri: user.avatar}}
@@ -135,7 +132,7 @@ const Profile = (props) => {
               </View>
             </View>
           </Modal>
-              
+
       </Content>
     </Container>
   );
@@ -144,7 +141,7 @@ const Profile = (props) => {
 const styles = StyleSheet.create({
   roundImage: {
     marginTop: 130,
-    borderRadius: deviceHeight / 8,
+    borderRadius: 500,
     width: deviceHeight / 4,
     height: deviceHeight / 4,
     resizeMode: 'contain',
@@ -175,7 +172,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   logout_icon: {
-    color: '#CC2936', 
+    color: '#CC2936',
     marginRight: 2,
   },
   flex: {
