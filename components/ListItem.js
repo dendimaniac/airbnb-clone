@@ -2,10 +2,12 @@ import React, {useState} from "react";
 import {Icon} from "native-base";
 import PropTypes from "prop-types";
 import {mediaURL} from "../constants/urlConst";
-import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View, Button} from "react-native";
+import {Dimensions, Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {fetchDELETE} from '../hooks/APIHooks';
 import {AsyncStorage} from 'react-native';
 import Rating from "./Rating";
+import {Button, Text} from 'native-base'
+
 const width = Dimensions.get("window").width;
 const ListItem = props => {
   const {singleMedia, mode, getMedia, navigation} = props;
@@ -16,6 +18,7 @@ const ListItem = props => {
     <TouchableOpacity
       style={(mode === "myfiles" || mode === "search") ? styles.columContainer : styles.wrapContainer}
       onPress={() => {
+        setOpen(!open);
         navigation.push("Single", {file: singleMedia});
       }}
       onLongPress={() => {
@@ -25,7 +28,7 @@ const ListItem = props => {
       {mode === 'myfiles' &&
         <View style={{...styles.buttonContainer, display: open ? "" : "none", top: 100, width: "100%"}}>
           <Button
-            title={"modify"}
+            info
             onPress={
               () => {
                 setOpen(!open);
@@ -34,9 +37,10 @@ const ListItem = props => {
             }
           >
             <Icon name='create' />
+            <Text>Modify</Text>
           </Button>
           <Button
-            title={"delete"}
+            warning
             onPress={async () => {
               setOpen(!open);
               const token = await AsyncStorage.getItem('userToken');
@@ -49,6 +53,7 @@ const ListItem = props => {
             }}
           >
             <Icon name='trash' />
+            <Text>Delete</Text>
           </Button>
         </View>
       }
