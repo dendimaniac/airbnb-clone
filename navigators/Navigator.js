@@ -11,8 +11,6 @@ import AuthLoading from "../views/AuthLoading";
 import Login from "../views/Login";
 import Upload from "../views/Upload";
 import { Icon } from "native-base";
-import MyFiles from "../views/MyFiles";
-
 import Modify from "../views/Modify";
 import Saved from "../views/Saved";
 import SearchPage from "../views/SearchPage";

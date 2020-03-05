@@ -156,7 +156,7 @@ const List = props => {
             )}
             {props.mode === "booked" && (
               <ScrollView>
-                <Title title={"List of your booking: "} subtitle={media.booked.length>0?"":"There is nothing booked."}/>
+                <Title title={"List of your booking: "} subtitle={media.booked.length>0?null:"There is nothing booked."} count={media.booked.length}/>
                 {media.booked.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.wrapContainer}>
                   {handleOption(media.booked, option).map((item, index) => (
