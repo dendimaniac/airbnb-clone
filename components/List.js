@@ -16,6 +16,26 @@ import Sort from './Sort';
 const List = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [loading, setLoading] = useState(true);
+  const [option, setOption] = useState(undefined);
+
+  //Get keySearch from Search page
+  const keySearch = props.keySearch;
+
+  const handleOption = (list, option) => {
+    if (list.length > 1) {
+      switch (option) {
+        case "Alphabetical Order":
+          return list.sort((a, b) => a.title.localeCompare(b.title));
+        case "Price Ascending":
+          return list.sort((a, b) => JSON.parse(a.description).price - JSON.parse(b.description).price);
+        case "Price Decending":
+          return list.sort((a, b) => JSON.parse(b.description).price - JSON.parse(a.description).price);
+        default: return list;
+      }
+    } else {
+      return list;
+    }
+  }
   const getMedia = async mode => {
     try {
       console.log("mode", mode);
@@ -40,6 +60,13 @@ const List = props => {
   useEffect(() => {
     getMedia(props.mode);
   }, []);
+
+  let searchList;
+  if (props.mode === "search") {
+    searchList = media.myFiles.filter(item => JSON.parse(item.description).location === keySearch);
+  }
+
+  console.log("Option here", option)
 
   return (
     <View>
@@ -66,12 +93,11 @@ const List = props => {
               </ScrollView>
             )}
             {props.mode === "myfiles" && (
-
               <ScrollView>
                 <Title title={"List of your appartments "} />
-                <Sort />
+                {media.myFiles.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.columnContainer}>
-                  {media.myFiles.map((item, index) => (
+                  {handleOption(media.myFiles, option).map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
@@ -106,19 +132,26 @@ const List = props => {
             }
             {props.mode === "search" && (
               <ScrollView>
-                <Title count={media.myFiles.length}/>
-                <Sort />
-                <View style={styles.columnContainer}>
-                  {media.myFiles.map((item, index) => (
-                    <ListItem
-                      key={index}
-                      navigation={props.navigation}
-                      singleMedia={item}
-                      mode={props.mode}
-                      getMedia={getMedia}
-                    />
-                  ))}
-                </View>
+                {searchList.length !== 0 &&
+                  <>
+                    <Title count={searchList.length} />
+                    {searchList.length > 1 && <Sort setOption={setOption} />}
+                    <View style={styles.columnContainer}>
+                      {searchList.map((item, index) => (
+                        <ListItem
+                          key={index}
+                          navigation={props.navigation}
+                          singleMedia={item}
+                          mode={props.mode}
+                          getMedia={getMedia}
+                        />
+                      ))}
+                    </View>
+                  </>
+                }
+                {searchList.length === 0 &&
+                  <Title subtitle={"There nothing match your search!"} />
+                }
               </ScrollView>
             )}
             {props.mode === "booked" && (

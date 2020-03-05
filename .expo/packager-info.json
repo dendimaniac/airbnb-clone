@@ -6,5 +6,6 @@
   "expoServerNgrokUrl": "https://a7-bzh.anonymous.airbnb-clone.exp.direct",
   "packagerNgrokUrl": "https://packager.a7-bzh.anonymous.airbnb-clone.exp.direct",
   "ngrokPid": 28194,
+
   "webpackServerPort": null
 }
