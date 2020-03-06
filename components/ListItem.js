@@ -14,7 +14,7 @@ const ListItem = props => {
   const {singleMedia, mode, getMedia, navigation} = props;
   const {title, description, file_id, thumbnails} = singleMedia;
   let info;
-  if(description){
+  if (description) {
     info = JSON.parse(description);
   }
   const [open, setOpen] = useState(false);

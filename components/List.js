@@ -22,6 +22,8 @@ const List = props => {
   //Get keySearch from Search page
   const keySearch = props.keySearch;
 
+  console.log("Hello there", keySearch)
+
   const handleOption = (list, option) => {
     if (list.length > 1) {
       switch (option) {
@@ -74,7 +76,7 @@ const List = props => {
 
   let searchList;
   if (props.mode === "search") {
-    searchList = media.myFiles.filter(item => JSON.parse(item.description).location.toUpperCase === keySearch.toUpperCase);
+    searchList = media.allFiles.filter(item => JSON.parse(item.description).location.toUpperCase()=== keySearch.toUpperCase());
   }
 
   return (
@@ -85,7 +87,7 @@ const List = props => {
           <>
             {props.mode === "all" && (
               <ScrollView>
-                <Tags />
+                <Tags navigation={props.navigation}/>
                 <ImageCover />
                 <Title title={"Welcome to CloudHome, Nhan!"} subtitle={"A selection of places to stay verified for quality and design."} />
                 <View style={styles.wrapContainer}>
@@ -119,16 +121,11 @@ const List = props => {
               </ScrollView>
             )}
             {props.mode === 'saved' &&
-              <ScrollView >
-                <Title title={"List of saved appartments "} />
+              <ScrollView>
+                <Title title={"List of saved appartments: "} subtitle={media.favouriteMedia.length > 0 ? null : "There nothing match your search!"} count={media.favouriteMedia.length > 0 ? media.favouriteMedia.length : null} />
                 {media.favouriteMedia.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.wrapContainer}>
-                  {media.favouriteMedia.length === 0 && <View>
-                    <Text>
-                      There is nothing saved
-                  </Text>
-                  </View>}
-                  {/* {media.favouriteMedia.map((item, index) => (
+                  {handleOption(media.favouriteMedia, option).map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
@@ -136,8 +133,7 @@ const List = props => {
                       mode={props.mode}
                       getMedia={getMedia}
                     />
-                  ))} */}
-
+                  ))}
                 </View>
               </ScrollView>
             }
