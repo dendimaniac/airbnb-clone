@@ -37,6 +37,7 @@ const List = props => {
 
 
   const [option, setOption] = useState(undefined);
+const [fullname, setFullname]= useState(null);
 
   //Get keySearch from Search page
   const keySearch = props.keySearch;
@@ -60,6 +61,12 @@ const List = props => {
   const getMedia = async mode => {
     try {
       console.log("mode", mode);
+      //Get userID, userName
+      const userFromStorage = await AsyncStorage.getItem("user");
+      const userID = JSON.parse(userFromStorage).user_id;
+      const fullname= JSON.parse(userFromStorage).fullname? `, ${JSON.parse(userFromStorage).fullname}!`:'!';
+      setFullname(fullname);
+      //Get data
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem("userToken");
       const myData = await getUserMedia(token);
@@ -68,7 +75,13 @@ const List = props => {
       checkAvatar(myData);  
 
       const favouriteMedia = await getFavoriteMedia(token);
-      const bookingMedia = await getBookingMedia();
+      let bookingMedia = await getBookingMedia();
+      if (bookingMedia.length > 1) {
+        bookingMedia = bookingMedia.filter(item => item.user_id === userID);
+      } else {
+        bookingMedia = bookingMedia[0].user_id === userID ? bookingMedia : [];
+      }
+
       setMedia({
         allFiles: allData.reverse(),
         myFiles: myPlaceForRent,
@@ -88,10 +101,8 @@ const List = props => {
 
   let searchList;
   if (props.mode === "search") {
-    searchList = media.myFiles.filter(item => JSON.parse(item.description).location === keySearch);
+    searchList = media.allFiles.filter(item => JSON.parse(item.description).location.toUpperCase()=== keySearch.toUpperCase());
   }
-
-  console.log("Option here", option)
 
   return (
     <View>
@@ -101,9 +112,9 @@ const List = props => {
           <>
             {props.mode === "all" && (
               <ScrollView>
-                <Tags />
+                <Tags navigation={props.navigation}/>
                 <ImageCover />
-                <Title title={"Welcome to CloudHome, Nhan!"} subtitle={"A selection of places to stay verified for quality and design."} />
+                <Title title={`Welcome to CloudHome ${fullname}`} subtitle={"A selection of places to stay verified for quality and design."} />
                 <View style={styles.wrapContainer}>
                   {media.allFiles.map((item, index) => (
                     <ListItem
@@ -137,15 +148,11 @@ const List = props => {
               </ScrollView>
             )}
             {props.mode === 'saved' &&
-              <ScrollView >
-                <Title title={"List of saved appartments "} />
+              <ScrollView>
+                <Title title={"List of saved appartments: "} subtitle={media.favouriteMedia.length > 0 ? null : "There nothing match your search!"} count={media.favouriteMedia.length > 0 ? media.favouriteMedia.length : null} />
+                {media.favouriteMedia.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.wrapContainer}>
-                  {media.favouriteMedia.length === 0 && <View>
-                    <Text>
-                      There is nothing saved
-                  </Text>
-                  </View>}
-                  {media.favouriteMedia.map((item, index) => (
+                  {handleOption(media.favouriteMedia, option).map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
@@ -159,33 +166,27 @@ const List = props => {
             }
             {props.mode === "search" && (
               <ScrollView>
-                {searchList.length !== 0 &&
-                  <>
-                    <Title count={searchList.length} />
-                    {searchList.length > 1 && <Sort setOption={setOption} />}
-                    <View style={styles.columnContainer}>
-                      {searchList.map((item, index) => (
-                        <ListItem
-                          key={index}
-                          navigation={props.navigation}
-                          singleMedia={item}
-                          mode={props.mode}
-                          getMedia={getMedia}
-                        />
-                      ))}
-                    </View>
-                  </>
-                }
-                {searchList.length === 0 &&
-                  <Title subtitle={"There nothing match your search!"} />
-                }
+                <Title title={`Top search relate to "${keySearch}" :`} subtitle={searchList.length > 0 ? null : "There nothing match your search!"} count={searchList.length > 0 ? searchList.length : null} />
+                {searchList.length > 1 && <Sort setOption={setOption} />}
+                <View style={styles.columnContainer}>
+                  {handleOption(searchList, option).map((item, index) => (
+                    <ListItem
+                      key={index}
+                      navigation={props.navigation}
+                      singleMedia={item}
+                      mode={props.mode}
+                      getMedia={getMedia}
+                    />
+                  ))}
+                </View>
               </ScrollView>
             )}
             {props.mode === "booked" && (
               <ScrollView>
-                
+                <Title title={"List of your booking: "} subtitle={media.booked.length > 0 ? null : "There is nothing booked."} count={media.booked.length > 0 ? media.booked.length : null} />
+                {media.booked.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.wrapContainer}>
-                  {media.allFiles.map((item, index) => (
+                  {handleOption(media.booked, option).map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}

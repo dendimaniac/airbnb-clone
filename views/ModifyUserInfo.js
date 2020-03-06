@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Content, Form, Button, Text, Item, Spinner } from "native-base";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Content, Form, Item, Spinner, Text } from "native-base";
 
-import { Dimensions, Image } from "react-native";
+import { Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import FormTextInput from "../components/FormTextInput";
 import { MediaContext } from "../contexts/MediaContext";
-import { validateField } from "../utils/validation";
 import { registerConstraints } from "../constants/validationConst";
-import { mediaURL } from "../constants/urlConst";
 import AsyncImage from "../components/AsyncImage";
-import { Video } from "expo-av";
 import useSignUpForm from "../hooks/LoginHooks";
 
 const deviceHeight = Dimensions.get("window").height;
@@ -27,7 +24,7 @@ const ModifyUserInfo = props => {
     handlePasswordChange,
     handleEmailChange,
     handleConfirmPasswordChange,
-    handleUserInforModify,
+    handleUserInfoModify,
     inputs,
     errors,
     setErrors,
@@ -92,7 +89,7 @@ const ModifyUserInfo = props => {
     const user = inputs;
     delete user.confirmPassword;
     console.log(props.navigation);
-    handleUserInforModify(props.navigation, setUser);
+    handleUserInfoModify(props.navigation, setUser);
   };
 
   const checkErrors = () => {
@@ -174,7 +171,7 @@ const ModifyUserInfo = props => {
           />
 
           {send && (
-            <Button full onPress={modify}>
+            <Button full onPress={modify} style={{}}>
               <Text>Send</Text>
             </Button>
           )}

@@ -1,15 +1,20 @@
 import React from "react";
-import { ScrollView, Image, Text, View, StyleSheet } from "react-native";
+import {ScrollView, View, StyleSheet} from "react-native";
+import {Button, Text} from 'native-base'
 
-const Tags = () => {
-  const tags = ["#Helsinki", "#Vantaa", "#Tampere"];
+const Tags = (props) => {
+  const tags = ["Helsinki", "Vantaa", "Tampere"];
   return (
     <View style={styles.view}>
       <ScrollView horizontal>
         {tags.map((item, index) => (
-          <View key={index} style={styles.item}>
-            <Text>{item}</Text>
-          </View>
+          <Button light key={index} style={styles.item} onPress={() => {
+            props.navigation.push("SearchPage", {input: item})
+          }}>
+            <Text style={{
+              fontSize: 12,
+            }}>#{item}</Text>
+          </Button>
         ))}
       </ScrollView>
     </View>
@@ -23,12 +28,13 @@ const styles = StyleSheet.create({
     padding: 15,
     margin: 2,
     borderWidth: 0.2,
-    borderRadius: 30
+    borderRadius: 30,
+    borderColor: "#C4C3C2",
   },
 
   view: {
-    marginHorizontal:20,
-    marginVertical:10,
+    marginHorizontal: 20,
+    marginVertical: 10,
   }
 });
 

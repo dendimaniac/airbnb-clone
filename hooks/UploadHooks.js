@@ -234,6 +234,13 @@ const useUploadForm = () => {
     }
   };
 
+  const resetDescription = (object) => {
+    object.capacity = "";
+    object.description = "";
+    object.location = "";
+    object.price = "";
+  }
+
   return {
     handleTitleChange,
     handleDescriptionChange,
@@ -253,6 +260,7 @@ const useUploadForm = () => {
     loading,
     setErrors,
     setInputs,
+    resetDescription
   };
 };
 

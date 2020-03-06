@@ -1,23 +1,24 @@
 /* eslint-disable react/display-name */
 
 import React from "react";
-import {createAppContainer, createSwitchNavigator} from "react-navigation";
-import {createBottomTabNavigator} from "react-navigation-tabs";
-import {createStackNavigator} from "react-navigation-stack";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from "react-navigation-stack";
 import Home from "../views/Home";
 import Profile from "../views/Profile";
 import Single from "../views/Single";
 import AuthLoading from "../views/AuthLoading";
 import Login from "../views/Login";
 import Upload from "../views/Upload";
-import {Icon} from "native-base";
+import { Icon } from "native-base";
 import Modify from "../views/Modify";
 import Saved from "../views/Saved";
 import SearchPage from "../views/SearchPage";
 import ModifyUserInfo from "../views/ModifyUserInfo";
+import BookingInfo from "../views/BookingInfo";
+import BookedSuccess from "../views/BookedSuccess";
 import Booked from "../views/Booked"; 
 import ChangeAvatar from "../views/ChangeAvatar";
-
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -40,7 +41,7 @@ const TabNavigator = createBottomTabNavigator(
         } 
 
         // You can return any component that you like here!
-        return <Icon name={iconName} size={size} style={{color: focused ? 'red' : 'gray'}} color={color} />;
+        return <Icon name={iconName} size={size} style={{color: focused ? 'red' : 'gray'}} color={color}/>;
       },
     }),
     tabBarOptions: {
@@ -48,7 +49,6 @@ const TabNavigator = createBottomTabNavigator(
       inactiveTintColor: 'gray',
     },
   },
-
 );
 
 TabNavigator.navigationOptions = ({navigation}) => {
@@ -70,7 +70,8 @@ const StackNavigator = createStackNavigator(
       navigationOptions: {
 
         headerMode: "none", // this will hide the header
-        headerLeft: () => {} // this will hide back button
+        headerLeft: () => {
+        } // this will hide back button
       }
     },
     Single: {
@@ -93,12 +94,24 @@ const StackNavigator = createStackNavigator(
     ModifyUserInfo: {
       screen: ModifyUserInfo
     },
+    BookingInfo: {
+      screen: BookingInfo
+    },
+    BookedSuccess: {
+      screen: BookedSuccess,
+      navigationOptions: {
+        headerShown: false, // this will hide the header
+        headerLeft: () => {
+        }, // this will hide back button
+      }
+    },
     Profile: {
       screen: TabNavigator,
       navigationOptions: {
 
         headerMode: "none", // this will hide the header
-        headerLeft: () => {} // this will hide back button
+        headerLeft: () => {
+        } // this will hide back button
       }
     },
     SearchPage: {
@@ -124,8 +137,6 @@ const Navigator = createSwitchNavigator(
   {
     initialRouteName: "AuthLoading"
   }
-
-
 );
 
 export default createAppContainer(Navigator);
