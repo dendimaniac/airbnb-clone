@@ -4,7 +4,6 @@ import {fetchFormData, fetchPOST, fetchPUT, getAllMedia, getUserMedia, fetchGET,
 
 let description = {};
 
-
 const useUploadForm = () => {
 
   const [inputs, setInputs] = useState({});

@@ -135,6 +135,7 @@ const Single = (props) => {
 
             <Text>
               Price:  {info.price}
+
             </Text>
            
             <Text>
