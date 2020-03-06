@@ -70,17 +70,17 @@ const [fullname, setFullname]= useState(null);
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem("userToken");
       const myData = await getUserMedia(token);
-
       // Check if an image is user's avatar
       checkAvatar(myData);  
-
       const favouriteMedia = await getFavoriteMedia(token);
+
       let bookingMedia = await getBookingMedia();
       if (bookingMedia.length > 1) {
         bookingMedia = bookingMedia.filter(item => item.user_id === userID);
       } else {
         bookingMedia = bookingMedia[0].user_id === userID ? bookingMedia : [];
       }
+
 
       setMedia({
         allFiles: allData.reverse(),
@@ -186,7 +186,9 @@ const [fullname, setFullname]= useState(null);
                 <Title title={"List of your booking: "} subtitle={media.booked.length > 0 ? null : "There is nothing booked."} count={media.booked.length > 0 ? media.booked.length : null} />
                 {media.booked.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.wrapContainer}>
+
                   {handleOption(media.booked, option).map((item, index) => (
+
                     <ListItem
                       key={index}
                       navigation={props.navigation}
