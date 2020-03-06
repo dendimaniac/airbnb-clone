@@ -36,6 +36,20 @@ const registerConstraints = {
   },
 };
 
+const bookingConstraints = {
+  email: {
+    presence: {
+      message: 'cannot be blank.',
+    },
+    email: {
+      message: 'not valid.',
+    },
+  },
+  full_name: {
+    presence: 'cannot be blank.',
+  },
+};
+
 const uploadConstraints = {
   title: {
     presence: {
@@ -55,4 +69,4 @@ const uploadConstraints = {
   },
 };
 
-export {registerConstraints, uploadConstraints};
+export { registerConstraints, uploadConstraints, bookingConstraints };

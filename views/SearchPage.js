@@ -9,7 +9,6 @@ const SearchPage = (props) => {
     const keySearch = props.navigation.state.params.input;
     return (
         <ScrollView>
-            <Title title={`Top search relate to "${keySearch}" :`} />
             <List keySearch={keySearch} mode={"search"} />
         </ScrollView>
     )
