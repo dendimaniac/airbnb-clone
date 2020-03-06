@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {Spinner} from "native-base";
 import ListItem from "./ListItem";
 import {MediaContext} from "../contexts/MediaContext";
-import {getAllMedia, getFavoriteMedia, getUserMedia} from "../hooks/APIHooks";
+import {getAllMedia, getFavoriteMedia, getUserMedia, getBookingMedia} from "../hooks/APIHooks";
 import PropTypes from "prop-types";
 import {AsyncStorage, StyleSheet, } from "react-native";
 import ImageCover from "./ImageCover";
@@ -12,14 +12,50 @@ import Tags from "../components/Tags";
 import Title from "./Title";
 import {View, Text} from 'react-native';
 import Sort from './Sort';
+import { fetchGET } from '../hooks/APIHooks';
 
 const List = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [loading, setLoading] = useState(true);
 
-  const keySearch = props.keySearch;
+  const myPlaceForRent = [];
+  
+  // Check if an image is user's avatar
+  const checkAvatar = async(file) => {
+    for (let i =0; i< file.length; i ++) {
+      const fetchTag = await fetchGET('tags/file',   file[i].file_id);
+      const tag = fetchTag[0].tag;
+      const userFromStorage = await AsyncStorage.getItem("user");
+      const uData = JSON.parse(userFromStorage);
+      const userTag = "avatar_" + uData.user_id;
+  
+      if (tag !== userTag ){
+        myPlaceForRent.push(file[i]);
+      }
+    }
+  };
+
+
+  const [option, setOption] = useState(undefined);
 
   //Get keySearch from Search page
+  const keySearch = props.keySearch;
+
+  const handleOption = (list, option) => {
+    if (list.length > 1) {
+      switch (option) {
+        case "Alphabetical Order":
+          return list.sort((a, b) => a.title.localeCompare(b.title));
+        case "Price Ascending":
+          return list.sort((a, b) => JSON.parse(a.description).price - JSON.parse(b.description).price);
+        case "Price Decending":
+          return list.sort((a, b) => JSON.parse(b.description).price - JSON.parse(a.description).price);
+        default: return list;
+      }
+    } else {
+      return list;
+    }
+  }
 
   const getMedia = async mode => {
     try {
@@ -27,12 +63,18 @@ const List = props => {
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem("userToken");
       const myData = await getUserMedia(token);
+
+      // Check if an image is user's avatar
+      checkAvatar(myData);  
+
       const favouriteMedia = await getFavoriteMedia(token);
+      const bookingMedia = await getBookingMedia();
       setMedia({
         allFiles: allData.reverse(),
-        myFiles: myData,
+        myFiles: myPlaceForRent,
         favouriteMedia: favouriteMedia,
         profile: myData,
+        booked: bookingMedia
       });
       setLoading(false);
     } catch (e) {
@@ -48,6 +90,8 @@ const List = props => {
   if (props.mode === "search") {
     searchList = media.myFiles.filter(item => JSON.parse(item.description).location === keySearch);
   }
+
+  console.log("Option here", option)
 
   return (
     <View>
@@ -73,13 +117,14 @@ const List = props => {
                 </View>
               </ScrollView>
             )}
-            {props.mode === "myfiles" && (
 
-              <ScrollView>
+            { props.mode === "myfiles" && (
+
+              <ScrollView >
                 <Title title={"List of your appartments "} />
-                <Sort />
+                {media.myFiles.length > 1 && <Sort setOption={setOption} />}
                 <View style={styles.columnContainer}>
-                  {media.myFiles.map((item, index) => (
+                  {handleOption(media.myFiles, option).map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
@@ -117,7 +162,7 @@ const List = props => {
                 {searchList.length !== 0 &&
                   <>
                     <Title count={searchList.length} />
-                    <Sort />
+                    {searchList.length > 1 && <Sort setOption={setOption} />}
                     <View style={styles.columnContainer}>
                       {searchList.map((item, index) => (
                         <ListItem
@@ -132,8 +177,24 @@ const List = props => {
                   </>
                 }
                 {searchList.length === 0 &&
-                  <Title subtitle={"There nothing match your search!"}/>
+                  <Title subtitle={"There nothing match your search!"} />
                 }
+              </ScrollView>
+            )}
+            {props.mode === "booked" && (
+              <ScrollView>
+                
+                <View style={styles.wrapContainer}>
+                  {media.allFiles.map((item, index) => (
+                    <ListItem
+                      key={index}
+                      navigation={props.navigation}
+                      singleMedia={item}
+                      mode={props.mode}
+                      getMedia={getMedia}
+                    />
+                  ))}
+                </View>
               </ScrollView>
             )}
           </>

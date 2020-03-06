@@ -70,7 +70,7 @@ const ListItem = props => {
             {title}
           </Text>
           {mode !== "myfiles" &&
-            <Text>{info.price} € per person</Text>
+            <Text>{info.price} € per night</Text>
           }
         </View>
         <Rating fontSize={13} id={file_id} />

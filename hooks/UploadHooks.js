@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {AsyncStorage} from 'react-native';
-import {fetchFormData, fetchPOST, fetchPUT, getAllMedia, getUserMedia} from './APIHooks';
+import {fetchFormData, fetchPOST, fetchPUT, getAllMedia, getUserMedia, fetchGET, fetchDELETE} from './APIHooks';
 
 let description = {};
 
@@ -163,34 +163,38 @@ const useUploadForm = () => {
       console.log(e.message);
     }
   };
-
-  const handleUserAvaUpload = async (file, navigation, setMedia) => {
+  // upload user's avatar
+  const handleAvatarUpload = async (file, navigation, setMedia) => {
+    
+    const token = await AsyncStorage.getItem('userToken');
+    const userFromStorage = await AsyncStorage.getItem("user");
+    const uData = JSON.parse(userFromStorage);
+    const avatarPic = await fetchGET('tags', 'avatar_' + uData.user_id);
+      // delete the current user's avatar
+      for(let i =0; i < avatarPic.length; i++) {
+        fetchDELETE('media', avatarPic[i].file_id,token);
+      }
     const filename = file.uri.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
     let type = match ? `image/${match[1]}` : `image`;
     // fix jpg mimetype
     if (type === 'image/jpg') {
       type = 'image/jpeg';
-    }
+    };
 
     const fd = new FormData();
-    fd.append('title', inputs.title);
-    fd.append('description', inputs.description ? inputs.description : '');
     fd.append('file', {uri: file.uri, name: filename, type});
 
-    console.log('FD:', fd);
+    console.log('Form data from UPloadHooks:', fd);
 
     try {
-      const token = await AsyncStorage.getItem('userToken');
-      const userFromStorage = await AsyncStorage.getItem("user");
-      const uData = JSON.parse(userFromStorage);
-
       const resp = await fetchFormData('media', fd, token);
       console.log('upl resp', resp);
 
+      // add tag for avatar image
       const tagData = {
         file_id: resp.file_id,
-        tag: 'avatar_' + uData.user_id,
+        tag: 'avatar_' + uData.user_id ,
       };
 
       const result = await fetchPOST('tags', tagData, token);
@@ -213,7 +217,6 @@ const useUploadForm = () => {
   const handleModify = async (id, navigation, setMedia) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      description = JSON.stringify(description);
       const resp = await fetchPUT('media', id, inputs, token);
       console.log('upl resp', resp);
       if (resp.message) {
@@ -224,7 +227,7 @@ const useUploadForm = () => {
             myFiles: data,
           }));
         setLoading(false);
-        navigation.pop();
+        navigation.push('Home');
       }
     } catch (e) {
       console.log(e.message);
@@ -243,7 +246,7 @@ const useUploadForm = () => {
     handleCapacityModify,
     handleUpload,
     handleModify,
-    handleUserAvaUpload,
+    handleAvatarUpload,
     description,
     inputs,
     errors,

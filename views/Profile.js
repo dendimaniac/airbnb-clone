@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Body, Button, Card, CardItem, Container, Content, Icon, Text,Right, View } from 'native-base';
 import { AsyncStorage, Dimensions, StyleSheet, ImageBackground, Image, Modal} from 'react-native';
@@ -6,7 +5,6 @@ import PropTypes from 'prop-types';
 import { fetchGET } from '../hooks/APIHooks';
 import AsyncImage from '../components/AsyncImage';
 import { mediaURL } from '../constants/urlConst';
-import {AuthSession} from 'expo';
 import List from '../components/List';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
@@ -25,10 +23,10 @@ const Profile = (props) => {
       const userFromStorage = await AsyncStorage.getItem("user");
       const uData = JSON.parse(userFromStorage);
       const avatarPic = await fetchGET('tags', 'avatar_' + uData.user_id);
-      console.log('avpic', avatarPic);
+       console.log('avpic', avatarPic);
       let avPic = '';
       if (avatarPic && avatarPic.length === 0) { // if avatar is not set
-        avPic = 'https://placekitten.com/1024/1024';
+        avPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
 
       } else {
         avPic = mediaURL + avatarPic[0].filename;
@@ -54,8 +52,8 @@ const Profile = (props) => {
   return (
     <Container>
       <Content>
-          <CardItem style={styles.avaBackground}>
-           
+          
+          <CardItem style={styles.avaBackground}>           
             <Body style={styles.center}>
               <TouchableOpacity
                 onPress={() => {
@@ -69,33 +67,45 @@ const Profile = (props) => {
                 </TouchableOpacity>
             </Body>
           </CardItem>
-
-          <CardItem style={[styles.center, styles.info]}>
+          <CardItem style={[styles.center, {marginBottom:0}]}>
+            <Button 
+              full 
+              style={{ backgroundColor:'white', marginBottom: 0, marginTop: deviceHeight/30}}
+              onPress={() => {
+                props.navigation.push("ChangeAvatar");
+              }}
+            >
+            <Icon style={{color: '#50514F', fontSize:40}} name="camera"></Icon>
+            </Button>
+          </CardItem>
+          
+       
+          <CardItem style={styles.center}>
             <Text style={[styles.username]}>{user.userdata.username}</Text>
             <Button style={styles.logout_btn} onPress={signOutAsync}>
                 <Icon style={styles.logout_icon} name='log-out'></Icon>
             </Button>
           </CardItem>
 
-          <CardItem >
+          <CardItem style={{marginTop:0}}>
             <Body style={styles.center}>
               {user.userdata.full_name !==null && <Text>Fullname: {user.userdata.full_name}</Text>}
               <Text numberOfLines={1}>email: {user.userdata.email}</Text>
             </Body>
           </CardItem>
-          {/* host*/}
-          <CardItem footer bordered>
+
+          <CardItem footer bordered>          
             <View style={styles.flex}>
-              
-              <Button
+              {/* Add new place button */}
+              <Button 
                 full
-                style= { {flex:1, backgroundColor: '#F25F5C'}}
+                style= { {flex:1, backgroundColor: '#247BA0'}}
                 onPress={() => {
-                  props.navigation.push("Upload");
+                  props.navigation.push("Booked");
                 }}
-              >
-                <Icon name="add-circle" />
-                <Text>Add new place</Text>
+                >
+                <Text> Your bookings</Text>
+                <Icon style={{fontSize: 30}} name="checkmark" />
               </Button>
               <Button 
                 full
@@ -106,8 +116,27 @@ const Profile = (props) => {
                 >
                 <Icon style={styles.editIcon} name="cog" />
               </Button>
+              </View>
+          </CardItem>
+          {/* Add new place button */}
+          <CardItem footer bordered>
+            <View style={styles.flex}>
+              
+              <Button
+                full
+                style= { {flex:1, backgroundColor: '#F25F5C'}}
+                onPress={() => {
+                  props.navigation.push("Upload");
+                }}
+              >
+                <Text>Add new place</Text>
+                <Icon name="add-circle" />
+              </Button>
+              
             </View>
           </CardItem>
+          
+          
           {/* List all of the current user's files */}
           <List navigation={navigation} mode={'myfiles'}></List>
 
@@ -143,13 +172,10 @@ const Profile = (props) => {
 
 const styles = StyleSheet.create({
   roundImage: {
-    marginTop: 130,
-    borderRadius: deviceHeight / 8,
-    width: deviceHeight / 4,
-    height: deviceHeight / 4,
-    resizeMode: 'contain',
-    borderWidth: 2,
-    borderColor: 'white',
+    marginTop: deviceHeight/13,
+    borderRadius: deviceHeight/8,
+    height: deviceHeight/4,
+    aspectRatio: 1, 
   },
   editBtn: {
     backgroundColor:'#50514F',
@@ -168,9 +194,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center',
   },
-  info: {
-    marginTop: deviceHeight/16,
-  },
   logout_btn: {
     backgroundColor: 'white'
   },
@@ -180,6 +203,10 @@ const styles = StyleSheet.create({
   },
   flex: {
     flexDirection: 'row',
+  },
+  editAva_btn: {
+    marginBottom: 0,
+    marginTop: deviceHeight/20,
   }
 });
 Profile.propTypes = {
@@ -187,4 +214,3 @@ Profile.propTypes = {
 };
 
 export default Profile;
-
