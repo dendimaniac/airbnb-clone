@@ -63,12 +63,11 @@ const List = props => {
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem("userToken");
       const myData = await getUserMedia(token);
-
       // Check if an image is user's avatar
       checkAvatar(myData);  
-
       const favouriteMedia = await getFavoriteMedia(token);
       const bookingMedia = await getBookingMedia();
+
       setMedia({
         allFiles: allData.reverse(),
         myFiles: myPlaceForRent,
@@ -185,7 +184,7 @@ const List = props => {
               <ScrollView>
                 
                 <View style={styles.wrapContainer}>
-                  {media.allFiles.map((item, index) => (
+                  {media.booked.map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
