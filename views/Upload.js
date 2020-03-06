@@ -32,6 +32,7 @@ const Upload = (props) => {
     setErrors,
     setInputs,
     loading,
+    resetDescription
   } = useUploadForm();
 
   const validationProperties = {
@@ -49,13 +50,6 @@ const Upload = (props) => {
         fetch: undefined,
       }));
   };
-
-  const resetDescription = (object) => {
-    object.capacity = "";
-    object.description = "";
-    object.location = "";
-    object.price = "";
-  }
 
   const reset = () => {
     setErrors({});

@@ -171,7 +171,7 @@ const ModifyUserInfo = props => {
           />
 
           {send && (
-            <Button full onPress={modify}>
+            <Button full onPress={modify} style={{}}>
               <Text>Send</Text>
             </Button>
           )}

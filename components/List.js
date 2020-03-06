@@ -17,12 +17,10 @@ const List = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [loading, setLoading] = useState(true);
   const [option, setOption] = useState(undefined);
-
+const [fullname, setFullname]= useState(null);
 
   //Get keySearch from Search page
   const keySearch = props.keySearch;
-
-  console.log("Hello there", keySearch)
 
   const handleOption = (list, option) => {
     if (list.length > 1) {
@@ -42,9 +40,11 @@ const List = props => {
   const getMedia = async mode => {
     try {
       console.log("mode", mode);
-      //Get userID
+      //Get userID, userName
       const userFromStorage = await AsyncStorage.getItem("user");
       const userID = JSON.parse(userFromStorage).user_id;
+      const fullname= JSON.parse(userFromStorage).fullname? `, ${JSON.parse(userFromStorage).fullname}!`:'!';
+      setFullname(fullname);
       //Get data
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem("userToken");
@@ -89,7 +89,7 @@ const List = props => {
               <ScrollView>
                 <Tags navigation={props.navigation}/>
                 <ImageCover />
-                <Title title={"Welcome to CloudHome, Nhan!"} subtitle={"A selection of places to stay verified for quality and design."} />
+                <Title title={`Welcome to CloudHome ${fullname}`} subtitle={"A selection of places to stay verified for quality and design."} />
                 <View style={styles.wrapContainer}>
                   {media.allFiles.map((item, index) => (
                     <ListItem
