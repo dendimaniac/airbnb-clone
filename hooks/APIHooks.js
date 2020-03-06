@@ -102,10 +102,9 @@ const getAllMedia = async () => {
 };
 
 const getUserMedia = async (token) => {
-  console.log('im here', token);
   const json = await fetchGET('media/user', '', token);
-  return await Promise.all(json.map(async (item) => {
-    return await fetchGET('media', item.file_id);
+   return await Promise.all(json.map(async (item) => {
+      return await fetchGET('media', item.file_id);
   }));
 };
 

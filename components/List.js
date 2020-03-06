@@ -12,21 +12,43 @@ import Tags from "../components/Tags";
 import Title from "./Title";
 import {View, Text} from 'react-native';
 import Sort from './Sort';
+import { fetchGET } from '../hooks/APIHooks';
 
 const List = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [loading, setLoading] = useState(true);
+  const myPlaceForRent = [];
+  
+  // Check if an image is user's avatar
+  const checkAvatar = async(file) => {
+    for (let i =0; i< file.length; i ++) {
+      const fetchTag = await fetchGET('tags/file',   file[i].file_id);
+      const tag = fetchTag[0].tag;
+      const userFromStorage = await AsyncStorage.getItem("user");
+      const uData = JSON.parse(userFromStorage);
+      const userTag = "avatar_" + uData.user_id;
+  
+      if (tag !== userTag ){
+        myPlaceForRent.push(file[i]);
+      }
+    }
+  };
+
   const getMedia = async mode => {
     try {
       console.log("mode", mode);
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem("userToken");
       const myData = await getUserMedia(token);
+
+      // Check if an image is user's avatar
+      checkAvatar(myData);  
+
       const favouriteMedia = await getFavoriteMedia(token);
       const bookingMedia = await getBookingMedia();
       setMedia({
         allFiles: allData.reverse(),
-        myFiles: myData,
+        myFiles: myPlaceForRent,
         favouriteMedia: favouriteMedia,
         profile: myData,
         booked: bookingMedia
@@ -65,9 +87,9 @@ const List = props => {
                 </View>
               </ScrollView>
             )}
-            {props.mode === "myfiles" && (
+            { props.mode === "myfiles" && (
 
-              <ScrollView>
+              <ScrollView >
                 <Title title={"List of your appartments "} />
                 <Sort />
                 <View style={styles.columnContainer}>

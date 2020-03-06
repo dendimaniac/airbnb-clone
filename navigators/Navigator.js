@@ -17,6 +17,7 @@ import Saved from "../views/Saved";
 import SearchPage from "../views/SearchPage";
 import ModifyUserInfo from "../views/ModifyUserInfo";
 import Booked from "../views/Booked"; 
+import ChangeAvatar from "../views/ChangeAvatar";
 
 
 const TabNavigator = createBottomTabNavigator(
@@ -110,9 +111,11 @@ const StackNavigator = createStackNavigator(
     Booked: {
       screen: Booked
     },
+    ChangeAvatar: {
+      screen: ChangeAvatar
+    },
+    
   }
-
-
 );
 
 const Navigator = createSwitchNavigator(
