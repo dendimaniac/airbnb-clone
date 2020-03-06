@@ -23,12 +23,6 @@ const Single = (props) => {
   // get the description object of media file
   const info = JSON.parse(file.description);
 
-  const checkPostedByCurrentUser = async () => {
-    const token = await AsyncStorage.getItem('userToken');
-    const info = await fetchGET('users/user', '', token);
-
-  };
-
   const getUser = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');

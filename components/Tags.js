@@ -1,8 +1,8 @@
 import React from "react";
-import { ScrollView, Image, Text, View, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 const Tags = () => {
-  const tags = ["#Tag1", "#Tag2", "#Tag3", "#Tag4", "#Tag5"];
+  const tags = ["#Helsinki", "#Vantaa", "#Tampere"];
   return (
     <View style={styles.view}>
       <ScrollView horizontal>

@@ -11,13 +11,14 @@ import AuthLoading from "../views/AuthLoading";
 import Login from "../views/Login";
 import Upload from "../views/Upload";
 import { Icon } from "native-base";
-import MyFiles from "../views/MyFiles";
+
 import Modify from "../views/Modify";
 import Saved from "../views/Saved";
 import SearchPage from "../views/SearchPage";
 import ModifyUserInfo from "../views/ModifyUserInfo";
 import BookingInfo from "../views/BookingInfo";
 import BookedSuccess from "../views/BookedSuccess";
+import Booked from "../views/Booked";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -81,9 +82,6 @@ const StackNavigator = createStackNavigator(
         }, // this will hide back button
       }
     },
-    MyFiles: {
-      screen: MyFiles
-    },
     Modify: {
       screen: Modify
     },
@@ -118,7 +116,10 @@ const StackNavigator = createStackNavigator(
     },
     SearchPage: {
       screen: SearchPage
-    }
+    },
+    Booked: {
+      screen: Booked
+    },
   }
 );
 

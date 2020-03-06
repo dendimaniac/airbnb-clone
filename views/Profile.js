@@ -25,7 +25,7 @@ const Profile = (props) => {
       console.log('avpic', avatarPic);
       let avPic = '';
       if (avatarPic && avatarPic.length === 0) { // if avatar is not set
-        avPic = 'https://placekitten.com/1024/1024';
+        avPic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
 
       } else {
         avPic = mediaURL + avatarPic[0].filename;
@@ -70,51 +70,69 @@ const Profile = (props) => {
           <CardItem style={[styles.center, styles.info]}>
             <Text style={[styles.username]}>{user.userdata.username}</Text>
             <Button style={styles.logout_btn} onPress={signOutAsync}>
-                <Icon style={styles.logout_icon} name='log-out'></Icon>
+              <Icon style={styles.logout_icon} name='log-out'></Icon>
             </Button>
           </CardItem>
 
-          <CardItem >
-            <Body style={styles.center}>
-              {user.userdata.full_name !==null && <Text>Fullname: {user.userdata.full_name}</Text>}
-              <Text numberOfLines={1}>email: {user.userdata.email}</Text>
-            </Body>
-          </CardItem>
-          {/* host*/}
-          <CardItem footer bordered>
-            <View style={styles.flex}>
+        <CardItem>
+          <Body style={styles.center}>
+            {user.userdata.full_name !== null && <Text>Fullname: {user.userdata.full_name}</Text>}
+            <Text numberOfLines={1}>email: {user.userdata.email}</Text>
+          </Body>
+        </CardItem>
 
-              <Button
-                full
-                style={{flex: 1, backgroundColor: '#F25F5C'}}
-                onPress={() => {
-                  props.navigation.push("Upload");
-                }}
-              >
-                <Icon name="add-circle"/>
-                <Text>Add new place</Text>
-              </Button>
-              <Button
-                full
-                style={[styles.editBtn]}
-                onPress={() => {
-                  props.navigation.push("ModifyUserInfo", {user: user});
-                }}
-              >
-                <Icon style={styles.editIcon} name="cog"/>
-              </Button>
-            </View>
-          </CardItem>
-          {/* List all of the current user's files */}
-          <List navigation={navigation} mode={'myfiles'}></List>
+        <CardItem footer bordered>
+          <View style={styles.flex}>
+            <Button
+              full
+              style={{flex: 1, backgroundColor: '#247BA0'}}
+              onPress={() => {
+                props.navigation.push("Booked");
+              }}
+            >
+              <Text> Your bookings</Text>
+              <Icon style={{fontSize: 30}} name="checkmark"/>
+            </Button>
+            <Button
+              full
+              style={[styles.editBtn]}
+              onPress={() => {
+                props.navigation.push("ModifyUserInfo", {user: user});
+              }}
+            >
+              <Icon style={styles.editIcon} name="cog"/>
+            </Button>
+          </View>
+        </CardItem>
+        {/* Add new place button */}
+        <CardItem footer bordered>
+          <View style={styles.flex}>
 
-          {/* Modal */}
-          <Modal
-            animationType="fade"
-            transparent={false}
-            visible= {modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
+            <Button
+              full
+              style={{flex: 1, backgroundColor: '#F25F5C'}}
+              onPress={() => {
+                props.navigation.push("Upload");
+              }}
+            >
+              <Text>Add new place</Text>
+              <Icon name="add-circle"/>
+            </Button>
+
+          </View>
+        </CardItem>
+
+
+        {/* List all of the current user's files */}
+        <List navigation={navigation} mode={'myfiles'}></List>
+
+        {/* Modal */}
+        <Modal
+          animationType="fade"
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
             }}>
             <View style={{marginTop: deviceHeight/10, alignItems: 'center'}}>
               <View>
@@ -184,4 +202,3 @@ Profile.propTypes = {
 };
 
 export default Profile;
-

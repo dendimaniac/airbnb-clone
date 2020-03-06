@@ -140,7 +140,7 @@ const Upload = (props) => {
               error={errors.title}
             />
           </Item>
-          
+
           <Item>
             <FormTextInput
               placeholder='Location'
@@ -157,6 +157,7 @@ const Upload = (props) => {
               error={errors.description}
             />
           </Item>
+
           <Item>
             <FormTextInput
               placeholder='Price'
@@ -165,13 +166,14 @@ const Upload = (props) => {
               error={errors.description}
             />
           </Item>
+
           <Item>
             <FormTextInput
               placeholder='Description'
               onChangeText={handleDescription}
               value={description.description}
               error={errors.description}
-            /> 
+            />
           </Item>
           {image &&
           <Image source={{uri: image.uri}}

@@ -1,21 +1,41 @@
 /* eslint-disable max-len */
-import React, {useContext, useEffect, useState} from "react";
-import {Spinner} from "native-base";
+import React, { useContext, useEffect, useState } from "react";
+import { Spinner } from "native-base";
 import ListItem from "./ListItem";
-import {MediaContext} from "../contexts/MediaContext";
-import {getAllMedia, getFavoriteMedia, getUserMedia} from "../hooks/APIHooks";
+import { MediaContext } from "../contexts/MediaContext";
+import { getAllMedia, getBookingMedia, getFavoriteMedia, getUserMedia } from "../hooks/APIHooks";
 import PropTypes from "prop-types";
-import {AsyncStorage, StyleSheet, } from "react-native";
+import { AsyncStorage, StyleSheet, Text, View, } from "react-native";
 import ImageCover from "./ImageCover";
-import {ScrollView} from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import Tags from "../components/Tags";
 import Title from "./Title";
-import {View, Text} from 'react-native';
 import Sort from './Sort';
 
 const List = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [loading, setLoading] = useState(true);
+  const [option, setOption] = useState(undefined);
+
+  //Get keySearch from Search page
+  const keySearch = props.keySearch;
+
+  const handleOption = (list, option) => {
+    if (list.length > 1) {
+      switch (option) {
+        case "Alphabetical Order":
+          return list.sort((a, b) => a.title.localeCompare(b.title));
+        case "Price Ascending":
+          return list.sort((a, b) => JSON.parse(a.description).price - JSON.parse(b.description).price);
+        case "Price Decending":
+          return list.sort((a, b) => JSON.parse(b.description).price - JSON.parse(a.description).price);
+        default:
+          return list;
+      }
+    } else {
+      return list;
+    }
+  };
   const getMedia = async mode => {
     try {
       console.log("mode", mode);
@@ -23,11 +43,13 @@ const List = props => {
       const token = await AsyncStorage.getItem("userToken");
       const myData = await getUserMedia(token);
       const favouriteMedia = await getFavoriteMedia(token);
+      const bookingMedia = await getBookingMedia();
       setMedia({
         allFiles: allData.reverse(),
         myFiles: myData,
         favouriteMedia: favouriteMedia,
         profile: myData,
+        booked: bookingMedia
       });
       setLoading(false);
     } catch (e) {
@@ -39,15 +61,22 @@ const List = props => {
     getMedia(props.mode);
   }, []);
 
+  let searchList;
+  if (props.mode === "search") {
+    searchList = media.myFiles.filter(item => JSON.parse(item.description).location === keySearch);
+  }
+
+  console.log("Option here", option);
+
   return (
     <View>
       {loading ? (
-        <Spinner />
+        <Spinner/>
       ) : (
-          <>
-            {props.mode === "all" && (
-              <ScrollView>
-                <Tags />
+        <>
+          {props.mode === "all" && (
+            <ScrollView>
+              <Tags/>
                 <ImageCover />
                 <Title title={"Welcome to CloudHome, Nhan!"} subtitle={"A selection of places to stay verified for quality and design."} />
                 <View style={styles.wrapContainer}>
@@ -64,12 +93,11 @@ const List = props => {
               </ScrollView>
             )}
             {props.mode === "myfiles" && (
-
               <ScrollView>
                 <Title title={"List of your appartments "} />
-                <Sort />
+                {media.myFiles.length > 1 && <Sort setOption={setOption}/>}
                 <View style={styles.columnContainer}>
-                  {media.myFiles.map((item, index) => (
+                  {handleOption(media.myFiles, option).map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
@@ -102,12 +130,14 @@ const List = props => {
                 </View>
               </ScrollView>
             }
-            {props.mode === "search" && (
-              <ScrollView>
-                <Title count={media.myFiles.length}/>
-                <Sort />
+          {props.mode === "search" && (
+            <ScrollView>
+              {searchList.length !== 0 &&
+              <>
+                <Title count={searchList.length}/>
+                {searchList.length > 1 && <Sort setOption={setOption}/>}
                 <View style={styles.columnContainer}>
-                  {media.myFiles.map((item, index) => (
+                  {searchList.map((item, index) => (
                     <ListItem
                       key={index}
                       navigation={props.navigation}
@@ -117,7 +147,30 @@ const List = props => {
                     />
                   ))}
                 </View>
-              </ScrollView>
+              </>
+              }
+              {searchList.length === 0 &&
+              <Title subtitle={"There nothing match your search!"}/>
+              }
+            </ScrollView>
+          )}
+          {props.mode === "booked" && (
+            <ScrollView>
+              <Title title={"List of your booking: "}
+                     subtitle={media.booked.length > 0 ? "" : "There is nothing booked."}/>
+              {media.booked.length > 1 && <Sort setOption={setOption}/>}
+              <View style={styles.wrapContainer}>
+                {handleOption(media.booked, option).map((item, index) => (
+                  <ListItem
+                    key={index}
+                    navigation={props.navigation}
+                    singleMedia={item}
+                    mode={props.mode}
+                    getMedia={getMedia}
+                  />
+                ))}
+              </View>
+            </ScrollView>
             )}
           </>
         )}

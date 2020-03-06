@@ -1,7 +1,8 @@
 import React from "react";
-import {View, Text, StyleSheet} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 const Title = (props) => {
+  console.log(props.count);
   return (
     <View style={styles.container}>
       {/* Title */}
@@ -12,18 +13,19 @@ const Title = (props) => {
 
       {/* Subtitle */}
       {props.subtitle &&
-        <Text style={styles.subtitile}>
-          {props.subtitle}
-        </Text>
+      <Text style={styles.subtitle}>
+        {props.subtitle}
+      </Text>
       }
       {/* End subtitle */}
 
       {/* This only for search page */}
-      {props.count  &&
-        <Text style={styles.count}>
-          {props.count} places to stay
-        </Text>
+      {props.count &&
+      <Text style={styles.count}>
+        {props.count} place(s) to stay
+      </Text>
       }
+
       {/* Ending  */}
     </View>
   );
@@ -38,14 +40,14 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "700"
   },
-  subtitile: {
+  subtitle: {
     marginVertical: 5
   },
   count: {
     marginVertical: 5,
     fontSize: 18,
     fontWeight: "600",
-    paddingTop:5
+    paddingTop: 5
   }
 });
 
