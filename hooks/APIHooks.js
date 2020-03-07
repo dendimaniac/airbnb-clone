@@ -114,8 +114,8 @@ const getFavoriteMedia = async (token) => {
   }));
 };
 
-const getBookingMedia = async () => {
-  const json = await fetchGET('tags/booked');
+const getBookingMedia = async (id) => {
+  const json = await fetchGET('tags', 'booked' + id);
   return await Promise.all(json.map(async (item) => {
     return  await fetchGET('media', item.file_id);
   }));

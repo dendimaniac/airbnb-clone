@@ -23,7 +23,7 @@ const List = props => {
   // Check if an image is user's avatar
   const checkAvatar = async(file) => {
     for (let i =0; i< file.length; i ++) {
-      const fetchTag = await fetchGET('tags/file',   file[i].file_id);
+      const fetchTag = await fetchGET('tags/file', file[i].file_id);
       const tag = fetchTag[0].tag;
       const userFromStorage = await AsyncStorage.getItem("user");
       const uData = JSON.parse(userFromStorage);
@@ -74,13 +74,17 @@ const [fullname, setFullname]= useState(null);
       checkAvatar(myData);  
       const favouriteMedia = await getFavoriteMedia(token);
 
-      let bookingMedia = await getBookingMedia();
-      if (bookingMedia.length > 1) {
-        bookingMedia = bookingMedia.filter(item => item.user_id === userID);
-      } else {
-        bookingMedia = bookingMedia[0].user_id === userID ? bookingMedia : [];
-      }
-
+      
+      const bookingMedia = await getBookingMedia(userID);
+      console.log('sdfs',bookingMedia)
+      
+      // if (bookingMedia.length > 1) {
+      //   bookingMedia = bookingMedia.filter(item => item.user_id === userID);
+      //   console.log('sdfsfasdfsdf',bookingMedia)
+      // } else {
+      //   bookingMedia = bookingMedia[0].user_id === userID ? bookingMedia : [];
+      // }
+      // console.log('bookingMedia', bookingMedia)
 
       setMedia({
         allFiles: allData.reverse(),
