@@ -9,13 +9,14 @@ class BackgroundCarousel extends React.Component {
     super(props);
 
     this.state = {
-      selectedIndex: 0
+      selectedIndex: 0,
+      handleSlide: null
     };
     this.scrollRef = React.createRef();
   }
 
   componentDidMount = () => {
-    setInterval(() => {
+    this.state.handleSlide= setInterval(() => {
       this.setState(
         prev => ({
           selectedIndex:
@@ -33,6 +34,10 @@ class BackgroundCarousel extends React.Component {
       );
     }, 3000);
   };
+
+  componentWillUnmount(){
+    clearInterval(this.state.handleSlide);
+  }
 
   setSelectedIndex = event => {
     const contentOffset = event.nativeEvent.contentOffset;

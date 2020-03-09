@@ -6,7 +6,6 @@ import {mediaURL} from "../constants/urlConst";
 import {Dimensions, Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {fetchDELETE} from '../hooks/APIHooks';
 import {AsyncStorage} from 'react-native';
-import Rating from "./Rating";
 import {Button, Text} from 'native-base'
 
 const width = Dimensions.get("window").width;
@@ -14,6 +13,8 @@ const ListItem = props => {
   const {singleMedia, mode, getMedia, navigation} = props;
   const {title, description, file_id, thumbnails} = singleMedia;
   let info;
+  
+  console.log('description',description)
   if (description) {
     info = JSON.parse(description);
   }
@@ -34,8 +35,8 @@ const ListItem = props => {
         }
       }}
     >
-      {mode === 'myfiles' &&
-        <View style={{...styles.buttonContainer, display: open ? "" : "none", top: 100, width: "100%"}}>
+      {mode === 'myfiles' && open &&
+        <View style={{...styles.buttonContainer, top: 100, width: "100%"}}>
           <Button
             full
             info
@@ -78,9 +79,11 @@ const ListItem = props => {
       />
       <View style={(mode === "myfiles" || mode === "search") ? {flexDirection: "row", justifyContent: "space-between"} : {}}>
         <View style={{marginVertical: 3}}>
+        {info.location !== undefined && 
           <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.title2} : {...styles.title1, color: "#9E6969"}} numberOfLines={1}>
-            {info.location}
+          {info.location}
           </Text>
+        }
           <Text numberOfLines={1} style={(mode === "myfiles" || mode === "search") ? {...styles.subtitle2} : {...styles.subtitle1}} numberOfLines={1}>
             {title}
           </Text>
@@ -88,7 +91,6 @@ const ListItem = props => {
             <Text>{info.price} € per night</Text>
           }
         </View>
-        <Rating fontSize={13} id={file_id} />
       </View>
     </TouchableOpacity>
   );

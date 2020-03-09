@@ -5,11 +5,11 @@ import Sort from '../components/Sort';
 import List from '../components/List';
 
 const SearchPage = (props) => {
-
+    const {navigation}= props;
     const keySearch = props.navigation.state.params.input;
     return (
         <ScrollView>
-            <List keySearch={keySearch} mode={"search"} />
+            <List navigation={navigation} keySearch={keySearch} mode={"search"} />
         </ScrollView>
     )
 }

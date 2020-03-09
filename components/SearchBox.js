@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Icon} from "native-base";
-import {TextInput, StyleSheet, View, Dimensions, Button, Text} from "react-native";
+import {TextInput, StyleSheet, View, Dimensions} from "react-native";
+import {Button, Text} from 'native-base';
 
 const deviceHeight = Dimensions.get("window").height;
 
@@ -22,13 +23,14 @@ const SearchBox = props => {
             }}
             value={input}
           />
-          <Button disabled={input === "" ? true : false}
-            title={"Search"}
+          <Button transparent
+            disabled={input === "" ? true : false}
             onPress={() => {
               props.navigation.push("SearchPage", {input: input});
               setInput("")
             }}
           >
+            <Text style={{color: input === '' ? "grey" : "#38A5E7"}}>Search</Text>
           </Button>
         </View>
       </View>
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
   itemRight: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "80%",
+    width: "88%",
     marginHorizontal: 2,
   },
   icon: {

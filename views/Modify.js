@@ -87,7 +87,7 @@ const Modify = (props) => {
   const modify = () => {
     console.log('reg field errors', errors);
     handleModify(file.file_id, props.navigation, setMedia);
-    resetDescription(description);
+    // resetDescription(description);
   };
 
   const checkErrors = () => {

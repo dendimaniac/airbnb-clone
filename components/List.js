@@ -18,31 +18,22 @@ const List = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [loading, setLoading] = useState(true);
 
-  const myPlaceForRent = [];
+  let myPlaceForRent = [];
   
   // Check if an image is user's avatar
   const checkAvatar = async(file) => {
-    for (let i =0; i< file.length; i ++) {
-      const fetchTag = await fetchGET('tags/file', file[i].file_id);
-      const tag = fetchTag[0].tag;
-      const userFromStorage = await AsyncStorage.getItem("user");
-      const uData = JSON.parse(userFromStorage);
-      const userTag = "avatar_" + uData.user_id;
-  
-      if (tag !== userTag ){
-        myPlaceForRent.push(file[i]);
-      }
-    }
+    return file.filter(item=> item.description !=="");
   };
 
 
   const [option, setOption] = useState(undefined);
-const [fullname, setFullname]= useState(null);
+  const [fullname, setFullname]= useState(null);
 
   //Get keySearch from Search page
   const keySearch = props.keySearch;
 
   const handleOption = (list, option) => {
+    console.log("handle Option List: ",list);
     if (list.length > 1) {
       switch (option) {
         case "Alphabetical Order":
@@ -68,18 +59,19 @@ const [fullname, setFullname]= useState(null);
       setFullname(fullname);
       //Get data
       const allData = await getAllMedia();
+      
       const token = await AsyncStorage.getItem("userToken");
-      const myData = await getUserMedia(token);
+      const preMyData = await getUserMedia(token);
+
       // Check if an image is user's avatar
-      checkAvatar(myData);  
+      const myData= await checkAvatar(preMyData);  
       const favouriteMedia = await getFavoriteMedia(token);    
       const bookingMedia = await getBookingMedia(userID);
 
       setMedia({
         allFiles: allData.reverse(),
-        myFiles: myPlaceForRent,
+        myFiles: myData,
         favouriteMedia: favouriteMedia,
-        profile: myData,
         booked: bookingMedia
       });
       setLoading(false);
@@ -87,7 +79,7 @@ const [fullname, setFullname]= useState(null);
       console.log(e.message);
     }
   };
-
+  
   useEffect(() => {
     getMedia(props.mode);
   }, []);
