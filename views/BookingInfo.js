@@ -40,6 +40,8 @@ const BookingInfo = props => {
   const bookAsync = async () => {
     const regValid = validateOnSend(validationProperties);
     console.log('reg field errors', errors);
+    const userFromStorage = await AsyncStorage.getItem("user");
+    const uData = JSON.parse(userFromStorage);
     if (!regValid) {
       return;
     }
@@ -48,7 +50,7 @@ const BookingInfo = props => {
       const token = await AsyncStorage.getItem('userToken');
       const data = {
         file_id: file.file_id,
-        tag: 'booked',
+        tag: 'booked' + uData.user_id,
       };
       const json = await fetchPOST('tags', data, token);
       console.log(json);

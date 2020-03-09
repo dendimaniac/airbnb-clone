@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Content, Form, Item, Spinner, Text, } from 'native-base';
+import React, {useContext, useEffect, useState} from 'react';
+import {Button, Content, Form, Item, Spinner, Text, } from 'native-base';
 
-import { Dimensions, Image, } from 'react-native';
+import {Dimensions, Image, } from 'react-native';
 import PropTypes from 'prop-types';
 import FormTextInput from '../components/FormTextInput';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import useUploadForm from '../hooks/UploadHooks';
-import { MediaContext } from '../contexts/MediaContext';
-import { validateField } from '../utils/validation';
-import { uploadConstraints } from '../constants/validationConst';
+import {MediaContext} from '../contexts/MediaContext';
+import {validateField} from '../utils/validation';
+import {uploadConstraints} from '../constants/validationConst';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -19,7 +19,7 @@ const Upload = (props) => {
   const [image, setImage] = useState(null);
   const [send, setSend] = useState(false);
 
-  const {
+  let {
     handleTitleChange,
     handleDescriptionChange,
     handleLocationChange,
@@ -32,6 +32,7 @@ const Upload = (props) => {
     setErrors,
     setInputs,
     loading,
+    resetDescription
   } = useUploadForm();
 
   const validationProperties = {
@@ -45,7 +46,7 @@ const Upload = (props) => {
       ({
         ...errors,
         [field]: validateField({[field]: value},
-            uploadConstraints),
+          uploadConstraints),
         fetch: undefined,
       }));
   };
@@ -54,6 +55,7 @@ const Upload = (props) => {
     setErrors({});
     setInputs({});
     setImage(null);
+    resetDescription(description)
   };
 
   const getPermissionAsync = async () => {
@@ -129,72 +131,72 @@ const Upload = (props) => {
   return (
     <Content>
       {loading ? (
-        <Spinner/>
+        <Spinner />
       ) : (
-        <Form>
-          <Item>
-            <FormTextInput
-              placeholder='Title'
-              onChangeText={handleTitle}
-              value={inputs.title}
-              error={errors.title}
-            />
-          </Item>
+          <Form>
+            <Item>
+              <FormTextInput
+                placeholder='Title'
+                onChangeText={handleTitle}
+                value={inputs.title}
+                error={errors.title}
+              />
+            </Item>
 
-          <Item>
-            <FormTextInput
-              placeholder='Location'
-              onChangeText={handleLocation}
-              value={description.location}
-              error={errors.description}
-            />
-          </Item>
-          <Item>
-            <FormTextInput
-              placeholder='Capacity'
-              onChangeText={handleCapacity}
-              value={description.capacity}
-              error={errors.description}
-            />
-          </Item>
+            <Item>
+              <FormTextInput
+                placeholder='Location'
+                onChangeText={handleLocation}
+                value={description.location}
+                error={errors.description}
+              />
+            </Item>
+            <Item>
+              <FormTextInput
+                placeholder='Capacity'
+                onChangeText={handleCapacity}
+                value={description.capacity}
+                error={errors.description}
+              />
+            </Item>
 
-          <Item>
-            <FormTextInput
-              placeholder='Price'
-              onChangeText={handlePrice}
-              value={description.price}
-              error={errors.description}
-            />
-          </Item>
+            <Item>
+              <FormTextInput
+                placeholder='Price'
+                onChangeText={handlePrice}
+                value={description.price}
+                error={errors.description}
+              />
+            </Item>
 
-          <Item>
-            <FormTextInput
-              placeholder='Description'
-              onChangeText={handleDescription}
-              value={description.description}
-              error={errors.description}
-            />
-          </Item>
-          {image &&
-          <Image source={{uri: image.uri}}
-            style={{width: '100%', height: deviceHeight / 3}}/>
-          }
-          <Button full onPress={pickImage}>
-            <Text>Select file</Text>
-          </Button>
-          {image && send &&
-          <Button full onPress={upload}>
-            <Text>Upload</Text>
-          </Button>
-          }
-          <Button
-            dark
-            full
-            onPress={reset}>
-            <Text>Reset form</Text>
-          </Button>
-        </Form>
-      )}
+            <Item>
+              <FormTextInput
+                placeholder='Description'
+                onChangeText={handleDescription}
+                value={description.description}
+                error={errors.description}
+              />
+            </Item>
+            {image &&
+              <Image source={{uri: image.uri}}
+                style={{width: '100%', height: deviceHeight / 3}} />
+            }
+            <Button full onPress={pickImage}>
+              <Text>Select file</Text>
+            </Button>
+            {image && send &&
+              <Button full onPress={upload}>
+                <Text>Upload</Text>
+              </Button>
+            }
+            <Button
+              dark
+              full
+              onPress={reset}>
+              <Text>Reset form</Text>
+            </Button>
+          </Form>
+        )}
     </Content>
   );
 };

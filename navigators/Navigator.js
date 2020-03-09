@@ -11,14 +11,14 @@ import AuthLoading from "../views/AuthLoading";
 import Login from "../views/Login";
 import Upload from "../views/Upload";
 import { Icon } from "native-base";
-
 import Modify from "../views/Modify";
 import Saved from "../views/Saved";
 import SearchPage from "../views/SearchPage";
 import ModifyUserInfo from "../views/ModifyUserInfo";
 import BookingInfo from "../views/BookingInfo";
 import BookedSuccess from "../views/BookedSuccess";
-import Booked from "../views/Booked";
+import Booked from "../views/Booked"; 
+import ChangeAvatar from "../views/ChangeAvatar";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -38,7 +38,7 @@ const TabNavigator = createBottomTabNavigator(
           iconName = 'person';
         } else if (routeName === 'Saved') {
           iconName = 'bookmark';
-        }
+        } 
 
         // You can return any component that you like here!
         return <Icon name={iconName} size={size} style={{color: focused ? 'red' : 'gray'}} color={color}/>;
@@ -120,6 +120,10 @@ const StackNavigator = createStackNavigator(
     Booked: {
       screen: Booked
     },
+    ChangeAvatar: {
+      screen: ChangeAvatar
+    },
+    
   }
 );
 

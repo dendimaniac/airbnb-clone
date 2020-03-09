@@ -136,6 +136,7 @@ const ModifyUserInfo = props => {
               secureTextEntry={true}
               value={inputs.password}
               onChangeText={handlePassword}
+
               error={errors.password}
             />
           </Item>
@@ -164,14 +165,14 @@ const ModifyUserInfo = props => {
           <AsyncImage
             style={{
               width: "100%",
-              height: deviceHeight / 2
+              height: deviceHeight / 2.5
             }}
             spinnerColor="#777"
             source={{ uri: avatar }}
           />
 
           {send && (
-            <Button full onPress={modify}>
+            <Button full onPress={modify} style={{}}>
               <Text>Send</Text>
             </Button>
           )}

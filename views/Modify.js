@@ -31,6 +31,7 @@ const Modify = (props) => {
     loading,
     setErrors,
     setInputs,
+    resetDescription
   } = useUploadForm();
 
   const validationProperties = {
@@ -82,9 +83,11 @@ const Modify = (props) => {
     // validate('description', text);
   };
 
+
   const modify = () => {
     console.log('reg field errors', errors);
     handleModify(file.file_id, props.navigation, setMedia);
+    resetDescription(description);
   };
 
   const checkErrors = () => {
