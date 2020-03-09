@@ -1,26 +1,15 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {
-  Content,
-  Form,
-  Button,
-  Text,
-  Item,
-  Spinner,
-} from 'native-base';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Content, Form, Spinner, Text, } from 'native-base';
 
-import {
-  Dimensions,
-  Image,
-} from 'react-native';
+import { Dimensions, Image, } from 'react-native';
 import PropTypes from 'prop-types';
-import FormTextInput from '../components/FormTextInput';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import useUploadForm from '../hooks/UploadHooks';
-import {MediaContext} from '../contexts/MediaContext';
-import {validateField} from '../utils/validation';
-import {uploadConstraints} from '../constants/validationConst';
+import { MediaContext } from '../contexts/MediaContext';
+import { validateField } from '../utils/validation';
+import { uploadConstraints } from '../constants/validationConst';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -49,7 +38,7 @@ const Upload = (props) => {
       ({
         ...errors,
         [field]: validateField({[field]: value},
-            uploadConstraints),
+          uploadConstraints),
         fetch: undefined,
       }));
   };
@@ -90,7 +79,6 @@ const Upload = (props) => {
   };
 
 
-
   const upload = () => {
     console.log('reg field errors', errors);
     handleAvatarUpload(image, props.navigation, setMedia);
@@ -119,10 +107,10 @@ const Upload = (props) => {
         <Spinner/>
       ) : (
         <Form>
-  
+
           {image &&
           <Image source={{uri: image.uri}}
-            style={{width: '100%', height: deviceHeight / 3}}/>
+                 style={{width: '100%', height: deviceHeight / 3}}/>
           }
           <Button full onPress={pickImage}>
             <Text>Choose image</Text>

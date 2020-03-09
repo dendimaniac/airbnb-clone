@@ -1,26 +1,16 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {
-  Content,
-  Form,
-  Button,
-  Text,
-  Item,
-  Spinner,
-} from 'native-base';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Content, Form, Item, Spinner, Text, } from 'native-base';
 
-import {
-  Dimensions,
-  Image,
-} from 'react-native';
+import { Dimensions, } from 'react-native';
 import PropTypes from 'prop-types';
 import FormTextInput from '../components/FormTextInput';
 import useUploadForm from '../hooks/UploadHooks';
-import {MediaContext} from '../contexts/MediaContext';
-import {validateField} from '../utils/validation';
-import {uploadConstraints} from '../constants/validationConst';
-import {mediaURL} from '../constants/urlConst';
+import { MediaContext } from '../contexts/MediaContext';
+import { validateField } from '../utils/validation';
+import { uploadConstraints } from '../constants/validationConst';
+import { mediaURL } from '../constants/urlConst';
 import AsyncImage from '../components/AsyncImage';
-import {Video} from 'expo-av';
+import { Video } from 'expo-av';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -94,7 +84,6 @@ const Modify = (props) => {
   };
 
 
-
   const modify = () => {
     console.log('reg field errors', errors);
     handleModify(file.file_id, props.navigation, setMedia);
@@ -154,15 +143,15 @@ const Modify = (props) => {
               value={description.price}
               error={errors.description}
             />
-      </Item>
+          </Item>
           <Item>
             <FormTextInput
               placeholder='Description'
               onChangeText={handleDescription}
               value={description.description}
               error={errors.description}
-            /> 
-         </Item>
+            />
+          </Item>
           {file.media_type === 'image' ? (
               <AsyncImage
                 style={{

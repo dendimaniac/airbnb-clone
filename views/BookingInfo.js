@@ -13,6 +13,7 @@ const BookingInfo = props => {
   const {navigation} = props;
   const [userData, setUserData] = useState({});
   const file = navigation.state.params.file;
+  const info = navigation.state.params.info;
 
   const {
     handleEmailChange,
@@ -70,7 +71,12 @@ const BookingInfo = props => {
         spinnerColor='#777'
         source={{uri: mediaURL + file.filename}}
       />
-      <View>
+      <View style={styles.container}>
+        <View>
+          <Text>Location: {info.location}</Text>
+          <Text>Capacity: {info.capacity} person(s)</Text>
+          <Text>Price: {info.price}€ per night</Text>
+        </View>
         <Item>
           <FormTextInput
             autoCapitalize='none'
@@ -95,10 +101,10 @@ const BookingInfo = props => {
             error={errors.email}
           />
         </Item>
+        <Button full info onPress={bookAsync} style={styles.bookButton}>
+          <Text>Book</Text>
+        </Button>
       </View>
-      <Button full info onPress={bookAsync}>
-        <Text>Book</Text>
-      </Button>
     </View>
   );
 };
@@ -109,6 +115,13 @@ const styles = StyleSheet.create({
     height: 2 * deviceHeight / 5,
     resizeMode: 'cover',
   },
+  container: {
+    padding: 10,
+    paddingHorizontal: 15
+  },
+  bookButton: {
+    marginTop: 20
+  }
 });
 
 export default BookingInfo;

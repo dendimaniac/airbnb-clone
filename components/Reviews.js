@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AsyncStorage, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Spinner, Text, View, } from 'native-base';
 import { fetchGET } from "../hooks/APIHooks";
 import ReviewItem from "./ReviewItem";
@@ -7,8 +7,8 @@ import AddingReview from "./AddingReview";
 
 const Reviews = props => {
   const [loading, setLoading] = useState(true);
-  const [postedByCurrentUser, setPostedByCurrentUser] = useState(true);
   const [reviewsArray, setReviewsArray] = useState(undefined);
+  const postedByCurrentUser = props.postedByCurrentUser;
   const file = props.file;
   console.log(file);
 
@@ -19,15 +19,8 @@ const Reviews = props => {
     setLoading(false);
   };
 
-  const checkPostedByCurrentUser = async () => {
-    const token = await AsyncStorage.getItem('userToken');
-    const info = await fetchGET('users/user', '', token);
-    setPostedByCurrentUser(info.user_id === file.user_id);
-  };
-
   useEffect(() => {
     getReview();
-    checkPostedByCurrentUser();
   }, []);
 
   return (

@@ -9,18 +9,20 @@ const BookingSection = props => {
       <Left>
         <View>
           <Text>
-            {props.price}€ per night
+            {props.info.price}€ per night
           </Text>
         </View>
         <Rating fontSize={17} id={props.file.file_id}/>
       </Left>
-      <Right>
-        <Button danger full style={styles.chooseButton} onPress={() => {
-          props.navigation.push("BookingInfo", {file: props.file});
-        }}>
-          <Text>Book</Text>
-        </Button>
-      </Right>
+      {!props.postedByCurrentUser && (
+        <Right>
+          <Button danger full style={styles.chooseButton} onPress={() => {
+            props.navigation.push("BookingInfo", {file: props.file, info: props.info});
+          }}>
+            <Text>Book</Text>
+          </Button>
+        </Right>
+      )}
     </View>);
 };
 
