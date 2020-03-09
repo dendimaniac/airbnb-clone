@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Body, Button, CardItem, Container, Content, Icon, Text, View } from 'native-base';
-import { AsyncStorage, Dimensions, Image, Modal, StyleSheet } from 'react-native';
+import { AsyncStorage, Dimensions, Image, Modal, StyleSheet ,Platform} from 'react-native';
 import PropTypes from 'prop-types';
 import { fetchGET } from '../hooks/APIHooks';
 import { mediaURL } from '../constants/urlConst';
@@ -68,7 +68,8 @@ const Profile = (props) => {
             </Body>
           </CardItem>
           <CardItem style={[styles.center, {marginBottom:0}]}>
-            <Button 
+          {Platform.OS === 'ios' ? 
+            (<Button 
               full 
               style={{ backgroundColor:'white', marginBottom: 0, marginTop: deviceHeight/30}}
               onPress={() => {
@@ -77,14 +78,33 @@ const Profile = (props) => {
             >
             <Icon style={{color: '#50514F', fontSize:40}} name="camera"></Icon>
             </Button>
+            ) : (
+              <Button 
+              full 
+              transparent
+              style={{ backgroundColor:'white', marginBottom: 0, marginTop: deviceHeight/30}}
+              onPress={() => {
+                props.navigation.push("ChangeAvatar");
+              }}
+            >
+            <Icon style={{color: '#50514F', fontSize:40}} name="camera"></Icon>
+            </Button>
+            )}
           </CardItem>
           
        
           <CardItem style={styles.center}>
             <Text style={[styles.username]}>{user.userdata.username}</Text>
-            <Button style={styles.logout_btn} onPress={signOutAsync}>
+            {Platform.OS === 'ios' ?
+              (<Button style={styles.logout_btn} onPress={signOutAsync}>
                 <Icon style={styles.logout_icon} name='log-out'></Icon>
-            </Button>
+              </Button>
+              ) : (
+
+              <Button transparent style={styles.logout_btn} onPress={signOutAsync}>
+                <Icon style={styles.logout_icon} name='log-out'></Icon>
+              </Button>
+            )}
           </CardItem>
 
           <CardItem style={{marginTop:0}}>
@@ -114,7 +134,7 @@ const Profile = (props) => {
                   props.navigation.push("ModifyUserInfo", {user: user});
                 }}
               >
-                <Icon style={styles.editIcon} name="cog"/>
+                <Icon style={styles.editIcon} name="settings"/>
               </Button>
               </View>
           </CardItem>
@@ -195,11 +215,26 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
   logout_btn: {
-    backgroundColor: 'white'
+    ...Platform.select({
+      ios: {
+        backgroundColor: 'white',
+      },
+      android: {
+        backgroundColor: 'white',
+      },
+    }),
   },
   logout_icon: {
     color: '#CC2936',
     marginRight: 2,
+    ...Platform.select({
+      ios: {
+        backgroundColor: 'white',
+      },
+      android: {
+        color: 'red',
+      },
+    }),
   },
   flex: {
     flexDirection: 'row',
