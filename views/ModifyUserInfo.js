@@ -13,6 +13,9 @@ const deviceHeight = Dimensions.get("window").height;
 
 const ModifyUserInfo = props => {
   const [media, setMedia] = useContext(MediaContext);
+  const [password, setPassword]=useState('');
+  const [confirmPassword, setConfirmpassword] = useState('');
+  let sendToggle = true;
   const [send, setSend] = useState(false);
   const [user, setUser] = useState({
     userdata: {},
@@ -70,10 +73,12 @@ const ModifyUserInfo = props => {
   };
 
   const handlePassword = text => {
+    setPassword(text);
     handlePasswordChange(text);
     validate("password", text);
   };
   const handleConfirmPassword = text => {
+    setConfirmpassword(text);
     handleConfirmPasswordChange(text);
     validate("confirmPassword", text);
   };
@@ -82,9 +87,19 @@ const ModifyUserInfo = props => {
     validate("email", text);
   };
 
+  const checkPassword = () => {
+    if (password!=='' && confirmPassword===''){
+      sendToggle = false;
+    }else {
+      sendToggle = true;
+    }
+    return sendToggle
+  }
+
+
   const modify = () => {
     if (errors) {
-      console.log("registter field errors from ModifyUserInfo Page: ", errors);
+      console.log("errors from ModifyUserInfo Page: ", errors);
     }
     const user = inputs;
     delete user.confirmPassword;
@@ -97,7 +112,8 @@ const ModifyUserInfo = props => {
     if (
       errors.username !== undefined ||
       errors.password !== undefined ||
-      errors.email !== undefined 
+      errors.email !== undefined ||
+      errors.confirmPassword !== undefined
     ) {
       setSend(false);
     } else {
@@ -149,7 +165,7 @@ const ModifyUserInfo = props => {
               onChangeText={handleConfirmPassword}
               onEndEditing={() => {
                 validateField(validationProperties.confirmPassword);
-              }}
+              }} 
               error={errors.confirmPassword}
             />
             </Item>
@@ -171,7 +187,7 @@ const ModifyUserInfo = props => {
             source={{ uri: avatar }}
           />
 
-          {send && (
+          {send && checkPassword() &&(
             <Button full onPress={modify} style={{}}>
               <Text>Send</Text>
             </Button>

@@ -72,19 +72,8 @@ const [fullname, setFullname]= useState(null);
       const myData = await getUserMedia(token);
       // Check if an image is user's avatar
       checkAvatar(myData);  
-      const favouriteMedia = await getFavoriteMedia(token);
-
-      
+      const favouriteMedia = await getFavoriteMedia(token);    
       const bookingMedia = await getBookingMedia(userID);
-      console.log('sdfs',bookingMedia)
-      
-      // if (bookingMedia.length > 1) {
-      //   bookingMedia = bookingMedia.filter(item => item.user_id === userID);
-      //   console.log('sdfsfasdfsdf',bookingMedia)
-      // } else {
-      //   bookingMedia = bookingMedia[0].user_id === userID ? bookingMedia : [];
-      // }
-      // console.log('bookingMedia', bookingMedia)
 
       setMedia({
         allFiles: allData.reverse(),
