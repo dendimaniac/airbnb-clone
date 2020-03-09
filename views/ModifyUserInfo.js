@@ -112,8 +112,10 @@ const ModifyUserInfo = props => {
     if (
       errors.username !== undefined ||
       errors.password !== undefined ||
+
       errors.email !== undefined ||
       errors.confirmPassword !== undefined
+
     ) {
       setSend(false);
     } else {
@@ -152,7 +154,7 @@ const ModifyUserInfo = props => {
               secureTextEntry={true}
               value={inputs.password}
               onChangeText={handlePassword}
-              
+
               error={errors.password}
             />
           </Item>

@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, StyleSheet} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 const Title = (props) => {
   console.log(props.count);
@@ -13,17 +13,17 @@ const Title = (props) => {
 
       {/* Subtitle */}
       {props.subtitle &&
-        <Text style={styles.subtitle}>
-          {props.subtitle}
-        </Text>
+      <Text style={styles.subtitle}>
+        {props.subtitle}
+      </Text>
       }
       {/* End subtitle */}
 
       {/* This only for search page */}
       {props.count &&
-        <Text style={styles.count}>
-          {props.count} place(s) to stay
-        </Text>
+      <Text style={styles.count}>
+        {props.count} place(s) to stay
+      </Text>
       }
 
       {/* Ending  */}

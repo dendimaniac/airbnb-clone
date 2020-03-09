@@ -17,17 +17,20 @@ const Single = (props) => {
   const [media, setMedia] = useContext(MediaContext);
   const [user, setUser] = useState({});
   const [saved, setSaved] = useState(undefined);
+  const [postedByCurrentUser, setPostedByCurrentUser] = useState(true);
   const {navigation} = props;
   const file = navigation.state.params.file;
   // get the description object of media file
   const info = JSON.parse(file.description);
 
-
   const getUser = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const json = await fetchGET('users', file.user_id, token);
+      const userFromStorage = await AsyncStorage.getItem("user");
+      const uData = JSON.parse(userFromStorage);
       setUser(json);
+      setPostedByCurrentUser(uData.user_id === file.user_id);
     } catch (e) {
       console.log('getUser error', e);
     }
@@ -88,31 +91,31 @@ const Single = (props) => {
       <ScrollView style={styles.card}>
         <View>
           {file.media_type === 'image' ? (
-            <AsyncImage
-              style={styles.mainImageOrVideo}
-              spinnerColor='#777'
-              source={{uri: mediaURL + file.filename}}
-            />) :
+              <AsyncImage
+                style={styles.mainImageOrVideo}
+                spinnerColor='#777'
+                source={{uri: mediaURL + file.filename}}
+              />) :
             (<Video
-              source={{uri: mediaURL + file.filename}}
-              resizeMode={'cover'}
-              useNativeControls
-              style={styles.mainImageOrVideo}
-              onError={(e) => {
-                console.log('video error', e);
-              }}
-              onLoad={(evt) => {
-                console.log('onload', evt);
-              }}
-            />
+                source={{uri: mediaURL + file.filename}}
+                resizeMode={'cover'}
+                useNativeControls
+                style={styles.mainImageOrVideo}
+                onError={(e) => {
+                  console.log('video error', e);
+                }}
+                onLoad={(evt) => {
+                  console.log('onload', evt);
+                }}
+              />
             )
           }
-          {saved !== undefined &&
-            <View style={styles.saveArea}>
-              <Button rounded light onPress={saveOrUnsave}>
-                <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'} />
-              </Button>
-            </View>}
+          {!postedByCurrentUser && saved !== undefined &&
+          <View style={styles.saveArea}>
+            <Button rounded light onPress={saveOrUnsave}>
+              <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'}/>
+            </Button>
+          </View>}
         </View>
         <View style={styles.infoSection}>
           <View>
@@ -125,16 +128,15 @@ const Single = (props) => {
             </View>
             <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon}/>
           </View>
-          <Text>Capacity: {info.capacity}</Text>
+          <Text>Capacity: {info.capacity} person(s)</Text>
           <View style={styles.descriptionArea}>
             <Text style={styles.descriptionTitleText}>About</Text>
             {info.description === '' ? <Text>No descriptions provided.</Text> : <Text>{info.description}</Text>}
-
           </View>
-          <Reviews file={file}/>
+          <Reviews file={file} postedByCurrentUser={postedByCurrentUser}/>
         </View>
       </ScrollView>
-      <BookingSection file={file} price={info.price} navigation={navigation}/>
+      <BookingSection file={file} info={info} navigation={navigation} postedByCurrentUser={postedByCurrentUser}/>
       <View style={styles.backArea}>
         <Button transparent onPress={() => navigation.pop()}>
           <Icon style={styles.backIcon} name={'arrow-back'}/>

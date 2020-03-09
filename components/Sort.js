@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {Container, Header, Content, Icon, Picker, Form, Text, View} from "native-base";
-import {Dimensions} from 'react-native'
+import React, { Component } from "react";
+import { Form, Icon, Picker, View } from "native-base";
+import { Dimensions } from 'react-native'
 
 const width = Dimensions.get("window").width;
 export default class Sort extends Component {
@@ -10,6 +10,7 @@ export default class Sort extends Component {
       selected: "Sort by"
     };
   }
+
   onValueChange(value) {
     this.setState({
       selected: value
