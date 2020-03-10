@@ -105,11 +105,9 @@ const useSignUpForm = () => {
         let tempUser = {...JSON.parse(userFromStorage)};
 
         if (data.username !== tempUser.username) {
-          console.log("difference username");
           tempUser.username = data.username;
         }
         if (data.email !== tempUser.email) {
-          console.log("difference email");
           tempUser.email = data.email;
         }
         AsyncStorage.setItem("user", JSON.stringify(tempUser));

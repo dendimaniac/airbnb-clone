@@ -12,19 +12,19 @@ import Tags from "../components/Tags";
 import Title from "./Title";
 import {View, Text} from 'react-native';
 import Sort from './Sort';
-import { fetchGET } from '../hooks/APIHooks';
+import {fetchGET} from '../hooks/APIHooks';
 
 const List = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [loading, setLoading] = useState(true);
 
   // Check if an image is user's avatar
-  const checkAvatar = async(file) => {
-    return file.filter(item=> item.description !=="");
+  const checkAvatar = async (file) => {
+    return file.filter(item => item.description !== "");
   };
 
   const [option, setOption] = useState(undefined);
-  const [fullname, setFullname]= useState(null);
+  const [fullname, setFullname] = useState(null);
 
   //Get keySearch from Search page
   const keySearch = props.keySearch;
@@ -51,19 +51,23 @@ const List = props => {
       //Get userID, userName
       const userFromStorage = await AsyncStorage.getItem("user");
       const userID = JSON.parse(userFromStorage).user_id;
-      const fullname= JSON.parse(userFromStorage).fullname? `, ${JSON.parse(userFromStorage).fullname}!`:'!';
+      const fullname = JSON.parse(userFromStorage).fullname ? `, ${JSON.parse(userFromStorage).fullname}!` : '!';
       setFullname(fullname);
-      //Get data
+      //Get all Data, myData, bookingData, and favorite Data
       const allData = await getAllMedia();
-      
       const token = await AsyncStorage.getItem("userToken");
       const preMyData = await getUserMedia(token);
+      // Check an image is user's avatar, if true not get it to myData, if false get it.
+      const myData = await checkAvatar(preMyData);
+      const favouriteMedia = await getFavoriteMedia(token);
+      const preBookingMedia = await getBookingMedia(userID);
 
-      // Check if an image is user's avatar
-      const myData= await checkAvatar(preMyData);  
-      const favouriteMedia = await getFavoriteMedia(token);    
-      const bookingMedia = await getBookingMedia(userID);
-
+      const bookingMedia= Array.from(new Set(preBookingMedia.map(item=> item.title))).map(title=>{
+        return {
+          ...preBookingMedia.find(item=> item.title= title)
+        }
+      });
+            
       setMedia({
         allFiles: allData.reverse(),
         myFiles: myData,
@@ -75,14 +79,14 @@ const List = props => {
       console.log(e.message);
     }
   };
-  
+
   useEffect(() => {
     getMedia(props.mode);
   }, []);
 
   let searchList;
   if (props.mode === "search") {
-    searchList = media.allFiles.filter(item => JSON.parse(item.description).location.toUpperCase()=== keySearch.toUpperCase());
+    searchList = media.allFiles.filter(item => JSON.parse(item.description).location.toUpperCase() === keySearch.toUpperCase());
   }
 
   return (
@@ -93,7 +97,7 @@ const List = props => {
           <>
             {props.mode === "all" && (
               <ScrollView>
-                <Tags navigation={props.navigation}/>
+                <Tags navigation={props.navigation} />
                 <ImageCover />
                 <Title title={`Welcome to CloudHome ${fullname}`} subtitle={"A selection of places to stay verified for quality and design."} />
                 <View style={styles.wrapContainer}>
@@ -110,7 +114,7 @@ const List = props => {
               </ScrollView>
             )}
 
-            { props.mode === "myfiles" && (
+            {props.mode === "myfiles" && (
 
               <ScrollView >
                 <Title title={"List of your appartments "} />

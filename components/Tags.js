@@ -13,6 +13,7 @@ const Tags = (props) => {
           }}>
             <Text style={{
               fontSize: 12,
+              color:"black"
             }}>#{item}</Text>
           </Button>
         ))}

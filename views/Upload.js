@@ -26,13 +26,11 @@ const Upload = (props) => {
     handleCapacityChange,
     handlePriceChange,
     handleUpload,
-    description,
     inputs,
     errors,
     setErrors,
     setInputs,
     loading,
-    resetDescription
   } = useUploadForm();
 
   const validationProperties = {
@@ -55,7 +53,6 @@ const Upload = (props) => {
     setErrors({});
     setInputs({});
     setImage(null);
-    resetDescription(description)
   };
 
   const getPermissionAsync = async () => {
@@ -147,7 +144,6 @@ const Upload = (props) => {
               <FormTextInput
                 placeholder='Location'
                 onChangeText={handleLocation}
-                value={description.location}
                 error={errors.description}
               />
             </Item>
@@ -155,7 +151,6 @@ const Upload = (props) => {
               <FormTextInput
                 placeholder='Capacity'
                 onChangeText={handleCapacity}
-                value={description.capacity}
                 error={errors.description}
               />
             </Item>
@@ -164,7 +159,6 @@ const Upload = (props) => {
               <FormTextInput
                 placeholder='Price'
                 onChangeText={handlePrice}
-                value={description.price}
                 error={errors.description}
               />
             </Item>
@@ -173,7 +167,6 @@ const Upload = (props) => {
               <FormTextInput
                 placeholder='Description'
                 onChangeText={handleDescription}
-                value={description.description}
                 error={errors.description}
               />
             </Item>
