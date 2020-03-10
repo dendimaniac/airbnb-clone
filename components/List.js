@@ -18,13 +18,10 @@ const List = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [loading, setLoading] = useState(true);
 
-  let myPlaceForRent = [];
-  
   // Check if an image is user's avatar
   const checkAvatar = async(file) => {
     return file.filter(item=> item.description !=="");
   };
-
 
   const [option, setOption] = useState(undefined);
   const [fullname, setFullname]= useState(null);
@@ -33,7 +30,6 @@ const List = props => {
   const keySearch = props.keySearch;
 
   const handleOption = (list, option) => {
-    console.log("handle Option List: ",list);
     if (list.length > 1) {
       switch (option) {
         case "Alphabetical Order":

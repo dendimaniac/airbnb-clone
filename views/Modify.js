@@ -1,24 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Content, Form, Item, Spinner, Text, } from 'native-base';
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Content, Form, Item, Spinner, Text } from "native-base";
 
-import { Dimensions, } from 'react-native';
-import PropTypes from 'prop-types';
-import FormTextInput from '../components/FormTextInput';
-import useUploadForm from '../hooks/UploadHooks';
-import { MediaContext } from '../contexts/MediaContext';
-import { validateField } from '../utils/validation';
-import { uploadConstraints } from '../constants/validationConst';
-import { mediaURL } from '../constants/urlConst';
-import AsyncImage from '../components/AsyncImage';
-import { Video } from 'expo-av';
+import { Dimensions } from "react-native";
+import PropTypes from "prop-types";
+import FormTextInput from "../components/FormTextInput";
+import useUploadForm from "../hooks/UploadHooks";
+import { MediaContext } from "../contexts/MediaContext";
+import { validateField } from "../utils/validation";
+import { uploadConstraints } from "../constants/validationConst";
+import { mediaURL } from "../constants/urlConst";
+import AsyncImage from "../components/AsyncImage";
+import { Video } from "expo-av";
 
-const deviceHeight = Dimensions.get('window').height;
+const deviceHeight = Dimensions.get("window").height;
 
-const Modify = (props) => {
+const Modify = props => {
   const [media, setMedia] = useContext(MediaContext);
   const [send, setSend] = useState(false);
 
-  const {
+  let {
     handleTitleChange,
     handleDescriptionModify,
     handleLocationModify,
@@ -35,65 +35,80 @@ const Modify = (props) => {
   } = useUploadForm();
 
   const validationProperties = {
-    title: {title: inputs.title},
-    description: {description: inputs.description},
+    title: { title: inputs.title },
+    description: { description: inputs.description }
   };
 
   const validate = (field, value) => {
-    console.log('vp', validationProperties[field]);
-    setErrors((errors) =>
-      ({
-        ...errors,
-        [field]: validateField({[field]: value},
-            uploadConstraints),
-        fetch: undefined,
-      }));
+    console.log("vp", validationProperties[field]);
+    setErrors(errors => ({
+      ...errors,
+      [field]: validateField({ [field]: value }, uploadConstraints),
+      fetch: undefined
+    }));
   };
 
   const file = props.navigation.state.params.file;
+  let fileDescription = JSON.parse(file.description);
+  // const mediaPrice = fileDescription.price;
+  // const mediaCapacity = fileDescription.capacity;
+  // const mediaLocation = fileDescription.location;
+  // const mediaDescription = fileDescription.description;
 
   useEffect(() => {
-    setInputs((inputs) =>
-      ({
-        ...inputs,
-        title: file.title,
-      }));
+    setInputs(inputs => ({
+      ...inputs,
+      title: file.title,
+    }));
   }, []);
 
-  const handleTitle = (text) => {
+  const handleTitle = text => {
     handleTitleChange(text);
-    validate('title', text);
+    validate("title", text);
   };
 
-  const handleDescription = (text) => {
+  const handleDescription = text => {
     handleDescriptionModify(text);
     // validate('description', text);
   };
 
-  const handleLocation = (text) => {
+  const handleLocation = text => {
     handleLocationModify(text);
     // validate('description', text);
   };
-  const handleCapacity = (text) => {
+  const handleCapacity = text => {
     handleCapacityModify(text);
     // validate('description', text);
   };
-  const handlePrice = (text) => {
+  const handlePrice = text => {
     handlePriceModify(text);
     // validate('description', text);
   };
 
+  /** 
+ * 
+ const checkInfoBeforeModify=(object)=>{
+   if( object.capacity === undefined || object.capacity===''){
+     object.capacity= mediaCapacity;
+    }else if( object.price === undefined ||object.price === ''){
+      object.price= mediaPrice;
+    }else if( object.location === undefined ||object.location === '' ){
+      object.location = mediaLocation;
+    }else if( object.description === undefined || object.description ===''){
+      object.description = mediaDescription;
+    }
+  }
+*/
 
   const modify = () => {
-    console.log('reg field errors', errors);
+    console.log("reg field errors", errors);
     handleModify(file.file_id, props.navigation, setMedia);
-    // resetDescription(description);
+ 
   };
 
   const checkErrors = () => {
-    console.log('errors', errors);
-    if (errors.title !== undefined ||
-      errors.description !== undefined) {
+    console.log("errors", errors);
+    if (errors.title !== undefined || errors.description !== undefined) {
       setSend(false);
     } else {
       setSend(true);
@@ -104,17 +119,17 @@ const Modify = (props) => {
     checkErrors();
   }, [errors]);
 
-  console.log('send', send);
+  console.log("send", send);
 
   return (
     <Content>
       {loading ? (
-        <Spinner/>
+        <Spinner />
       ) : (
         <Form>
           <Item>
             <FormTextInput
-              placeholder='Title'
+              placeholder="Title"
               onChangeText={handleTitle}
               value={inputs.title}
               error={errors.title}
@@ -122,7 +137,7 @@ const Modify = (props) => {
           </Item>
           <Item>
             <FormTextInput
-              placeholder='Location'
+              placeholder="Location"
               onChangeText={handleLocation}
               value={description.location}
               error={errors.description}
@@ -130,7 +145,7 @@ const Modify = (props) => {
           </Item>
           <Item>
             <FormTextInput
-              placeholder='Capacity'
+              placeholder="Capacity"
               onChangeText={handleCapacity}
               value={description.capacity}
               error={errors.description}
@@ -138,7 +153,7 @@ const Modify = (props) => {
           </Item>
           <Item>
             <FormTextInput
-              placeholder='Price'
+              placeholder="Price"
               onChangeText={handlePrice}
               value={description.price}
               error={errors.description}
@@ -146,39 +161,39 @@ const Modify = (props) => {
           </Item>
           <Item>
             <FormTextInput
-              placeholder='Description'
+              placeholder="Description"
               onChangeText={handleDescription}
               value={description.description}
               error={errors.description}
             />
           </Item>
-          {file.media_type === 'image' ? (
-              <AsyncImage
-                style={{
-                  width: '100%',
-                  height: deviceHeight / 2,
-                }}
-                spinnerColor='#777'
-                source={{uri: mediaURL + file.filename}}
-              />) :
-            (<Video
-              source={{uri: mediaURL + file.filename}}
+          {file.media_type === "image" ? (
+            <AsyncImage
+              style={{
+                width: "100%",
+                height: deviceHeight / 2
+              }}
+              spinnerColor="#777"
+              source={{ uri: mediaURL + file.filename }}
+            />
+          ) : (
+            <Video
+              source={{ uri: mediaURL + file.filename }}
               useNativeControls
               style={{
-                width: '100%',
-                height: deviceHeight / 2,
+                width: "100%",
+                height: deviceHeight / 2
               }}
-              onError={(e) => {
-                console.log('video error', e);
+              onError={e => {
+                console.log("video error", e);
               }}
             />
-            )
-          }
-          {send &&
-          <Button full onPress={modify}>
-            <Text>Send</Text>
-          </Button>
-          }
+          )}
+          {send && (
+            <Button full onPress={modify}>
+              <Text>Send</Text>
+            </Button>
+          )}
         </Form>
       )}
     </Content>
@@ -187,7 +202,7 @@ const Modify = (props) => {
 
 // proptypes here
 Modify.propTypes = {
-  navigation: PropTypes.object,
+  navigation: PropTypes.object
 };
 
 export default Modify;
