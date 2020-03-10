@@ -146,21 +146,25 @@ const styles = StyleSheet.create({
   title1: {
     fontSize: 12,
     fontWeight: "700",
-    paddingVertical: 3
+    paddingVertical: 3,
+    textTransform:"capitalize"
   },
   subtitle1: {
     fontSize: 12,
     fontWeight: "700",
-    paddingVertical: 3
+    paddingVertical: 3,
+    textTransform:"capitalize"
   },
   title2: {
     fontSize: 14,
     paddingVertical: 3,
-    color: "#727272"
+    color: "#727272",
+    textTransform:"capitalize"
   },
   subtitle2: {
     fontSize: 16,
-    paddingVertical: 3
+    paddingVertical: 3,
+    textTransform:"capitalize"
   },
   bottom: {
     flexDirection: "row",
