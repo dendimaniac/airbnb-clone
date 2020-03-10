@@ -67,7 +67,7 @@ const List = props => {
           ...preBookingMedia.find(item=> item.title= title)
         }
       });
-            
+
       setMedia({
         allFiles: allData.reverse(),
         myFiles: myData,
@@ -86,7 +86,7 @@ const List = props => {
 
   let searchList;
   if (props.mode === "search") {
-    searchList = media.allFiles.filter(item => JSON.parse(item.description).location.toUpperCase() === keySearch.toUpperCase());
+    searchList = media.allFiles.filter(item => (JSON.parse(item.description).location.toUpperCase() === keySearch.toUpperCase() || item.title.toUpperCase() === keySearch.toUpperCase()));
   }
 
   return (
