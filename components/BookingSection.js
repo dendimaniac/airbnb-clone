@@ -14,7 +14,7 @@ const BookingSection = props => {
         </View>
         <RatingView fontSize={17} id={props.file.file_id}/>
       </Left>
-      {!props.postedByCurrentUser && (
+      {!props.postedByCurrentUser && props.mode !== 'booked' && (
         <Right>
           <Button danger full style={styles.chooseButton} onPress={() => {
             props.navigation.push("BookingInfo", {file: props.file, info: props.info});

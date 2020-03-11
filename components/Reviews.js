@@ -10,6 +10,7 @@ const Reviews = props => {
   const [reviewsArray, setReviewsArray] = useState(undefined);
   const postedByCurrentUser = props.postedByCurrentUser;
   const file = props.file;
+  const mode = props.mode;
   console.log(file);
 
   const getReview = async () => {
@@ -35,7 +36,7 @@ const Reviews = props => {
               item={item}/>
           ))) :
           <Text style={styles.noReviewText}>No reviews yet. Be the first to review it!</Text>}
-      {postedByCurrentUser ? <></> : <AddingReview id={file.file_id} setReviewsArray={setReviewsArray}/>}
+      {mode !== 'booked' ? <></> : <AddingReview id={file.file_id} setReviewsArray={setReviewsArray}/>}
     </View>
   );
 };

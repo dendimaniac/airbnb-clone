@@ -1,18 +1,9 @@
-import React, {useState} from "react";
-import {Icon} from "native-base";
+import React, { useState } from "react";
+import { Button, Icon, Spinner, Text } from "native-base";
 import PropTypes from "prop-types";
-import {mediaURL} from "../constants/urlConst";
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from "react-native";
-import {fetchDELETE} from "../hooks/APIHooks";
-import {AsyncStorage} from "react-native";
-import {Button, Text} from "native-base";
-import {Spinner} from "native-base";
+import { mediaURL } from "../constants/urlConst";
+import { AsyncStorage, Dimensions, Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { fetchDELETE } from "../hooks/APIHooks";
 import RatingView from './RatingView';
 
 const width = Dimensions.get("window").width;
@@ -30,111 +21,111 @@ const ListItem = props => {
   return (
     <View>
       {!description ? (
-        <Spinner />
+        <Spinner/>
       ) : (
-          <TouchableOpacity
+        <TouchableOpacity
+          style={
+            mode === "myfiles" || mode === "search"
+              ? styles.columnContainer
+              : styles.wrapContainer
+          }
+          onPress={() => {
+            if (open) {
+              setOpen(!open);
+            }
+            navigation.push("Single", {file: singleMedia, mode: mode});
+          }}
+          onLongPress={() => {
+            if (mode === "myfiles") {
+              setOpen(!open);
+            }
+          }}
+        >
+          {mode === "myfiles" && open && (
+            <View
+              style={{...styles.buttonContainer, top: 100, width: "100%"}}
+            >
+              <Button
+                full
+                info
+                onPress={() => {
+                  setOpen(!open);
+                  props.navigation.push("Modify", {file: props.singleMedia});
+                }}
+              >
+                <Icon name="create"/>
+                <Text>Modify</Text>
+              </Button>
+              <Button
+                full
+                danger
+                onPress={async () => {
+                  setOpen(!open);
+                  const token = await AsyncStorage.getItem("userToken");
+                  const del = await fetchDELETE(
+                    "media",
+                    props.singleMedia.file_id,
+                    token
+                  );
+                  console.log("delete", del);
+                  if (del.message) {
+                    getMedia(props.mode);
+                  }
+                }}
+              >
+                <Icon name="trash"/>
+                <Text>Delete</Text>
+              </Button>
+            </View>
+          )}
+          <Image
+            source={{uri: mediaURL + thumbnails.w320}}
+            style={{
+              height: mode === "myfiles" || mode === "search" ? 250 : 150,
+              width: "100%",
+              borderRadius: 5,
+              opacity: open ? 0.4 : 1
+            }}
+          />
+
+          <View
             style={
               mode === "myfiles" || mode === "search"
-                ? styles.columnContainer
-                : styles.wrapContainer
+                ? {flexDirection: "row", justifyContent: "space-between"}
+                : {}
             }
-            onPress={() => {
-              if (open) {
-                setOpen(!open);
-              }
-              navigation.push("Single", {file: singleMedia});
-            }}
-            onLongPress={() => {
-              if (mode === "myfiles") {
-                setOpen(!open);
-              }
-            }}
           >
-            {mode === "myfiles" && open && (
-              <View
-                style={{...styles.buttonContainer, top: 100, width: "100%"}}
-              >
-                <Button
-                  full
-                  info
-                  onPress={() => {
-                    setOpen(!open);
-                    props.navigation.push("Modify", {file: props.singleMedia});
-                  }}
-                >
-                  <Icon name="create" />
-                  <Text>Modify</Text>
-                </Button>
-                <Button
-                  full
-                  danger
-                  onPress={async () => {
-                    setOpen(!open);
-                    const token = await AsyncStorage.getItem("userToken");
-                    const del = await fetchDELETE(
-                      "media",
-                      props.singleMedia.file_id,
-                      token
-                    );
-                    console.log("delete", del);
-                    if (del.message) {
-                      getMedia(props.mode);
-                    }
-                  }}
-                >
-                  <Icon name="trash" />
-                  <Text>Delete</Text>
-                </Button>
-              </View>
-            )}
-            <Image
-              source={{uri: mediaURL + thumbnails.w320}}
-              style={{
-                height: mode === "myfiles" || mode === "search" ? 250 : 150,
-                width: "100%",
-                borderRadius: 5,
-                opacity: open ? 0.4 : 1
-              }}
-            />
-            
-            <View
-              style={
-                mode === "myfiles" || mode === "search"
-                  ? {flexDirection: "row", justifyContent: "space-between"}
-                  : {}
-              }
-            >
-              <View style={{marginVertical: 3}}>
-                {info.location !== undefined && (
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      mode === "myfiles" || mode === "search"
-                        ? {...styles.title2}
-                        : {...styles.title1, color: "#9E6969"}
-                    }
-                    numberOfLines={1}
-                  >
-                    {info.location}
-                  </Text>
-                )}
+            <View style={{marginVertical: 3}}>
+              {info.location !== undefined && (
                 <Text
                   numberOfLines={1}
                   style={
                     mode === "myfiles" || mode === "search"
-                      ? {...styles.subtitle2}
-                      : {...styles.subtitle1}
+                      ? {...styles.title2}
+                      : {...styles.title1, color: "#9E6969"}
                   }
                   numberOfLines={1}
                 >
-                  {title}
+                  {info.location}
                 </Text>
-                {mode !== "myfiles" && <Text>{info.price} € per night</Text>}
-              </View>
-              <RatingView fontSize={13} id={file_id} />
+              )}
+              <Text
+                numberOfLines={1}
+                style={
+                  mode === "myfiles" || mode === "search"
+                    ? {...styles.subtitle2}
+                    : {...styles.subtitle1}
+                }
+                numberOfLines={1}
+              >
+                {title}
+              </Text>
+              {mode !== "myfiles" && <Text>{info.price} € per night</Text>}
             </View>
-          </TouchableOpacity>
-        )}
+            <RatingView fontSize={13} id={file_id}/>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
