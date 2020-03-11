@@ -13,6 +13,7 @@ import { fetchDELETE } from "../hooks/APIHooks";
 import { AsyncStorage } from "react-native";
 import { Button, Text } from "native-base";
 import { Spinner } from "native-base";
+import Rating from './Rating';
 
 const width = Dimensions.get("window").width;
 const ListItem = props => {
@@ -128,6 +129,7 @@ const ListItem = props => {
               </Text>
               {mode !== "myfiles" && <Text>{info.price} € per night</Text>}
             </View>
+            <Rating fontSize={13} id={file_id} />
           </View>
         </TouchableOpacity>
       )}
