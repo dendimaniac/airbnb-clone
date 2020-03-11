@@ -31,11 +31,29 @@ const Modify = props => {
     setErrors,
     setInputs,
   } = useUploadForm();
+
+  const validationProperties = {
+    title: {title: inputs.title},
+    description: {description: inputs.info.description},
+    price: {price: inputs.info.price},
+    capacity: {capacity: inputs.info.capacity},
+    location: {location: inputs.info.location},
+  };
+
+  const validate = (field, value) => {
+    console.log('vp', validationProperties[field]);
+    setErrors((errors) =>
+      ({
+        ...errors,
+        [field]: validateField({[field]: value},
+          uploadConstraints),
+        fetch: undefined,
+      }));
+  };
   
   //Get data of single file
   const file = props.navigation.state.params.file;
   const fileInfo= JSON.parse(file.description);
-  console.log("in Modify", fileInfo)
 
   useEffect(() => {
     setInputs(inputs => ({
@@ -48,14 +66,17 @@ const Modify = props => {
   //Handle change of information
   const handleTitle = text => {
     handleTitleChange(text);
+ 
   };
 
   const handleDescription = text => {
     handleDescriptionChange(text);
+    validate('description', text);
   };
 
   const handleLocation = text => {
     handleLocationChange(text);
+    
   };
   const handleCapacity = text => {
     handleCapacityChange(text);
@@ -95,6 +116,9 @@ const Modify = props => {
                 placeholder="Title"
                 onChangeText={handleTitle}
                 value={inputs.title}
+                onEndEditing={() => {
+                  validate('title', inputs.title);
+                }}
                 error={errors.title}
               />
             </Item>
@@ -103,7 +127,10 @@ const Modify = props => {
                 placeholder="Location"
                 onChangeText={(e) => {handleLocation(e)}}
                 value={inputs.info.location}
-                error={errors.description}
+                onEndEditing={() => {
+                  validate('location', inputs.info.location);
+                }}
+                error={errors.location}
               />
             </Item>
             <Item>
@@ -111,7 +138,10 @@ const Modify = props => {
                 placeholder="Capacity"
                 onChangeText={handleCapacity}
                 value={inputs.info.capacity}
-                error={errors.description}
+                onEndEditing={() => {
+                  validate('capacity', inputs.info.capacity);
+                }}
+                error={errors.capacity}
               />
             </Item>
             <Item>
@@ -119,7 +149,10 @@ const Modify = props => {
                 placeholder="Price"
                 onChangeText={handlePrice}
                 value={inputs.info.price}
-                error={errors.description}
+                onEndEditing={() => {
+                  validate('price', inputs.info.price);
+                }}
+                error={errors.price}
               />
             </Item>
             <Item>
@@ -127,6 +160,9 @@ const Modify = props => {
                 placeholder="Description"
                 onChangeText={handleDescription}
                 value={inputs.info.description}
+                onEndEditing={() => {
+                  validate('description', inputs.info.description);
+                }}
                 error={errors.description}
               />
             </Item>
@@ -158,6 +194,7 @@ const Modify = props => {
               </Button>
             )}
           </Form>
+          
         )}
     </Content>
   );
