@@ -175,7 +175,6 @@ const Profile = (props) => {
                     setModalVisible(!modalVisible);
                   }}>
                   <Icon name='close' style={{color: 'red', fontSize: 50}}></Icon>
-
               </TouchableOpacity>
                 <Image
                   style={{width: deviceWidth/1.2, height: deviceWidth/1.2, resizeMode: 'stretch'}}

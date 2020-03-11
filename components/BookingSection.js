@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Left, Right, Text, View } from "native-base";
 import { StyleSheet } from 'react-native';
+import RatingView from './RatingView';
 
 const BookingSection = props => {
   return (
@@ -11,6 +12,7 @@ const BookingSection = props => {
             {props.info.price}€ per night
           </Text>
         </View>
+        <RatingView fontSize={17} id={props.file.file_id}/>
       </Left>
       {!props.postedByCurrentUser && (
         <Right>

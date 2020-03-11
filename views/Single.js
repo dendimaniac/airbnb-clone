@@ -1,25 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Icon, Text, View } from 'native-base';
+import React, {useContext, useEffect, useState} from 'react';
+import {Button, Icon, Text, View} from 'native-base';
 import PropTypes from 'prop-types';
 import AsyncImage from '../components/AsyncImage';
-import { AsyncStorage, Dimensions, ScrollView, StyleSheet } from 'react-native';
-import { mediaURL } from '../constants/urlConst';
-import { Video } from 'expo-av';
-import { fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia } from '../hooks/APIHooks';
-import { MediaContext } from "../contexts/MediaContext";
+import {AsyncStorage, Dimensions, ScrollView, StyleSheet, Modal, TouchableOpacity} from 'react-native';
+import {mediaURL} from '../constants/urlConst';
+import {Video} from 'expo-av';
+import {fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia} from '../hooks/APIHooks';
+import {MediaContext} from "../contexts/MediaContext";
 import Reviews from "../components/Reviews";
 import UserAvatar from "../components/UserAvatar";
 import BookingSection from "../components/BookingSection";
+import {AirbnbRating} from 'react-native-ratings';
+import {navajowhite} from 'color-name';
 
 const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 const Single = (props) => {
   const [media, setMedia] = useContext(MediaContext);
   const [user, setUser] = useState({});
   const [saved, setSaved] = useState(undefined);
+  const [vote, setVote] = useState(undefined);
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [postedByCurrentUser, setPostedByCurrentUser] = useState(true);
   const {navigation} = props;
+  console.log('navigation', navigation);
   const file = navigation.state.params.file;
+
   // get the description object of media file
   const info = JSON.parse(file.description);
 
@@ -91,33 +99,48 @@ const Single = (props) => {
       <ScrollView style={styles.card}>
         <View>
           {file.media_type === 'image' ? (
-              <AsyncImage
-                style={styles.mainImageOrVideo}
-                spinnerColor='#777'
-                source={{uri: mediaURL + file.filename}}
-              />) :
+            <AsyncImage
+              style={styles.mainImageOrVideo}
+              spinnerColor='#777'
+              source={{uri: mediaURL + file.filename}}
+            />) :
             (<Video
-                source={{uri: mediaURL + file.filename}}
-                resizeMode={'cover'}
-                useNativeControls
-                style={styles.mainImageOrVideo}
-                onError={(e) => {
-                  console.log('video error', e);
-                }}
-                onLoad={(evt) => {
-                  console.log('onload', evt);
-                }}
-              />
+              source={{uri: mediaURL + file.filename}}
+              resizeMode={'cover'}
+              useNativeControls
+              style={styles.mainImageOrVideo}
+              onError={(e) => {
+                console.log('video error', e);
+              }}
+              onLoad={(evt) => {
+                console.log('onload', evt);
+              }}
+            />
             )
           }
           {!postedByCurrentUser && saved !== undefined &&
-          <View style={styles.saveArea}>
-            <Button rounded light onPress={saveOrUnsave}>
-              <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'}/>
-            </Button>
-          </View>}
+            <View style={styles.saveArea}>
+              <Button rounded light onPress={saveOrUnsave}>
+                <Icon style={saved ? styles.savedIcon : styles.defaultSaveIcon} name={'heart'} />
+              </Button>
+            </View>}
         </View>
         <View style={styles.infoSection}>
+
+          {/* Rating  */}
+          {!postedByCurrentUser &&
+            <AirbnbRating
+              count={5}
+              reviews={["Terrible", "Bad", "OK", "Good", "Very Good"]}
+              defaultRating={1}
+              size={20}
+              onFinishRating={(e) => {
+                setVote(e);
+                setModalVisible(true);
+              }}
+            />
+          }
+          {/* End of rating */}
           <View>
             <Text style={styles.titleText}>{file.title}</Text>
           </View>
@@ -126,22 +149,85 @@ const Single = (props) => {
               <Text>{info.location}</Text>
               <Text>Hosted by {user.username}</Text>
             </View>
-            <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon}/>
+            <UserAvatar userId={file.user_id} avatarStyle={styles.imageAvatar} iconStyle={styles.imageIcon} />
           </View>
           <Text>Capacity: {info.capacity} person(s)</Text>
           <View style={styles.descriptionArea}>
             <Text style={styles.descriptionTitleText}>About</Text>
             {info.description === '' ? <Text>No descriptions provided.</Text> : <Text>{info.description}</Text>}
           </View>
-          <Reviews file={file} postedByCurrentUser={postedByCurrentUser}/>
+          <Reviews file={file} postedByCurrentUser={postedByCurrentUser} />
         </View>
       </ScrollView>
-      <BookingSection file={file} info={info} navigation={navigation} postedByCurrentUser={postedByCurrentUser}/>
+      <BookingSection file={file} info={info} navigation={navigation} postedByCurrentUser={postedByCurrentUser} />
       <View style={styles.backArea}>
         <Button transparent onPress={() => navigation.pop()}>
-          <Icon style={styles.backIcon} name={'arrow-back'}/>
+          <Icon style={styles.backIcon} name={'arrow-back'} />
         </Button>
       </View>
+      {/* Modal confirm rating */}
+      <Modal
+        animationType="fade"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <View style={{marginTop: (deviceHeight - 400) / 2, alignItems: 'center', marginHorizontal: 20}}>
+          <View>
+            <TouchableOpacity
+              style={{margin: 20}}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}>
+              <Icon name='close' style={{color: 'red', fontSize: 50}}></Icon>
+            </TouchableOpacity>
+            <Text style={{textAlign: "center", width: deviceWidth, fontSize: 30, alignItems: "center", marginVertical: 100}}>You vote this {vote} stars</Text>
+            <View style={{flexDirection: "row", width: "100%", marginVertical: 20, marginHorizontal: 20}}>
+              <Button style={{width: (deviceWidth - 40) / 2, alignContent: "space-around"}} bordered danger onPress={() => setModalVisible(!modalVisible)}>
+                <Icon name="close" />
+                <Text>Cancel</Text>
+              </Button>
+              <Button style={{width: (deviceWidth - 40) / 2, alignContent: "space-around"}} bordered primary
+
+                onPress={async () => {
+                  // Prepare data before post
+                  const token = await AsyncStorage.getItem("userToken");
+                  console.log("token here", token);
+                  const data = {
+                    file_id: file.file_id,
+                    rating: vote
+                  };
+                  console.log("prepared data", data);
+                  //New ratings is replace the old one;
+                  try {
+                    const del = await fetchDELETE(
+                      "ratings/file",
+                      file.file_id,
+                      token
+                    );
+                    console.log("New rating is replaced the old one", del.message);
+                  } catch (err) {
+                    console.log("First time rating it !");
+                  }
+                  try{
+                    const post = await fetchPOST('ratings', data, token);
+                    console.log("completed post", post);
+                    setModalVisible(!modalVisible);  
+                    navigation.push("Home"); 
+                  }catch(err){
+                    console.log("error when post", err.message);
+                  }
+                }
+                }>
+                <Icon name="checkmark" />
+                <Text>Agree</Text>
+              </Button>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* End modal confirm rating */}
     </>
   );
 };

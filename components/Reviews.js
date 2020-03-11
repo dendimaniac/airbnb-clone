@@ -14,7 +14,7 @@ const Reviews = props => {
 
   const getReview = async () => {
     const json = await fetchGET('comments/file', file.file_id);
-    console.log(json);
+    console.log("Get review",json);
     setReviewsArray(json);
     setLoading(false);
   };
