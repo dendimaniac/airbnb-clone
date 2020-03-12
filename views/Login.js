@@ -144,7 +144,7 @@ const Login = (props) => {
         {/* register form */}
         {!toggleForm &&
         <Form style={styles.form}>
-          <Item inlineLabel>
+        <Item stackedLabel>
             <Label>username</Label>
             <FormTextInput
               autoCapitalize='none'
@@ -157,7 +157,7 @@ const Login = (props) => {
               error={errors.username}
             />
           </Item>
-          <Item inlineLabel>
+          <Item stackedLabel>
             <Label>email</Label>
             <FormTextInput
               autoCapitalize='none'
@@ -169,7 +169,7 @@ const Login = (props) => {
               error={errors.email}
             />
           </Item>
-          <Item inlineLabel>
+          <Item stackedLabel>
             <Label>fullname</Label>
             <FormTextInput
               autoCapitalize='none'
@@ -181,7 +181,7 @@ const Login = (props) => {
               error={errors.full_name}
             />
           </Item>
-          <Item inlineLabel>
+          <Item stackedLabel>
             <Label>password</Label>
             <FormTextInput
               autoCapitalize='none'
@@ -194,7 +194,7 @@ const Login = (props) => {
               error={errors.password}
             />
           </Item>
-          <Item inlineLabel>
+          <Item stackedLabel>
             <Label>confirm password</Label>
             <FormTextInput
               autoCapitalize='none'
@@ -242,8 +242,8 @@ const styles = StyleSheet.create({
   },
   form: {
     marginTop: 25,
-    marginRight: deviceWidth/6,
-    marginLeft: deviceWidth/9
+    marginRight: deviceWidth/9,
+    marginLeft: deviceWidth/12
   },
   registerContainer: {
     flexDirection: "column", 
