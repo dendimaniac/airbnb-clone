@@ -1,9 +1,10 @@
 import React from "react";
-import { Button, Left, Right, Text, View } from "native-base";
-import { StyleSheet } from 'react-native';
+import {Button, Left, Right, Text, View} from "native-base";
+import {StyleSheet} from 'react-native';
 import RatingView from './RatingView';
 
 const BookingSection = props => {
+  
   return (
     <View style={styles.bottomBookingSection}>
       <Left>
@@ -12,7 +13,10 @@ const BookingSection = props => {
             {props.info.price}€ per night
           </Text>
         </View>
-        <RatingView fontSize={17} id={props.file.file_id}/>
+        <RatingView 
+          mode={props.mode}
+          defVote= {props.defVote}
+          fontSize={17} id={props.file.file_id} />
       </Left>
       {!props.postedByCurrentUser && props.mode !== 'booked' && (
         <Right>
