@@ -6,22 +6,26 @@ import {fetchGET} from "../hooks/APIHooks";
 const Rating = props => {
   const [rating, setRating] = useState({});
   const id = props.id;
-
+  
   const getPostRating = async () => {
     const token = await AsyncStorage.getItem('userToken');
     const json = await fetchGET('ratings/file', id, token);
 
     //Edit info of rating
     const avarageRating= json.map(item => item.rating).reduce((a, b) => a + b, 0) / json.length;
+    if(props.mode === "booked"){
+      props.defVote(avarageRating);
+    }
     const result = {
       ratingAve: isNaN(avarageRating)? 0: avarageRating,
       count: json.length,
-    } 
+    }
     setRating(result);
   };
 
   useEffect(() => {
     getPostRating();
+
   }, []);
 
   return (

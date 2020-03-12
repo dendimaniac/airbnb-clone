@@ -19,14 +19,13 @@ const Single = (props) => {
   const [media, setMedia] = useContext(MediaContext);
   const [user, setUser] = useState({});
   const [saved, setSaved] = useState(undefined);
+  const [defaultVote, setDefaultVote] = useState(1);
   const [vote, setVote] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
   const [change, setChange] = useState(false);
 
-
   const [postedByCurrentUser, setPostedByCurrentUser] = useState(true);
   const {navigation} = props;
-  console.log('navigation', navigation);
   const file = navigation.state.params.file;
   const mode = navigation.state.params.mode;
 
@@ -130,11 +129,11 @@ const Single = (props) => {
         <View style={styles.infoSection}>
 
           {/* Rating  */}
-          {!postedByCurrentUser &&
+          {!postedByCurrentUser && mode === "booked" &&
             <AirbnbRating
               count={5}
               reviews={["Terrible", "Bad", "OK", "Good", "Very Good"]}
-              defaultRating={1}
+              defaultRating={defaultVote}
               size={20}
               onFinishRating={(e) => {
                 setVote(e);
@@ -163,6 +162,7 @@ const Single = (props) => {
       </ScrollView>
       {change &&
         <BookingSection
+          defVote={setDefaultVote}
           file={file}
           info={info} navigation={navigation}
           postedByCurrentUser={postedByCurrentUser}
@@ -170,6 +170,7 @@ const Single = (props) => {
       }
       {!change &&
         <BookingSection
+          defVote={setDefaultVote}
           file={file}
           info={info} navigation={navigation}
           postedByCurrentUser={postedByCurrentUser}
