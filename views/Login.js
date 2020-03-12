@@ -12,16 +12,23 @@ import {
   H2,
   Card,
   CardItem,
+  Icon,
+  Label,
 } from 'native-base';
 import {
   AsyncStorage,
+  StyleSheet,
+  Dimensions,
+  Image,
+  View
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {fetchPOST} from '../hooks/APIHooks';
 import FormTextInput from '../components/FormTextInput';
 import useSignUpForm from '../hooks/LoginHooks';
 
-
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const Login = (props) => {
   const [toggleForm, setToggleForm] = useState(true);
   const {
@@ -91,54 +98,57 @@ const Login = (props) => {
 
 
   return (
-    <Container>
-      <Header>
-        <Body><Title>MyApp</Title></Body>
-      </Header>
-      <Content>
+    <Container >
+      <Content style={{display: 'flex'}} >
+      <CardItem style={styles.titleContainer}>
+        <Text style={styles.title}>Clould Home</Text>    
+      </CardItem>
         {/* login form */}
         {toggleForm &&
-        <Form>
-          <Title>
-            <H2>Login</H2>
-          </Title>
-          <Item>
+        <Form style={styles.form}>
+
+          <Item inlineLabel>
+            <Label>username</Label>
             <FormTextInput
               autoCapitalize='none'
               value={inputs.username}
-              placeholder='username'
               onChangeText={handleUsernameChange}
             />
           </Item>
-          <Item>
+          <Item inlineLabel>
+            <Label>password</Label>
             <FormTextInput
               autoCapitalize='none'
               value={inputs.password}
-              placeholder='password'
               secureTextEntry={true}
               onChangeText={handlePasswordChange}
             />
           </Item>
-          <Button full onPress={signInAsync}><Text>Sign in!</Text></Button>
-          <Button dark full onPress={() => {
-            setToggleForm(false);
-          }}>
-            <Text>or Register</Text>
-          </Button>
+          <CardItem style={styles.registerContainer}>
+            <Button style={styles.login_btn} onPress={signInAsync}>
+              <Text >Login</Text>
+            </Button>
+            <CardItem style={styles.registerBtn_card}>
+              <Text>Don't have account?</Text>
+              <Button  transparent onPress={() => {
+                setToggleForm(false);
+              }}>
+                <Text style={styles.register_toggle}>Register</Text>
+              </Button>
+            </CardItem>
+          </CardItem>
+          
         </Form>
         }
 
         {/* register form */}
         {!toggleForm &&
-        <Form>
-          <Title>
-            <H2>Register</H2>
-          </Title>
-          <Item>
+        <Form style={styles.form}>
+          <Item inlineLabel>
+            <Label>username</Label>
             <FormTextInput
               autoCapitalize='none'
               value={inputs.username}
-              placeholder='username'
               onChangeText={handleUsernameChange}
               onEndEditing={() => {
                 checkAvail();
@@ -147,11 +157,11 @@ const Login = (props) => {
               error={errors.username}
             />
           </Item>
-          <Item>
+          <Item inlineLabel>
+            <Label>email</Label>
             <FormTextInput
               autoCapitalize='none'
               value={inputs.email}
-              placeholder='email'
               onChangeText={handleEmailChange}
               onEndEditing={() => {
                 validateField(validationProperties.email);
@@ -159,11 +169,11 @@ const Login = (props) => {
               error={errors.email}
             />
           </Item>
-          <Item>
+          <Item inlineLabel>
+            <Label>fullname</Label>
             <FormTextInput
               autoCapitalize='none'
               value={inputs.full_name}
-              placeholder='fullname'
               onChangeText={handleFullnameChange}
               onEndEditing={() => {
                 validateField(validationProperties.full_name);
@@ -171,11 +181,11 @@ const Login = (props) => {
               error={errors.full_name}
             />
           </Item>
-          <Item>
+          <Item inlineLabel>
+            <Label>password</Label>
             <FormTextInput
               autoCapitalize='none'
               value={inputs.password}
-              placeholder='password'
               secureTextEntry={true}
               onChangeText={handlePasswordChange}
               onEndEditing={() => {
@@ -184,11 +194,11 @@ const Login = (props) => {
               error={errors.password}
             />
           </Item>
-          <Item>
+          <Item inlineLabel>
+            <Label>confirm password</Label>
             <FormTextInput
               autoCapitalize='none'
               value={inputs.confirmPassword}
-              placeholder='confirm password'
               secureTextEntry={true}
               onChangeText={handleConfirmPasswordChange}
               onEndEditing={() => {
@@ -197,30 +207,68 @@ const Login = (props) => {
               error={errors.confirmPassword}
             />
           </Item>
-          <Button full onPress={registerAsync}>
-            <Text>Register!</Text>
-          </Button>
-          <Button dark full onPress={() => {
-            setToggleForm(true);
-          }}>
-            <Text>or Login</Text>
-          </Button>
-        </Form>
-        }
-        {errors.fetch &&
-        <Card>
-          <CardItem>
-            <Body>
-              <Text>{errors.fetch}</Text>
-            </Body>
+          <CardItem style={styles.registerContainer}>
+            <Button style={styles.register_btn} onPress={registerAsync}>
+              <Text >Register</Text>
+            </Button>
+
+            <CardItem style={styles.loginBtn_card}>
+              <Text>Already have an account?</Text>
+              <Button  transparent onPress={() => {
+                setToggleForm(true);
+              }}>
+                <Text style={styles.login_toggle}>Login</Text>
+              </Button>
+            </CardItem>
           </CardItem>
-        </Card>
+          
+        </Form>
         }
       </Content>
     </Container>
   );
 };
+const styles = StyleSheet.create({
+  titleContainer: {
 
+    display: 'flex', 
+    justifyContent: 'center', 
+    marginTop: deviceHeight/9,
+  },
+  title: {
+    fontWeight: '700',
+    fontSize: 40,
+    color: '#ED9B40'
+  },
+  form: {
+    marginTop: 25,
+    marginRight: deviceWidth/6,
+    marginLeft: deviceWidth/9
+  },
+  registerContainer: {
+    flexDirection: "column", 
+
+  }, 
+  login_btn: {
+    marginTop:25,
+    padding: deviceWidth/15,
+    backgroundColor: '#61C9A8'
+  },
+  register_btn: {
+    marginTop:25,
+    padding: deviceWidth/15,
+    backgroundColor: '#BA3B46'
+  },
+
+  register_toggle : {
+    fontWeight: '500',
+    color: "#BA3B46",
+  },
+  login_toggle : {
+    fontWeight: '500',
+    color: '#61C9A8',
+  }
+});
 // proptypes here
 Login.propTypes = {
   navigation: PropTypes.object,

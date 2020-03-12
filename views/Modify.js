@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Button, Content, Form, Item, Spinner, Text} from "native-base";
+import {Button, Content, Form, Item, Spinner, Text, Label} from "native-base";
 
 import {Dimensions} from "react-native";
 import PropTypes from "prop-types";
@@ -111,9 +111,9 @@ const Modify = props => {
         <Spinner />
       ) : (
           <Form>
-            <Item>
+            <Item inlineLabel>
+              <Label>Title</Label>
               <FormTextInput
-                placeholder="Title"
                 onChangeText={handleTitle}
                 value={inputs.title}
                 onEndEditing={() => {
@@ -122,9 +122,9 @@ const Modify = props => {
                 error={errors.title}
               />
             </Item>
-            <Item>
+            <Item inlineLabel>
+              <Label>Location</Label>
               <FormTextInput
-                placeholder="Location"
                 onChangeText={(e) => {handleLocation(e)}}
                 value={inputs.info.location}
                 onEndEditing={() => {
@@ -133,9 +133,9 @@ const Modify = props => {
                 error={errors.location}
               />
             </Item>
-            <Item>
+            <Item inlineLabel>
+              <Label>Capacity</Label>
               <FormTextInput
-                placeholder="Capacity"
                 onChangeText={handleCapacity}
                 value={inputs.info.capacity}
                 onEndEditing={() => {
@@ -144,9 +144,9 @@ const Modify = props => {
                 error={errors.capacity}
               />
             </Item>
-            <Item>
+            <Item inlineLabel>
+              <Label >Price</Label>
               <FormTextInput
-                placeholder="Price"
                 onChangeText={handlePrice}
                 value={inputs.info.price}
                 onEndEditing={() => {
@@ -155,9 +155,9 @@ const Modify = props => {
                 error={errors.price}
               />
             </Item>
-            <Item>
+            <Item inlineLabel>
+              <Label>Description</Label>
               <FormTextInput
-                placeholder="Description"
                 onChangeText={handleDescription}
                 value={inputs.info.description}
                 onEndEditing={() => {

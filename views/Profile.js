@@ -116,7 +116,7 @@ const Profile = (props) => {
 
           <CardItem footer bordered>          
             <View style={styles.flex}>
-              {/* Add new place button */}
+              
               <Button 
                 full
                 style= { {flex:1, backgroundColor: '#247BA0'}}

@@ -47,7 +47,7 @@ const ListItem = props => {
             >
               <Button
                 full
-                info
+                style={{backgroundColor:'#50514F'}}
                 onPress={() => {
                   setOpen(!open);
                   props.navigation.push("Modify", {file: props.singleMedia});
@@ -58,7 +58,7 @@ const ListItem = props => {
               </Button>
               <Button
                 full
-                danger
+                style={{backgroundColor:'#F25F5C'}}
                 onPress={async () => {
                   setOpen(!open);
                   const token = await AsyncStorage.getItem("userToken");

@@ -203,7 +203,7 @@ const Single = (props) => {
               fontSize: 30,
               alignItems: "center",
               marginVertical: 100
-            }}>You vote this {vote} stars</Text>
+            }}>You vote this place {vote} stars</Text>
             <View style={{flexDirection: "row", width: "100%", marginVertical: 20, marginHorizontal: 20}}>
               <Button style={{width: (deviceWidth - 40) / 2, alignContent: "space-around"}} bordered danger
                 onPress={() => setModalVisible(!modalVisible)}>

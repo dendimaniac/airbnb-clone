@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 75,
     justifyContent: "space-between",
+    
   },
   columnContainer: {
     marginHorizontal: 20,

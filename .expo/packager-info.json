@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19007,
-  "packagerPid": 58615,
-  "expoServerNgrokUrl": "https://xu-z82.anonymous.airbnb-clone.exp.direct",
-  "packagerNgrokUrl": "https://packager.xu-z82.anonymous.airbnb-clone.exp.direct",
-  "ngrokPid": 58626,
+  "packagerPort": 19001,
+  "packagerPid": 5241,
+  "expoServerNgrokUrl": "https://zv-feu.anonymous.airbnb-clone.exp.direct",
+  "packagerNgrokUrl": "https://packager.zv-feu.anonymous.airbnb-clone.exp.direct",
+  "ngrokPid": 5253,
   "webpackServerPort": null
 }
