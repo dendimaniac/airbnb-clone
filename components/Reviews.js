@@ -4,11 +4,11 @@ import { Spinner, Text, View, } from 'native-base';
 import { fetchGET } from "../hooks/APIHooks";
 import ReviewItem from "./ReviewItem";
 import AddingReview from "./AddingReview";
+import PropTypes from 'prop-types';
 
 const Reviews = props => {
   const [loading, setLoading] = useState(true);
   const [reviewsArray, setReviewsArray] = useState(undefined);
-  const postedByCurrentUser = props.postedByCurrentUser;
   const file = props.file;
   const mode = props.mode;
   console.log(file);
@@ -53,5 +53,10 @@ const styles = StyleSheet.create({
     fontSize: 25
   }
 });
+
+Reviews.propTypes = {
+  file: PropTypes.object,
+  mode: PropTypes.string,
+};
 
 export default Reviews;

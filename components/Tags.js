@@ -1,6 +1,7 @@
 import React from "react";
-import {ScrollView, View, StyleSheet} from "react-native";
-import {Button, Text} from 'native-base'
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Button, Text } from 'native-base';
+import PropTypes from 'prop-types';
 
 const Tags = (props) => {
   const tags = ["Helsinki", "Vantaa", "Tampere"];
@@ -38,5 +39,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   }
 });
+
+Tags.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default Tags;

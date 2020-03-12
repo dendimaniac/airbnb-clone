@@ -3,6 +3,7 @@ import { H3, Text, View, } from 'native-base';
 import { AsyncStorage, StyleSheet } from 'react-native';
 import { fetchGET } from "../hooks/APIHooks";
 import UserAvatar from "./UserAvatar";
+import PropTypes from 'prop-types';
 
 const ReviewItem = props => {
   const [username, setUsername] = useState('');
@@ -67,5 +68,9 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 });
+
+ReviewItem.propTypes = {
+  item: PropTypes.object,
+};
 
 export default ReviewItem;

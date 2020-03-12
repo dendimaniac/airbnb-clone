@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import PropTypes from 'prop-types';
 
 const Title = (props) => {
   console.log(props.count);
@@ -50,5 +51,11 @@ const styles = StyleSheet.create({
     paddingTop: 5
   }
 });
+
+Title.propTypes = {
+  count: PropTypes.number,
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+};
 
 export default Title;

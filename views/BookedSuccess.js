@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Text, View } from 'native-base';
 import { Dimensions, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -49,5 +50,9 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth / 4,
   },
 });
+
+BookedSuccess.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default BookedSuccess;

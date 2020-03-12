@@ -1,18 +1,18 @@
-import React, {useState} from "react";
-import {Icon} from "native-base";
-import {TextInput, StyleSheet, View, Dimensions} from "react-native";
-import {Button, Text} from 'native-base';
+import React, { useState } from "react";
+import { Button, Icon, Text } from "native-base";
+import { Dimensions, StyleSheet, TextInput, View } from "react-native";
+import PropTypes from 'prop-types';
 
 const deviceHeight = Dimensions.get("window").height;
 
 const SearchBox = props => {
-  const placeholder = `Try "sicily" `;
+  const placeholder = `Try "Helsinki" `;
   const [input, setInput] = useState("");
   return (
     <View style={styles.container}>
       <View style={styles.item}>
         <View style={styles.icon}>
-          <Icon active name="ios-search" />
+          <Icon active name="ios-search"/>
         </View>
         <View style={styles.itemRight}>
           <TextInput
@@ -24,11 +24,11 @@ const SearchBox = props => {
             value={input}
           />
           <Button transparent
-            disabled={input === "" ? true : false}
-            onPress={() => {
-              props.navigation.push("SearchPage", {input: input});
-              setInput("")
-            }}
+                  disabled={input === ""}
+                  onPress={() => {
+                    props.navigation.push("SearchPage", {input: input});
+                    setInput("")
+                  }}
           >
             <Text style={{color: input === '' ? "grey" : "#38A5E7"}}>Search</Text>
           </Button>
@@ -73,5 +73,9 @@ const styles = StyleSheet.create({
     width: "60%"
   }
 });
+
+SearchBox.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default SearchBox;

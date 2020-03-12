@@ -1,10 +1,10 @@
 import React from "react";
-import {Button, Left, Right, Text, View} from "native-base";
-import {StyleSheet} from 'react-native';
+import { Button, Left, Right, Text, View } from "native-base";
+import { StyleSheet } from 'react-native';
 import RatingView from './RatingView';
+import PropTypes from 'prop-types';
 
 const BookingSection = props => {
-  
   return (
     <View style={styles.bottomBookingSection}>
       <Left>
@@ -13,10 +13,10 @@ const BookingSection = props => {
             {props.info.price}€ per night
           </Text>
         </View>
-        <RatingView 
+        <RatingView
           mode={props.mode}
-          defVote= {props.defVote}
-          fontSize={17} id={props.file.file_id} />
+          defVote={props.defVote}
+          fontSize={17} id={props.file.file_id}/>
       </Left>
       {!props.postedByCurrentUser && props.mode !== 'booked' && (
         <Right>
@@ -61,5 +61,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   }
 });
+
+BookingSection.propTypes = {
+  info: PropTypes.object,
+  mode: PropTypes.string,
+  file: PropTypes.object,
+  postedByCurrentUser: PropTypes.bool,
+  navigation: PropTypes.object,
+  defVote: PropTypes.func,
+};
 
 export default BookingSection;

@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {AsyncStorage, StyleSheet} from 'react-native';
-import {Icon, Text, View} from 'native-base';
-import {fetchGET} from "../hooks/APIHooks";
+import React, { useEffect, useState } from 'react';
+import { AsyncStorage, StyleSheet } from 'react-native';
+import { Icon, Text, View } from 'native-base';
+import { fetchGET } from "../hooks/APIHooks";
+import PropTypes from 'prop-types';
 
 const Rating = props => {
   const [rating, setRating] = useState({});
   const id = props.id;
-  
+
   const getPostRating = async () => {
     const token = await AsyncStorage.getItem('userToken');
     const json = await fetchGET('ratings/file', id, token);
@@ -17,9 +18,9 @@ const Rating = props => {
       props.defVote(avarageRating);
     }
     const result = {
-      ratingAve: isNaN(avarageRating)? 0: avarageRating,
+      ratingAve: isNaN(avarageRating) ? 0 : avarageRating,
       count: json.length,
-    }
+    };
     setRating(result);
   };
 
@@ -57,5 +58,12 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
 });
+
+Rating.propTypes = {
+  id: PropTypes.number,
+  mode: PropTypes.string,
+  defVote: PropTypes.func,
+  fontSize: PropTypes.number,
+};
 
 export default Rating;

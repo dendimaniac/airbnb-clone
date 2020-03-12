@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const Saved = (props) => {
   const {navigation} = props;
   return (
-    <List navigation={navigation} mode={'saved'}></List>
+    <List navigation={navigation} mode={'saved'}/>
   );
 };
 

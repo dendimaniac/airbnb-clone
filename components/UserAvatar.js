@@ -3,6 +3,7 @@ import { fetchGET } from "../hooks/APIHooks";
 import { mediaURL } from "../constants/urlConst";
 import AsyncImage from "./AsyncImage";
 import { Icon } from "native-base";
+import PropTypes from 'prop-types';
 
 const UserAvatar = props => {
   const [userAvatar, setUserAvatar] = useState(undefined);
@@ -36,6 +37,12 @@ const UserAvatar = props => {
       }
     </>
   );
+};
+
+UserAvatar.propTypes = {
+  userId: PropTypes.number,
+  avatarStyle: PropTypes.object,
+  iconStyle: PropTypes.object,
 };
 
 export default UserAvatar;

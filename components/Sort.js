@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Form, Icon, Picker, View } from "native-base";
-import { Dimensions } from 'react-native'
+import PropTypes from 'prop-types';
 
-const width = Dimensions.get("window").width;
 export default class Sort extends Component {
   constructor(props) {
     super(props);
@@ -30,12 +29,16 @@ export default class Sort extends Component {
             selectedValue={this.state.selected}
             onValueChange={this.onValueChange.bind(this)}
           >
-            <Picker.Item label="Alphabetical Order" value="Alphabetical Order" />
-            <Picker.Item label="Price Ascending" value="Price Ascending" />
-            <Picker.Item label="Price Decending" value="Price Decending" />
+            <Picker.Item label="Alphabetical Order" value="Alphabetical Order"/>
+            <Picker.Item label="Price Ascending" value="Price Ascending"/>
+            <Picker.Item label="Price Decending" value="Price Decending"/>
           </Picker>
         </Form>
-      </View >
+      </View>
     );
   }
 }
+
+Sort.propTypes = {
+  setOption: PropTypes.func,
+};

@@ -1,10 +1,12 @@
 import * as React from "react";
-import { StyleSheet, View, ScrollView, Dimensions, Image } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
+import PropTypes from 'prop-types';
 
 const DEVICE_WIDTH = Dimensions.get("window").width;
 
 class BackgroundCarousel extends React.Component {
   scrollRef = React.createRef();
+
   constructor(props) {
     super(props);
 
@@ -106,5 +108,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   }
 });
+
+BackgroundCarousel.propTypes = {
+  images: PropTypes.array,
+};
 
 export { BackgroundCarousel };

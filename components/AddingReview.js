@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Icon, Input, Item } from 'native-base';
 import useAddReviewForm from "../hooks/ReviewHooks";
+import PropTypes from 'prop-types';
 
 const AddingReview = props => {
   const id = props.id;
@@ -33,5 +34,10 @@ const styles = StyleSheet.create({
     color: 'red'
   }
 });
+
+AddingReview.propTypes = {
+  id: PropTypes.number,
+  setReviewsArray: PropTypes.func,
+};
 
 export default AddingReview;

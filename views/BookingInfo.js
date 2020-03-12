@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Item, Text, View } from 'native-base';
 import { AsyncStorage, Dimensions, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 import AsyncImage from "../components/AsyncImage";
 import { mediaURL } from "../constants/urlConst";
 import FormTextInput from "../components/FormTextInput";
@@ -123,5 +124,9 @@ const styles = StyleSheet.create({
     marginTop: 20
   }
 });
+
+BookingInfo.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default BookingInfo;

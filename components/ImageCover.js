@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import { BackgroundCarousel } from "./BackgroundCarousel";
 
 const images = [
@@ -13,20 +13,19 @@ const images = [
 const ImageCover = () => {
   return (
     <View style={styles.container}>
-      <BackgroundCarousel images={images} />
+      <BackgroundCarousel images={images}/>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    
     width: "100%",
-    height:300,
+    height: 300,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#F5FCFF",
-    position:"relative"
+    position: "relative"
   }
 });
 

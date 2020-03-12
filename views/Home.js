@@ -7,8 +7,8 @@ const Home = props => {
   const { navigation } = props;
   return (
     <>
-      <SearchBox navigation={navigation} />
-      <List navigation={navigation} mode={"all"}></List>
+      <SearchBox navigation={navigation}/>
+      <List navigation={navigation} mode={"all"}/>
     </>
   );
 };

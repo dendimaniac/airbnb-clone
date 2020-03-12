@@ -98,7 +98,6 @@ const ListItem = props => {
             <View style={{marginVertical: 3}}>
               {info.location !== undefined && (
                 <Text
-                  numberOfLines={1}
                   style={
                     mode === "myfiles" || mode === "search"
                       ? {...styles.title2}
@@ -110,7 +109,6 @@ const ListItem = props => {
                 </Text>
               )}
               <Text
-                numberOfLines={1}
                 style={
                   mode === "myfiles" || mode === "search"
                     ? {...styles.subtitle2}

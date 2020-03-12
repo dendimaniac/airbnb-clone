@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Content, Form, Spinner, Text, } from 'native-base';
-
 import { Dimensions, Image, } from 'react-native';
 import PropTypes from 'prop-types';
 import * as ImagePicker from 'expo-image-picker';

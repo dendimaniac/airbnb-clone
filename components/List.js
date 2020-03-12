@@ -1,18 +1,16 @@
 /* eslint-disable max-len */
-import React, {useContext, useEffect, useState} from "react";
-import {Spinner} from "native-base";
+import React, { useContext, useEffect, useState } from "react";
+import { Spinner } from "native-base";
 import ListItem from "./ListItem";
-import {MediaContext} from "../contexts/MediaContext";
-import {getAllMedia, getFavoriteMedia, getUserMedia, getBookingMedia} from "../hooks/APIHooks";
+import { MediaContext } from "../contexts/MediaContext";
+import { getAllMedia, getBookingMedia, getFavoriteMedia, getUserMedia } from "../hooks/APIHooks";
 import PropTypes from "prop-types";
-import {AsyncStorage, StyleSheet, } from "react-native";
+import { AsyncStorage, StyleSheet, View, } from "react-native";
 import ImageCover from "./ImageCover";
-import {ScrollView} from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import Tags from "../components/Tags";
 import Title from "./Title";
-import {View, Text} from 'react-native';
 import Sort from './Sort';
-import {fetchGET} from '../hooks/APIHooks';
 
 const List = props => {
   const [media, setMedia] = useContext(MediaContext);
@@ -38,12 +36,13 @@ const List = props => {
           return list.sort((a, b) => JSON.parse(a.description).price - JSON.parse(b.description).price);
         case "Price Decending":
           return list.sort((a, b) => JSON.parse(b.description).price - JSON.parse(a.description).price);
-        default: return list;
+        default:
+          return list;
       }
     } else {
       return list;
     }
-  }
+  };
 
   const getMedia = async mode => {
     try {
@@ -198,7 +197,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 75,
     justifyContent: "space-between",
-    
+
   },
   columnContainer: {
     marginHorizontal: 20,
@@ -208,7 +207,8 @@ const styles = StyleSheet.create({
 
 List.propTypes = {
   navigation: PropTypes.object,
-  mode: PropTypes.string
+  mode: PropTypes.string,
+  keySearch: PropTypes.string,
 };
 
 export default List;

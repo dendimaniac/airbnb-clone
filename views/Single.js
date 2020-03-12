@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Button, Icon, Text, View} from 'native-base';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Icon, Text, View } from 'native-base';
 import PropTypes from 'prop-types';
 import AsyncImage from '../components/AsyncImage';
-import {AsyncStorage, Dimensions, Modal, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
-import {mediaURL} from '../constants/urlConst';
-import {Video} from 'expo-av';
-import {fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia} from '../hooks/APIHooks';
-import {MediaContext} from "../contexts/MediaContext";
+import { AsyncStorage, Dimensions, Modal, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { mediaURL } from '../constants/urlConst';
+import { Video } from 'expo-av';
+import { fetchDELETE, fetchGET, fetchPOST, getFavoriteMedia } from '../hooks/APIHooks';
+import { MediaContext } from "../contexts/MediaContext";
 import Reviews from "../components/Reviews";
 import UserAvatar from "../components/UserAvatar";
 import BookingSection from "../components/BookingSection";
-import {AirbnbRating} from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -322,7 +322,6 @@ const styles = StyleSheet.create({
 
 Single.propTypes = {
   navigation: PropTypes.object,
-  file: PropTypes.object,
 };
 
 export default Single;
