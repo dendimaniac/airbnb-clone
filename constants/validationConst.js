@@ -36,6 +36,20 @@ const registerConstraints = {
   },
 };
 
+const bookingConstraints = {
+  email: {
+    presence: {
+      message: 'cannot be blank.',
+    },
+    email: {
+      message: 'not valid.',
+    },
+  },
+  full_name: {
+    presence: 'cannot be blank.',
+  },
+};
+
 const uploadConstraints = {
   title: {
     presence: {
@@ -53,6 +67,30 @@ const uploadConstraints = {
       message: 'must be at least 3 characters',
     },
   },
+  location: {
+    presence: {
+      message: 'cannot be blank.',
+    },
+    length: {
+      minimum: 3,
+      message: 'must be at least 3 characters',
+    },
+  },
+  price: {
+    presence: true,
+    numericality: {
+      greaterThanOrEqualTo: 0,
+      message: 'must be a number'
+    }
+  },
+  capacity: {
+    presence: true,
+    numericality: {
+      onlyInteger: true,
+      greaterThanOrEqualTo: 0,
+      message: 'must be an integer number'
+    }
+  }
 };
 
-export {registerConstraints, uploadConstraints};
+export { registerConstraints, uploadConstraints, bookingConstraints };

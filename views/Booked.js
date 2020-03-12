@@ -2,15 +2,15 @@ import React from 'react';
 import List from '../components/List';
 import PropTypes from 'prop-types';
 
-const MyFiles = (props) => {
+const Booked = (props) => {
   const {navigation} = props;
   return (
-    <List navigation={navigation} mode={'myfiles'}></List>
+    <List navigation={navigation} mode={'booked'}></List>
   );
 };
 
-MyFiles.propTypes = {
+Booked.propTypes = {
   navigation: PropTypes.object,
 };
 
-export default MyFiles;
+export default Booked;

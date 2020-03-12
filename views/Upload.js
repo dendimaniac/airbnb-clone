@@ -1,17 +1,7 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {
-  Content,
-  Form,
-  Button,
-  Text,
-  Item,
-  Spinner,
-} from 'native-base';
+import React, {useContext, useEffect, useState} from 'react';
+import {Button, Content, Form, Item, Spinner, Text, } from 'native-base';
 
-import {
-  Dimensions,
-  Image,
-} from 'react-native';
+import {Dimensions, Image, } from 'react-native';
 import PropTypes from 'prop-types';
 import FormTextInput from '../components/FormTextInput';
 import * as ImagePicker from 'expo-image-picker';
@@ -29,9 +19,12 @@ const Upload = (props) => {
   const [image, setImage] = useState(null);
   const [send, setSend] = useState(false);
 
-  const {
+  let {
     handleTitleChange,
     handleDescriptionChange,
+    handleLocationChange,
+    handleCapacityChange,
+    handlePriceChange,
     handleUpload,
     inputs,
     errors,
@@ -51,7 +44,7 @@ const Upload = (props) => {
       ({
         ...errors,
         [field]: validateField({[field]: value},
-            uploadConstraints),
+          uploadConstraints),
         fetch: undefined,
       }));
   };
@@ -63,6 +56,7 @@ const Upload = (props) => {
   };
 
   const getPermissionAsync = async () => {
+
     if (Constants.platform.ios) {
       const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== 'granted') {
@@ -83,9 +77,6 @@ const Upload = (props) => {
       quality: 0.3,
       exif: true,
     });
-
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result);
     }
@@ -99,6 +90,18 @@ const Upload = (props) => {
   const handleDescription = (text) => {
     handleDescriptionChange(text);
     validate('description', text);
+  };
+  const handleLocation = (text) => {
+    handleLocationChange(text);
+     validate('location', text);
+  };
+  const handleCapacity = (text) => {
+    handleCapacityChange(text);
+    validate('capacity', text);
+  };
+  const handlePrice = (text) => {
+    handlePriceChange(text);
+    validate('price', text);
   };
 
   const upload = () => {
@@ -120,51 +123,73 @@ const Upload = (props) => {
   useEffect(() => {
     checkErrors();
   }, [errors]);
-
   console.log('send', send);
 
   return (
     <Content>
       {loading ? (
-        <Spinner/>
+        <Spinner />
       ) : (
-        <Form>
-          <Item>
-            <FormTextInput
-              placeholder='Title'
-              onChangeText={handleTitle}
-              value={inputs.title}
-              error={errors.title}
-            />
-          </Item>
-          <Item>
-            <FormTextInput
-              placeholder='Description'
-              onChangeText={handleDescription}
-              value={inputs.description}
-              error={errors.description}
-            />
-          </Item>
-          {image &&
-          <Image source={{uri: image.uri}}
-            style={{width: '100%', height: deviceHeight / 3}}/>
-          }
-          <Button full onPress={pickImage}>
-            <Text>Select file</Text>
-          </Button>
-          {image && send &&
-          <Button full onPress={upload}>
-            <Text>Upload</Text>
-          </Button>
-          }
-          <Button
-            dark
-            full
-            onPress={reset}>
-            <Text>Reset form</Text>
-          </Button>
-        </Form>
-      )}
+          <Form>
+            <Item>
+              <FormTextInput
+                placeholder='Title'
+                onChangeText={handleTitle}
+                value={inputs.title}
+                error={errors.title}
+              />
+            </Item>
+
+            <Item>
+              <FormTextInput
+                placeholder='Location'
+                onChangeText={handleLocation}
+                error={errors.location}
+              />
+            </Item>
+            <Item>
+              <FormTextInput
+                placeholder='Capacity'
+                onChangeText={handleCapacity}
+                error={errors.capacity}
+              />
+            </Item>
+
+            <Item>
+              <FormTextInput
+                placeholder='Price'
+                onChangeText={handlePrice}
+                error={errors.price}
+              />
+            </Item>
+
+            <Item>
+              <FormTextInput
+                placeholder='Description'
+                onChangeText={handleDescription}
+                error={errors.description}
+              />
+            </Item>
+            {image &&
+              <Image source={{uri: image.uri}}
+                style={{width: '100%', height: deviceHeight / 3}} />
+            }
+            <Button full onPress={pickImage}>
+              <Text>Select file</Text>
+            </Button>
+            {image && send &&
+              <Button full onPress={upload}>
+                <Text>Upload</Text>
+              </Button>
+            }
+            <Button
+              dark
+              full
+              onPress={reset}>
+              <Text>Reset form</Text>
+            </Button>
+          </Form>
+        )}
     </Content>
   );
 };

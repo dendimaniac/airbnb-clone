@@ -1,5 +1,4 @@
-import {apiUrl} from '../constants/urlConst';
-
+import { apiUrl } from '../constants/urlConst';
 
 const fetchGET = async (endpoint = '', params = '', token = '') => {
   const fetchOptions = {
@@ -96,19 +95,30 @@ const fetchFormData = async (
 
 const getAllMedia = async () => {
   const json = await fetchGET('tags/cloudhome');
-  const result = await Promise.all(json.map(async (item) => {
+  return await Promise.all(json.map(async (item) => {
     return await fetchGET('media', item.file_id);
   }));
-  return result;
 };
 
 const getUserMedia = async (token) => {
-  console.log('im here', token);
   const json = await fetchGET('media/user', '', token);
-  const result = await Promise.all(json.map(async (item) => {
+  return await Promise.all(json.map(async (item) => {
     return await fetchGET('media', item.file_id);
   }));
-  return result;
+};
+
+const getFavoriteMedia = async (token) => {
+  const json = await fetchGET('favourites', '', token);
+  return await Promise.all(json.map(async (item) => {
+    return await fetchGET('media', item.file_id);
+  }));
+};
+
+const getBookingMedia = async (id) => {
+  const json = await fetchGET('tags', 'booked' + id);
+  return await Promise.all(json.map(async (item) => {
+    return await fetchGET('media', item.file_id);
+  }));
 };
 
 // eslint-disable-next-line max-len
@@ -120,4 +130,6 @@ export {
   fetchPUT,
   fetchFormData,
   getUserMedia,
+  getFavoriteMedia,
+  getBookingMedia
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Body, Badge, Item, Text} from 'native-base';
+import { Badge, Body, Input, Item, Text } from 'native-base';
 import PropTypes from 'prop-types';
 
 const FormTextInput = (props) => {
@@ -21,6 +21,12 @@ const FormTextInput = (props) => {
 FormTextInput.propTypes = {
   success: PropTypes.bool,
   error: PropTypes.string,
+  autoCapitalize: PropTypes.string,
+  value: PropTypes.string,
+  secureTextEntry: PropTypes.bool,
+  onChangeText: PropTypes.func,
+  onEndEditing: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 
 export default FormTextInput;

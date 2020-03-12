@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
-import {View, Image} from 'react-native';
-import {Spinner} from 'native-base';
+import React, { useState } from 'react';
+import { Image, View } from 'react-native';
+import { Spinner } from 'native-base';
 import PropTypes from 'prop-types';
 
 const AsyncImage = (props) => {
-  // console.log('Asimage props', props);
   const [loaded, setLoaded] = useState(false);
   const onLoad = () => {
     setLoaded(true);
@@ -17,16 +16,10 @@ const AsyncImage = (props) => {
   console.log('loaded', loaded);
   return (
     <View style={[
-      style, {
-        flex: 1,
-      }]}>
+      style]}>
       <Image
         source={source}
-        resizeMode={'contain'}
-        style={{
-          height: '100%',
-          width: '100%',
-        }}
+        style={props.style}
         onLoad={onLoad}/>
       {!loaded &&
       <View style={{
