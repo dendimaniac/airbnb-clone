@@ -50,15 +50,18 @@ const List = props => {
       //Get userID, userName
       const userFromStorage = await AsyncStorage.getItem("user");
       const userID = JSON.parse(userFromStorage).user_id;
+      console.log("my ID", userID);
       const fullname = JSON.parse(userFromStorage).fullname ? `, ${JSON.parse(userFromStorage).fullname}!` : '!';
       setFullname(fullname);
       //Get all Data, myData, bookingData, and favorite Data
       const allData = await getAllMedia();
       const token = await AsyncStorage.getItem("userToken");
-      const preMyData = await getUserMedia(token);
+      let preMyData = await getUserMedia();
+      preMyData= preMyData.filter(item=> item.user_id === userID);
       // Check an image is user's avatar, if true not get it to myData, if false get it.
       const myData = await checkAvatar(preMyData);
       const favouriteMedia = await getFavoriteMedia(token);
+      console.log('favouriteList', favouriteMedia)
       const preBookingMedia = await getBookingMedia(userID);
 
       const bookingMedia= Array.from(new Set(preBookingMedia.map(item=> item.title))).map(title=>{

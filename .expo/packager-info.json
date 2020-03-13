@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 5256,
-  "expoServerNgrokUrl": "https://zv-feu.anonymous.cloudhome.exp.direct",
-  "packagerNgrokUrl": "https://packager.zv-feu.anonymous.cloudhome.exp.direct",
-  "ngrokPid": 8432,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }
