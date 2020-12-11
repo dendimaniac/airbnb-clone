@@ -1,6 +1,10 @@
 # Cloudhome 
 Cloudhome is built for everyone especially who loves travelling and is looking for affordable homestays in vactions . Cloudhome is where you can be a host or customer. 
 
+**fast-demo**
+
+<img src="https://i.imgur.com/dBnWMhi.gif" alt="alt text" width="auto" height="60%">
+
 ## Requirement list before run this application:
 * Expo CLI
 * Node.js Package Manager
@@ -30,9 +34,13 @@ Cloudhome is built for everyone especially who loves travelling and is looking f
 
 ## Tech Stacks
 **-Library:** React 
+
 **-Frameworks:** React Native, Native Base
+
 **-Language:** Javascript
+
 **-Other technologies:** Expo CLI, CSS, npm
+
 ## Database
 * Database: [Metropolia UAS database](http://media.mw.metropolia.fi/wbma/docs/#api-Rating-GetFileRatings)
 
