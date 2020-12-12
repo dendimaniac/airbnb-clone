@@ -1,9 +1,8 @@
 {
   "expo": {
-    "name": "MyApp",
-    "slug": "MyApp",
+    "name": "Cloud Home",
+    "slug": "cloud-home",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
@@ -25,6 +24,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "Cloudhome is built for everyone especially those who love traveling and are looking for affordable homestays on vacations. Cloudhome is where you can be a host or customer.\n\n",
+    "githubUrl": "https://github.com/dendimaniac/airbnb-clone"
   }
 }

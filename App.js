@@ -1,9 +1,10 @@
 /* eslint-disable max-len, no-undef */
 import React, {useState, useEffect} from 'react';
+import AppLoading from 'expo-app-loading'
+import * as Font from 'expo-font';
+
 import {MediaProvider} from './contexts/MediaContext';
 import Navigator from './navigators/Navigator';
-import * as Expo from 'expo';
-import * as Font from 'expo-font';
 
 const App = () => {
   const [fontReady, setFontReady] = useState(false);
@@ -21,7 +22,7 @@ const App = () => {
   if (!fontReady) {
     console.log('Waiting for fonts...');
     return (
-      <Expo.AppLoading/>
+      <AppLoading />
     );
   }
   return (

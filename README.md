@@ -1,7 +1,16 @@
 # Cloudhome 
 Cloudhome is built for everyone especially who loves travelling and is looking for affordable homestays in vactions . Cloudhome is where you can be a host or customer. 
 
-**fast-demo**
+**Testable final product:** [expo-link](https://expo.io/@vynmetropolia/projects/cloud-home)
+
+- You can use the account below for testing purpose:
+
+```
+username: testuser1234
+password: testuser1234
+```
+
+**Fast-demo**
 
 <img src="https://i.imgur.com/dBnWMhi.gif" alt="alt text" width="auto" height="60%">
 
